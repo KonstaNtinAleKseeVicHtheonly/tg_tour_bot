@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  bot:
+    build: .
+    container_name: tg_bot_store
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+    restart: always
+    networks:
+      - tgnet
+    volumes:
+      - ./data:/app/database
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    networks:
+      - tgnet
+  
+  db:
+    image: mysql:8.3
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: store_db
+      MYSQL_USER: mysql_user
+      MYSQL_PASSWORD: Destryktor228
+      MYSQL_ROOT_PASSWORD: Destryktor228
+    volumes:
+      - mysqldata:/var/lib/mysql
+    restart: always
+    networks:
+      - tgnet
+
+volumes:
+  mysqldata:
+
+networks:
+  tgnet:

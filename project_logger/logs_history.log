@@ -1,0 +1,23 @@
+[2025-12-20 17:36:46,669] #INFO     main.py:67 - project_logger.loger_configuration - запуск основного цикла main
+[2025-12-20 17:36:47,041] #INFO     main.py:30 - project_logger.loger_configuration - Подключение к СУБД SQLite
+[2025-12-20 17:36:47,041] #INFO     models.py:77 - project_logger.loger_configuration - ЗАпуск асинхронного движка для SQLite
+[2025-12-20 17:36:47,063] #INFO     main.py:33 - project_logger.loger_configuration - ПОдключение выполнено успешно
+[2025-12-20 17:36:47,064] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
+[2025-12-20 17:36:47,108] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @best_ever_store_bot id=8330610566 - 'slavic_store'
+[2025-12-20 17:36:50,521] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[2025-12-20 17:36:50,521] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8330610566)
+[2025-12-20 17:36:52,795] #INFO     dispatcher.py:239 - aiogram.dispatcher - Connection established (tryings = 1, bot id = 8330610566)
+[2025-12-20 17:36:54,991] #INFO     base_keyboards.py:28 - project_logger.loger_configuration - Сохдание клавы по категориям товаров из БД
+[2025-12-20 17:36:54,992] #INFO     user_requests.py:80 - project_logger.loger_configuration - Вывод категорий товаров пользователю
+[2025-12-20 17:36:55,001] #INFO     user_requests.py:86 - project_logger.loger_configuration - Всего нашлось 1 категорий товаров
+[2025-12-20 17:36:55,086] #INFO     dispatcher.py:178 - aiogram.event - Update id=437775183 is handled. Duration 2280 ms by bot id=8330610566
+[2025-12-20 17:36:55,235] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[2025-12-20 17:36:55,236] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8330610566)
+[2025-12-20 17:37:00,811] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[2025-12-20 17:37:00,811] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.345166 seconds and try again... (tryings = 1, bot id = 8330610566)
+[2025-12-20 17:37:03,886] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[2025-12-20 17:37:03,886] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.770161 seconds and try again... (tryings = 2, bot id = 8330610566)
+[2025-12-20 17:37:04,660] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
+[2025-12-20 17:37:04,661] #INFO     main.py:41 - project_logger.loger_configuration - Окончание работы бота
+[2025-12-20 17:37:04,929] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @best_ever_store_bot id=8330610566 - 'slavic_store'
+[2025-12-20 17:37:04,930] #WARNING  main.py:71 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
