@@ -1,23 +1,78 @@
-[2025-12-20 17:36:46,669] #INFO     main.py:67 - project_logger.loger_configuration - запуск основного цикла main
-[2025-12-20 17:36:47,041] #INFO     main.py:30 - project_logger.loger_configuration - Подключение к СУБД SQLite
-[2025-12-20 17:36:47,041] #INFO     models.py:77 - project_logger.loger_configuration - ЗАпуск асинхронного движка для SQLite
-[2025-12-20 17:36:47,063] #INFO     main.py:33 - project_logger.loger_configuration - ПОдключение выполнено успешно
-[2025-12-20 17:36:47,064] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
-[2025-12-20 17:36:47,108] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @best_ever_store_bot id=8330610566 - 'slavic_store'
-[2025-12-20 17:36:50,521] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
-[2025-12-20 17:36:50,521] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8330610566)
-[2025-12-20 17:36:52,795] #INFO     dispatcher.py:239 - aiogram.dispatcher - Connection established (tryings = 1, bot id = 8330610566)
-[2025-12-20 17:36:54,991] #INFO     base_keyboards.py:28 - project_logger.loger_configuration - Сохдание клавы по категориям товаров из БД
-[2025-12-20 17:36:54,992] #INFO     user_requests.py:80 - project_logger.loger_configuration - Вывод категорий товаров пользователю
-[2025-12-20 17:36:55,001] #INFO     user_requests.py:86 - project_logger.loger_configuration - Всего нашлось 1 категорий товаров
-[2025-12-20 17:36:55,086] #INFO     dispatcher.py:178 - aiogram.event - Update id=437775183 is handled. Duration 2280 ms by bot id=8330610566
-[2025-12-20 17:36:55,235] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
-[2025-12-20 17:36:55,236] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8330610566)
-[2025-12-20 17:37:00,811] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
-[2025-12-20 17:37:00,811] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.345166 seconds and try again... (tryings = 1, bot id = 8330610566)
-[2025-12-20 17:37:03,886] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
-[2025-12-20 17:37:03,886] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.770161 seconds and try again... (tryings = 2, bot id = 8330610566)
-[2025-12-20 17:37:04,660] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
-[2025-12-20 17:37:04,661] #INFO     main.py:41 - project_logger.loger_configuration - Окончание работы бота
-[2025-12-20 17:37:04,929] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @best_ever_store_bot id=8330610566 - 'slavic_store'
-[2025-12-20 17:37:04,930] #WARNING  main.py:71 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
+[2025-12-27 19:45:42,093] #INFO     main.py:73 - project_logger.loger_configuration - запуск основного цикла main
+[2025-12-27 19:45:43,249] #INFO     main.py:34 - project_logger.loger_configuration - Подключение к СУБД SQLite
+[2025-12-27 19:45:43,252] #INFO     models.py:77 - project_logger.loger_configuration - ЗАпуск асинхронного движка для SQLite
+[2025-12-27 19:45:43,259] #INFO     main.py:37 - project_logger.loger_configuration - ПОдключение выполнено успешно
+[2025-12-27 19:45:43,260] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
+[2025-12-27 19:45:43,553] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2025-12-27 19:45:52,844] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id одминов успешно взята из env
+[2025-12-27 19:45:53,206] #INFO     dispatcher.py:178 - aiogram.event - Update id=115127013 is handled. Duration 2406 ms by bot id=8494507714
+[2025-12-27 19:47:00,203] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
+[2025-12-27 19:47:00,203] #INFO     main.py:45 - project_logger.loger_configuration - Окончание работы бота
+[2025-12-27 19:47:00,205] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+[2025-12-27 19:47:00,205] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
+[2025-12-27 19:47:00,466] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2025-12-27 19:47:00,468] #WARNING  main.py:76 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
+[2025-12-27 19:47:16,570] #INFO     main.py:73 - project_logger.loger_configuration - запуск основного цикла main
+[2025-12-27 19:47:17,269] #INFO     main.py:34 - project_logger.loger_configuration - Подключение к СУБД SQLite
+[2025-12-27 19:47:17,269] #INFO     models.py:77 - project_logger.loger_configuration - ЗАпуск асинхронного движка для SQLite
+[2025-12-27 19:47:17,276] #INFO     main.py:37 - project_logger.loger_configuration - ПОдключение выполнено успешно
+[2025-12-27 19:47:17,276] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
+[2025-12-27 19:47:17,345] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2025-12-27 19:47:26,144] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id одминов успешно взята из env
+[2025-12-27 19:47:26,144] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id одминов успешно взята из env
+[2025-12-27 19:47:26,475] #INFO     dispatcher.py:178 - aiogram.event - Update id=115127014 is handled. Duration 2359 ms by bot id=8494507714
+[2025-12-27 19:47:36,926] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
+[2025-12-27 19:47:36,927] #INFO     main.py:45 - project_logger.loger_configuration - Окончание работы бота
+[2025-12-27 19:47:36,927] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+[2025-12-27 19:47:36,927] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
+[2025-12-27 19:47:37,184] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2025-12-27 19:47:37,184] #WARNING  main.py:76 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
+[2025-12-27 19:57:35,474] #INFO     main.py:73 - project_logger.loger_configuration - запуск основного цикла main
+[2025-12-27 19:57:36,576] #INFO     main.py:34 - project_logger.loger_configuration - Подключение к СУБД SQLite
+[2025-12-27 19:57:36,576] #INFO     models.py:77 - project_logger.loger_configuration - ЗАпуск асинхронного движка для SQLite
+[2025-12-27 19:57:36,583] #INFO     main.py:37 - project_logger.loger_configuration - ПОдключение выполнено успешно
+[2025-12-27 19:57:36,583] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
+[2025-12-27 19:57:36,685] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2025-12-27 19:58:02,452] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id одминов успешно взята из env
+[2025-12-27 19:58:02,452] #WARNING  user_group.py:49 - project_logger.loger_configuration - Юзер : SPB_Kichin_Konstantin с id 778151623 активировал режим админ панели
+[2025-12-27 19:58:03,249] #INFO     dispatcher.py:178 - aiogram.event - Update id=115127015 is handled. Duration 2843 ms by bot id=8494507714
+[2025-12-27 19:58:17,647] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id одминов успешно взята из env
+[2025-12-27 19:58:17,647] #WARNING  user_group.py:49 - project_logger.loger_configuration - Юзер : SPB_Kichin_Konstantin с id 778151623 активировал режим админ панели
+[2025-12-27 19:58:18,206] #INFO     dispatcher.py:178 - aiogram.event - Update id=115127016 is handled. Duration 563 ms by bot id=8494507714
+[2025-12-27 20:05:22,654] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
+[2025-12-27 20:05:22,654] #INFO     main.py:45 - project_logger.loger_configuration - Окончание работы бота
+[2025-12-27 20:05:22,655] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+[2025-12-27 20:05:22,655] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
+[2025-12-27 20:05:22,917] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2025-12-27 20:05:22,918] #WARNING  main.py:76 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
+[2025-12-27 20:06:21,050] #INFO     main.py:73 - project_logger.loger_configuration - запуск основного цикла main
+[2025-12-27 20:06:21,678] #INFO     main.py:34 - project_logger.loger_configuration - Подключение к СУБД SQLite
+[2025-12-27 20:06:21,678] #INFO     models.py:77 - project_logger.loger_configuration - ЗАпуск асинхронного движка для SQLite
+[2025-12-27 20:06:21,685] #INFO     main.py:37 - project_logger.loger_configuration - ПОдключение выполнено успешно
+[2025-12-27 20:06:21,685] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
+[2025-12-27 20:06:21,773] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2025-12-27 20:06:41,214] #INFO     dispatcher.py:178 - aiogram.event - Update id=115127017 is handled. Duration 2281 ms by bot id=8494507714
+[2025-12-27 20:08:32,021] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
+[2025-12-27 20:08:32,022] #INFO     main.py:45 - project_logger.loger_configuration - Окончание работы бота
+[2025-12-27 20:08:32,022] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+[2025-12-27 20:08:32,022] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
+[2025-12-27 20:08:32,283] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2025-12-27 20:08:32,284] #WARNING  main.py:76 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
+[2025-12-27 20:08:46,563] #INFO     main.py:73 - project_logger.loger_configuration - запуск основного цикла main
+[2025-12-27 20:08:47,139] #INFO     main.py:34 - project_logger.loger_configuration - Подключение к СУБД SQLite
+[2025-12-27 20:08:47,139] #INFO     models.py:77 - project_logger.loger_configuration - ЗАпуск асинхронного движка для SQLite
+[2025-12-27 20:08:47,149] #INFO     main.py:37 - project_logger.loger_configuration - ПОдключение выполнено успешно
+[2025-12-27 20:08:47,149] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
+[2025-12-27 20:08:47,216] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2025-12-27 20:09:00,358] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id одминов успешно взята из env
+[2025-12-27 20:09:00,358] #WARNING  admin_handlers.py:40 - project_logger.loger_configuration - Юзер : SPB_Kichin_Konstantin с id 778151623 активировал режим админ панели
+[2025-12-27 20:09:01,355] #INFO     dispatcher.py:178 - aiogram.event - Update id=115127018 is handled. Duration 3015 ms by bot id=8494507714
+[2025-12-27 20:09:13,259] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id одминов успешно взята из env
+[2025-12-27 20:09:13,259] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id одминов успешно взята из env
+[2025-12-27 20:09:13,471] #INFO     dispatcher.py:178 - aiogram.event - Update id=115127019 is handled. Duration 202 ms by bot id=8494507714
+[2025-12-27 20:09:46,894] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
+[2025-12-27 20:09:46,896] #INFO     main.py:45 - project_logger.loger_configuration - Окончание работы бота
+[2025-12-27 20:09:46,896] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+[2025-12-27 20:09:46,897] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
+[2025-12-27 20:09:47,158] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2025-12-27 20:09:47,159] #WARNING  main.py:76 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C

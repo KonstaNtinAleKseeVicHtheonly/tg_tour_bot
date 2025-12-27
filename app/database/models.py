@@ -77,3 +77,4 @@ async def async_db_main():
     logger.info("ЗАпуск асинхронного движка для SQLite")
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)# создание всех наследюущих от Base моделей
+        

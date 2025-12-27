@@ -1,9 +1,12 @@
-from aiogram import F, Router
+from aiogram import F, Router, Bot
 from aiogram.types import Message, CallbackQuery, Message
 # фитры 
 from aiogram.filters import CommandStart, CommandObject, Command, CommandObject, StateFilter
+#KB
+from app.keyboards.reply_kb import admin_reply_kb, delete_reply_kb
 #FSM
 from aiogram.fsm.context import FSMContext
+from app.FSM.states import ChatMode
 from app.FSM.states import NewsLetter
 from aiogram.filters import StateFilter
 # системыне утилиты
@@ -15,6 +18,8 @@ from app.filters.admin_filters import AdminFilter
 # DB
 from app.database.requests.user_requests import get_current_category
 from app.database.requests.admin_requests import create_product, create_category
+#утилиты
+from app.utils.env_utils import _get_admins_id
 #логгер
 from project_logger.loger_configuration import setup_logging
 
@@ -27,6 +32,43 @@ admin_handler.message.filter(AdminFilter())
 
 
 
+
+
+@admin_handler.message(Command('odmen'))
+async def activate_admin_mode(message : Message):
+    '''активирует режим дмин панели даваю юзеру доп полномочия, если id юзера состоит в admin_id конечно'''
+    logger.warning(f"Юзер : {message.from_user.username} с id {message.from_user.id} активировал режим админ панели")
+    await message.delete()
+    await message.answer("Режим админа усешно активирован")
+    await message.answer("Что хотите выбрать?" , reply_markup=admin_reply_kb)
+
+@admin_handler.message(Command('show_admins'))
+async def show_group_admins_id(message : Message, bot : Bot):
+    '''показывает всех юзеров и ботов группы с полночиями creator или administrator'''
+    admins_id_lst = await _get_admins_id()
+    await message.answer(f"вот список с id всех админов : {'\n |'.join(admins_id_lst)}")
+
+
+
+@admin_handler.message(F.text == "Я так, просто посмотреть зашел")
+async def starring_at_product(message: Message):
+    await message.answer("ОК, вот список товаров")
+
+
+@admin_handler.message(F.text == "Изменить товар")
+async def change_product(message: Message):
+    await message.answer("ОК, вот список товаров")
+
+
+@admin_handler.message(F.text == "Удалить товар")
+async def delete_product(message: Message):
+    await message.answer("Выберите товар(ы) для удаления")
+
+
+@admin_handler.message(StateFilter(ChatMode.waiting))
+async def wait_message(message : Message):
+    await message.answer("Пожалуйста, подождите пока обрабтается ваш предыдущий запрос")
+    
 
 
 

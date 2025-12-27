@@ -4,9 +4,12 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.enums import ChatAction
 # фитры 
 from aiogram.filters import CommandStart, Command
+from app.filters.chat_group_filters import GroupFilter
+#KB
+from app.keyboards.reply_kb import reply_main_menu, delete_reply_kb, reply_request_kb
 #FSM
 from aiogram.fsm.context import FSMContext
-from aiogram.filters import StateFilter
+from aiogram.filters import StateFilter, or_f
 # системыне утилиты
 from project_logger.loger_configuration import setup_logging
 from datetime import datetime
@@ -14,8 +17,6 @@ import asyncio
 import uuid
 import os
 from dotenv import load_dotenv
-#клавиаутра
-# from app.keyboards.base_keyboards import reply_main_menu, inline_main_menu, request_user_contact, get_categories_kb, get_cards_kb, product_kb, client_location
 # FSM
 from aiogram.fsm.context import FSMContext
 from app.FSM.states import ChatMode
@@ -30,34 +31,75 @@ load_dotenv() # для подгрузки переменных из .env
 
 
 user_handler = Router()
+user_handler.message.filter(GroupFilter(['private']))
 
 
 
-# @user_handler.message(Command('show_me'))
-# async def show_user_info(message : Message, state:FSMContext):
-#     '''покажет всю инфу о юзере'''
-#     await state.clear()
-#     user_data = await set_user(message.from_user.id)
-#     if user_data:# значит юзер уже зарегался и есть в бд
-#         user_info = ''
-#         for k,v in user_data.__dict__.items():
-#             if type(v) is str:
-#                 user_info += f"{k}:{v}\n"
-#         await message.answer(f"Вот информация о вашем аккаунте: {user_info}")
-#     else:
-#         await message.answer("Вы еще не зарегестрировались в нашем магазине. Для начала регистрции пропишите команду /start")
+@user_handler.message(Command('start'))
+async def initial_menu(message : Message, state:FSMContext):
+    '''покажет всю инфу о юзере'''
+    await state.clear()
+    await message.answer(f"Привет {message.from_user.username}")
+    await message.answer("<b>Запущен интерактивный режим</b>", reply_markup=reply_main_menu)
+    
+    
+@user_handler.message(or_f(Command('menu'), F.text.lower().in_(['меню','menu','экскурси'])))
+async def show_menu(message : Message, state:FSMContext):
+    '''покажет всю инфу о юзере'''
+    await state.clear()
+    await message.answer("Лови актуальное меню")
+    
+@user_handler.message(Command('show_me'))
+async def show_user_info(message : Message, state:FSMContext):
+    '''покажет всю инфу о юзере'''
+    await state.clear()
+    await message.answer("Запущен интерактивный режим", reply_markup=reply_request_kb)
+
+@user_handler.message(Command('about'))
+async def common_info(message : Message, state:FSMContext):
+    '''покажет всю инфу о юзере'''
+    await message.answer("Мы являемся крупным представителем РБ", reply_markup=delete_reply_kb)
+    
+@user_handler.message(Command('payment'))
+async def choose_payment(message : Message):
+    '''покажет всю инфу о юзере'''
+    await message.answer("Выберите вариант оплаты")
+    
+@user_handler.message(
+    F.text.lower().contains("доставк") |
+    F.text.lower().contains("варианты доставки") |
+    F.text.lower().contains("способы доставки"))
+@user_handler.message(Command('shipping'))
+async def choose_shipping(message : Message):
+    '''покажет всю инфу о юзере'''
+    await message.answer("Выберите вариант доставки")
+
+@user_handler.message(F.text)
+async def unpredictable_message(message : Message):
+    '''В случае непредвиденного поведения '''
+    await message.answer(f"Непредвиденная текстовая команда : {message.text}")
         
+ 
+@user_handler.message(F.photo)
+async def unpredictable_img(message : Message):
+    '''В случае непредвиденного поведения '''
+    await message.answer("Ух ты какая клевая фотка")
+        
+ 
 
-# @user_handler.message(CommandStart())
-# async def start_process(message : Message, state:FSMContext):
-#     await state.clear()
-#     is_user = await set_user(message.from_user.id)
-#     if is_user:# значит юзер уже зарегался и есть в бд
-#         await message.answer(f"Добро пожаловать : {is_user.name}, Ознакомьтесь с асортиментом магазина",reply_markup=inline_main_menu)
-#     else:
-#         await state.set_state('reg_name')
-#         await message.answer(f'''Добро пожаловать : {message.from_user.username},
-#                              пожалуйста зарегистрируйтесь для дальнейших покупок. Введите ваше имя''')
+    
+#✅
+    
+
+
+
+
+# @user_handler.message(F.text)
+# async def unpredictable_message(message : Message):
+#     '''В случае непредвиденного поведения '''
+#     await message.answer(f"Непредвиденная текстовая команда : {message.text}")
+        
+ 
         
         
 # @user_handler.message(F.text.isalpha(),F.text.len() > 3, StateFilter('reg_name'))
@@ -230,9 +272,3 @@ user_handler = Router()
 #     '''Возвращается в самое начальное меню'''
 #     await callback.message.edit_reply_markup(reply_markup=inline_main_menu)
 
-# @user_handler.message(F.text)
-# async def unpredictable_message(message : Message):
-#     '''В случае непредвиденного поведения '''
-#     await message.answer(f"Непредвиденная текстовая команда : {message.text}")
-        
- 
