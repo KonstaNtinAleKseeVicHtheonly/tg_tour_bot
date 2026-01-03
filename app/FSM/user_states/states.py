@@ -7,6 +7,3 @@ class NewsLetter(StatesGroup):
     ...
     
     
-class AdminMode(StatesGroup):
-    '''промежуточное состояние, дающее опред полномочия админам в группе если их id есть в env'''
-    is_admin = State()

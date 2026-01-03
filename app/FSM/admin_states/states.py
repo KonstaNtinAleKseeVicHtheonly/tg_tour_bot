@@ -1,12 +1,107 @@
 from aiogram.fsm.state import State, StatesGroup
+    
+    
+    
+    
+class AdminTourMode(StatesGroup):
+    '''FSM класс для CRUD операций с туром'''
+    # === СОЗДАНИЕ ТОВАРА ===
+    create_name = State()
+    create_description = State()
+    create_price = State()
+    create_photo = State()
+    set_max_people = State()
+    set_booked_places = State()
+    set_duration = State()
+    set_category = State()
+    set_meeting_point = State()
+    
+    
+    # === РЕДАКТИРОВАНИЕ ТОВАРА ===
+    edit_select_product = State()      # Выбор товара для редактирования
+    edit_choose_field = State()        # Выбор поля для редактирования
+    edit_name = State()
+    edit_description = State()
+    edit_price = State()
+    edit_photo = State()
+    
+    # === УДАЛЕНИЕ ТОВАРА ===
+    delete_select_product = State()
+    delete_confirm = State()
+    
+    # промежуточное состояние дя избежания прерывания операций
+    waiting = State()
+    texts = {
+        'AdminMode:create_name' : 'Введите имя заново',
+        'AdminMode:create_description' : 'Введите описание заново',
+        'AdminMode:create_price' : 'Введите цену заново',
+        'AdminMode:create_photo' : 'Отправьте фото заново',
 
+    }
+    
+class AdminLandMarkMode(StatesGroup):
+    '''FSM класс для CRUD операций с достопримечательностями'''
+    # === СОЗДАНИЕ ТОВАРА ===
+    create_name = State()
+    create_description = State()
+    create_url = State()
+    create_photo = State()
+    create_confirm = State()
+    
+    # === РЕДАКТИРОВАНИЕ ТОВАРА ===
+    edit_select_lm = State()      # Выбор товара для редактирования
+    edit_choose_field = State()        # Выбор поля для редактирования
+    edit_name = State()
+    edit_description = State()
+    edit_url = State()
+    edit_photo = State()
+    edit_confirm = State
+    
+    # === УДАЛЕНИЕ ТОВАРА ===
+    delete_select_lm = State()
+    delete_confirm = State()
+    
+    # промежуточное состояние дя избежания прерывания операций
+    waiting = State()
+    texts = {
+        'AdminMode:create_name' : 'Введите имя заново',
+        'AdminMode:create_description' : 'Введите описание заново',
+        'AdminMode:create_price' : 'Введите цену заново',
+        'AdminMode:create_photo' : 'Отправьте фото заново',
+
+    }
+    
+    
+class Admin_LM_TourMode(StatesGroup):
+    '''FSM класс для CRUD операций с ассоциативной таблицей'''
+    # === СОЗДАНИЕ ТОВАРА ===
+    create_name = State()
+    create_description = State()
+    create_url = State()
+    create_photo = State()
+    create_confirm = State()
+    
+    # === РЕДАКТИРОВАНИЕ ТОВАРА ===
+    edit_select_lm = State()      # Выбор товара для редактирования
+    edit_choose_field = State()        # Выбор поля для редактирования
+    edit_name = State()
+    edit_description = State()
+    edit_url = State()
+    edit_photo = State()
+    edit_confirm = State
+    
+    # === УДАЛЕНИЕ ТОВАРА ===
+    delete_select_lm = State()
+    delete_confirm = State()
+    
+    # промежуточное состояние дя избежания прерывания операций
+    waiting = State()
+    texts = {
+        'AdminMode:create_name' : 'Введите имя заново',
+        'AdminMode:create_description' : 'Введите описание заново',
+        'AdminMode:create_price' : 'Введите цену заново',
+        'AdminMode:create_photo' : 'Отправьте фото заново',
+
+    }
 class ChatMode(StatesGroup):
     waiting = State()
-class NewsLetter(StatesGroup):
-    '''класс, Отвечающий за рассылку новостей'''
-    ...
-    
-    
-class AdminMode(StatesGroup):
-    '''промежуточное состояние, дающее опред полномочия админам в группе если их id есть в env'''
-    is_admin = State()

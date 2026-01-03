@@ -1,6 +1,5 @@
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
-
 # from aiogram.types import BotCommandScopeAllPrivateChats
 import asyncio
 #конфигурации
@@ -14,11 +13,14 @@ from app.handlers.user_handlers import user_handler
 from app.handlers.admin_handlers import admin_handler
 from app.handlers.user_group import tg_group_handler
 # database
-from app.database.models import async_db_main
+load_dotenv() # что бы переменне подгрузились на момент подключения файла, должно быть над конфигурацией подключени к БД!!!
+from app.database.db_configurations.db_engine import async_db_main, drop_db, async_session
 #кэширование
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage
 import redis.asyncio as aioredis
+# MiddleWare
+from app.middlewares.db_middleware import DBSession
 
 
 
@@ -30,13 +32,17 @@ logger = setup_logging()
 
 
 async def on_startup(dispatcher:Dispatcher):
-    '''Метод для создания подключения к SQLite при запуске бота'''
-    logger.info('Подключение к СУБД SQLite')
+    '''Метод для создания подключения к Postgres при запуске бота'''
+    logger.info('Подключение к СУБД Postgres')
+    
     try:
+        run_param = False
+        if run_param:
+            await drop_db()
         await async_db_main()
         logger.info("ПОдключение выполнено успешно")
     except Exception as err:
-        logger.critical(f"Ошибка подключения к СУБД SQLite : {err}")
+        logger.critical(f"Ошибка подключения к СУБД Postgres : {err}")
         return False
     
 
@@ -48,21 +54,18 @@ async def on_shutdown(dispatcher:Dispatcher):
     
     
 async def main():
-
-
-    bot = Bot(token=os.getenv('BOT_TOKEN'), default=DefaultBotProperties(parse_mode='HTML'))
-    
-    # # Кэширование через MemoryStorage
-    # storage = MemoryStorage()
     # Кэширование через Redis
     redis_host = os.getenv('REDIS_HOST','redis')
     redis_port = os.getenv('REDIS_PORT','6379')
     redis_db = os.getenv('REDIS_DB')
     redis_client = await aioredis.from_url(f"redis://{redis_host}:{redis_port}/{redis_db}")
-    dp = Dispatcher(storage=RedisStorage(redis_client))
-    dp.include_routers(admin_handler,user_handler, tg_group_handler)
+
+    dp = Dispatcher(storage=RedisStorage(redis_client)) # для каждого отдельного юзера в чате будет вестись своя FSM
+    bot = Bot(token=os.getenv('BOT_TOKEN'), default=DefaultBotProperties(parse_mode='HTML'))
     dp.startup.register(on_startup) # подключение к БД
     dp.shutdown.register(on_shutdown)
+    dp.include_routers(admin_handler,user_handler, tg_group_handler)
+    dp.update.middleware(DBSession(session_pool=async_session)) # мидлварь на автоматическое создание сессии при работе с БД
     
     await bot.delete_webhook(drop_pending_updates=True)# сброс предыдущих апдейтов при перезапуске бота
     await set_public_commands(bot)# встроенное меню для всех юзеров

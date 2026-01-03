@@ -13,13 +13,15 @@ async def _get_admins_id()->list:
     if not ids:
         logger.warning("В env нет инфы о id Админов")
         return []
-    logger.info("инфа об id одминов успешно взята из env")
+    logger.info("инфа об id админов успешно взята из env")
     return [admin_id.strip() for admin_id in ids.split(',')]
     
 async def check_admin(message : Message)->bool:
     ''''Принимает сообщение и проверяет находится ли текущий юзер в списках амдинов и если находится то вернет True иначе False'''
+    logger.info(f"Запуск проверки id юзера {message.from_user.id} на полномочия админа")
     admins_id = await _get_admins_id()
-    
+    if not admins_id:
+        logger.warning("В env нет инфы о id Админов")
     if str(message.from_user.id) in admins_id:
         return True
     return False

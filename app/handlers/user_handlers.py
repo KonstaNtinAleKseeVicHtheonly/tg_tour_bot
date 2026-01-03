@@ -19,7 +19,6 @@ import os
 from dotenv import load_dotenv
 # FSM
 from aiogram.fsm.context import FSMContext
-from app.FSM.states import ChatMode
 # колбэки
 from aiogram.types import CallbackQuery
 # DB

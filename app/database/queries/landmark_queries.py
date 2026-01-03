@@ -1,0 +1,1 @@
+from app.database.db_managers.landmark_manager import LandMarkManager

@@ -19,7 +19,7 @@ from app.keyboards.reply_kb import admin_reply_kb
 # from app.keyboards.base_keyboards import reply_main_menu, inline_main_menu, request_user_contact, get_categories_kb, get_cards_kb, product_kb, client_location
 # FSM
 from aiogram.fsm.context import FSMContext
-from app.FSM.states import AdminMode
+from app.FSM.admin_states.states import AdminTourMode
 # колбэки
 from aiogram.types import CallbackQuery
 # DB

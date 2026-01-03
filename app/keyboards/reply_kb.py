@@ -28,9 +28,9 @@ delete_reply_kb = ReplyKeyboardRemove() # удаление предыдущей 
 
 admin_reply_kb = ReplyKeyboardMarkup(
     keyboard=[
-        [KeyboardButton(text='изменить товар')],
-        [KeyboardButton(text='добавить товар')],
-        [KeyboardButton(text='удалить товар')]
+        [KeyboardButton(text='изменить тур'), KeyboardButton(text='добавить тур'),KeyboardButton(text='удалить тур')],
+        [KeyboardButton(text='изменить landmark'), KeyboardButton(text='добавить landmark'),KeyboardButton(text='удалить landmark')],
+        [KeyboardButton(text='показать все туры'), KeyboardButton(text='все достопримечательности')]
     ],
     resize_keyboard=True
 )
