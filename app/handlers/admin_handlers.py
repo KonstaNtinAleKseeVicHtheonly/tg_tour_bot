@@ -5,6 +5,7 @@ from decimal import Decimal
 from aiogram.filters import CommandStart, CommandObject, Command, CommandObject, StateFilter,and_f,or_f
 #KB
 from app.keyboards.reply_kb import admin_reply_kb, delete_reply_kb
+from app.keyboards.inline_kb import admin_inline_main_menu,admin_inline_interaction_kb, all_landmarks_kb, current_landmark_db
 #FSM
 from aiogram.fsm.context import FSMContext
 from app.FSM.admin_states.states import AdminTourMode, ChatMode, AdminLandMarkMode
@@ -37,7 +38,31 @@ async def activate_admin_mode(message : Message):
     logger.warning(f"Юзер : {message.from_user.username} с id {message.from_user.id} активировал режим админ панели")
     await message.delete()
     await message.answer("Режим админа усешно активирован")
-    await message.answer("Что хотите выбрать?" , reply_markup=admin_reply_kb)
+    await message.answer("Что хотите выбрать?" , reply_markup=admin_inline_main_menu)
+
+@admin_handler.callback_query(F.data=='show_all_lm')
+async def show_all_landmarks(callback: CallbackQuery, session : AsyncSession):
+    await callback.message.answer("Вот список всех достопримечательностей", reply_markup= await all_landmarks_kb(session)) # выведет список всех достопримечательностей
+
+
+@admin_handler.callback_query(F.data.startswith('show_landmark'))
+async def get_field_for_change(callback: CallbackQuery, session:AsyncSession):
+    current_lm_id =  int(callback.message.text.split('_')[-1])
+    lm_db_manager = db_managers.LandMarkManager()
+    current_landmark = await lm_db_manager.get(id=current_lm_id)
+    if not current_landmark:
+        await callback.message.answer(f"данная lm с id : {current_landmark} не найдена в базе")
+        return
+    current_lm_info = current_landmark.description
+    current_lm_photo = current_landmark.image_url
+    await callback.message.answer_photo(photo=current_landmark.image_url,
+                                            caption=f'''{current_landmark.name}\n
+                                            {current_landmark.description}''',
+                                            reply_markup=await current_landmark_db(session, current_lm_id))
+
+
+    
+
 
 @admin_handler.message(Command('cancel'), StateFilter('*'))
 @admin_handler.message(F.text.lower()=='отмена', StateFilter('*'))
@@ -57,15 +82,11 @@ async def cancel_processes(message:Message, state:FSMContext):
 async def wait_message(message : Message):
     await message.answer("Пожалуйста, подождите пока обрабтается ваш предыдущий запрос")
     
-    
-
-
-
 @admin_handler.message(Command('show_admins'))
 async def show_group_admins_id(message : Message, bot : Bot):
     '''показывает всех юзеров и ботов группы с полночиями creator или administrator'''
     admins_id_lst = await _get_admins_id()
-    await message.answer(f"вот список с id всех админов : {'\n |'.join(admins_id_lst)}")
+    await message.answer(f"вот список с id всех админов : {'|'.join(admins_id_lst)}")
     
 
 @admin_handler.message(F.text.lower() == "добавить тур")
@@ -186,6 +207,36 @@ async def set_meeting_point(message: Message, state:FSMContext, session: AsyncSe
 @admin_handler.message(StateFilter(AdminTourMode.set_meeting_point))
 async def wrong_meeting_point(message: Message, state:FSMContext):
     await message.answer("Укажите место встречи текстом текстом!!!")
+
+@admin_handler.message(F.text.lower() == "показать все туры")
+async def show_all_tours(message: Message, session:AsyncSession):
+        tour_db_manager = db_managers.TourManager()
+        all_tours = await tour_db_manager.get_all(session)
+        if not all_tours:
+            await message.answer("⭕ В базе нет туров")
+            return
+        final_text = "📋 Список всех туров:\n\n"
+        for tour in all_tours:
+            tour_info = (
+                f"🏷 ID: {tour.id}\n"
+                f"🏰 Название: {tour.name}\n"
+                f"💰 Цена: {tour.price_per_person}₽\n"
+                f"👥 Мест: {tour.max_people}\n"
+                f"➖➖➖➖➖➖➖➖➖\n"
+            )
+            # Если добавление превысит лимит
+            if len(final_text) + len(tour_info) > 4000:
+                # Отправляем накопленное
+                await message.answer(final_text)
+                # Начинаем новое сообщение с заголовком
+                final_text = "📋 Список всех туров (продолжение):\n\n" + tour_info
+            else:
+                # Добавляем к текущему сообщению
+                final_text += tour_info
+        # Отправляем остаток
+        if final_text:
+            await message.answer(final_text)
+
     
 
 @admin_handler.message(F.text == "изменить тур")
@@ -287,11 +338,45 @@ async def set_landmark_image(message: Message, state:FSMContext, session: AsyncS
         await session.rollback()
         await state.clear()
         await message.answer(f'Произошла непредвиденная ошибка : {err}, чекни логи')
+
+
     
 @admin_handler.message(StateFilter(AdminLandMarkMode.create_photo))
 async def wrong_picture(message: Message, state:FSMContext):
     await message.answer("Пожалуйста отправьте фотографию")
     
+
+@admin_handler.message(F.text.lower() == "все достопримечательности")
+async def show_all_landmarks(message: Message, session:AsyncSession):
+        lm_db_manager = db_managers.LandMarkManager()
+        all_lm = await lm_db_manager.get_all(session)
+        if not all_lm:
+            await message.answer("⭕ В базе нет достопримечательностей")
+            return
+        final_text = "📋 Список всех туров:\n\n"
+        for lm in all_lm:
+            lm_info = (
+                f"🏷 ID: {lm.id}\n"
+                f"🏰 Название: {lm.name}\n"
+                f"💰 Ссылка: {lm.url}\n"
+                f"➖➖➖➖➖➖➖➖➖\n"
+            )
+            # Если добавление превысит лимит
+            if len(final_text) + len(lm_info) > 4000:
+                # Отправляем накоплеlm
+                await message.answer(final_text)
+                # Начинаем новое сообщение с заголовком
+                final_text = "📋 Список всех туров (продолжение):\n\n" + lm_info
+            else:
+                # Добавляем к текущему сообщению
+                final_text += lm_info
+        # Отправляем остаток
+        if final_text:
+            await message.answer(final_text)
+
+
+
+
 
 @admin_handler.message(F.text == "изменить landmark")
 async def change_tour_mode(message: Message, state:FSMContext):
@@ -329,39 +414,6 @@ async def get_field_for_change(callback: CallbackQuery, state:FSMContext):
 @admin_handler.message(F.text == "удалить landmark")
 async def delete_tour(message: Message):
     await message.answer("Выберите товар(ы) для удаления")
-
-    
-
-@admin_handler.message(F.text.lower() == "показать все туры")
-async def show_all_tours(message: Message, session:AsyncSession):
-        tour_db_manager = db_managers.TourManager()
-        all_tours = await tour_db_manager.get_all(session)
-        if not all_tours:
-            await message.answer("⭕ В базе нет туров")
-            return
-        final_text = "📋 Список всех туров:\n\n"
-        for tour in all_tours:
-            tour_info = (
-                f"🏷 ID: {tour.id}\n"
-                f"🏰 Название: {tour.name}\n"
-                f"💰 Цена: {tour.price_per_person}₽\n"
-                f"👥 Мест: {tour.max_people}\n"
-                f"➖➖➖➖➖➖➖➖➖\n"
-            )
-            # Если добавление превысит лимит
-            if len(final_text) + len(tour_info) > 4000:
-                # Отправляем накопленное
-                await message.answer(final_text)
-                # Начинаем новое сообщение с заголовком
-                final_text = "📋 Список всех туров (продолжение):\n\n" + tour_info
-            else:
-                # Добавляем к текущему сообщению
-                final_text += tour_info
-        # Отправляем остаток
-        if final_text:
-            await message.answer(final_text)
-
-
 
 
 
