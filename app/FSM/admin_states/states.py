@@ -72,14 +72,14 @@ class AdminLandMarkMode(StatesGroup):
     }
     
     
-class Admin_LM_TourMode(StatesGroup):
+class Admin_LM_Tour_Bound_Mode(StatesGroup):
     '''FSM класс для CRUD операций с ассоциативной таблицей'''
     # === СОЗДАНИЕ ТОВАРА ===
-    create_name = State()
-    create_description = State()
-    create_url = State()
-    create_photo = State()
-    create_confirm = State()
+    set_tour_id = State()
+    set_lm_id = State()
+    current_bound = State()
+    change_tour_bound = State()
+    change_lm_bound = State()
     
     # === РЕДАКТИРОВАНИЕ ТОВАРА ===
     edit_select_lm = State()      # Выбор товара для редактирования

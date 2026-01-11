@@ -3,6 +3,7 @@ from app.database.all_models.models import User
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, AsyncSession
 from sqlalchemy import Select,Update, select
 from project_logger.loger_configuration import setup_logging
+from aiogram.types import Message
 
 logger = setup_logging()
 
@@ -12,6 +13,14 @@ class UserManager(BaseManager):
     
         def __init__(self):
                 super().__init__(User)
+        # # метод регистрации юзера мю не делать. т.к есть метод create     
+        # async def make_user_registraion(self, session:AsyncSession, user_info:Message):
+        #         '''если юзера нет в БД из инфы в телеграме  о юзере добавляет его'''
+        #         logger.info("Процесс Регистрации юзера в Базу")
+        #         user_existed = await self.exists(session, telegram_id=user_info.from_user.id)
+        #         if not user_existed:
+                        
+                        
     
         
     # async def get_by_telegram_id(self, session: AsyncSession):

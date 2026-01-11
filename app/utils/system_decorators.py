@@ -1,4 +1,4 @@
-from app.database.models import async_session# подключение к моделям через сессию
+from app.database.db_configurations.db_engine import async_session
 import functools
 
 def set_session_connection(func):

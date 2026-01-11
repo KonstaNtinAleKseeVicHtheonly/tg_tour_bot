@@ -1,24 +1,5 @@
 
-# конфигуация dockerfile
-# FROM python 3.11-slim
+hz = 'current_bound_1_2'
 
-
-# WORKDIR / app
-
-# COPY requirements.txt
-# RUN pip install --no-cache-dir -r requirements.txt
-
-
-# COPY . . 
-
-# CMD ['python', 'main.py']
-# #1
-# sudo apt-get install lsb-release curl gpg
-# curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
-# sudo chmod 644 /usr/share/keyrings/redis-archive-keyring.gpg
-# echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
-# sudo apt-get update
-# sudo apt-get install redis
-#2
-# sudo systemctl enable redis-server
-# sudo systemctl start redis-server
+tour_id, tour_name = [int(elem) for elem in hz.split('_')[-2:]]
+print(tour_id, tour_name)

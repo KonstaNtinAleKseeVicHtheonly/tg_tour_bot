@@ -27,11 +27,15 @@ class BaseManager:
             exist_checker = await self.exists(session, **filters)
             if not exist_checker:
                 return exist_checker
+            filters_checker = await self._validate_model_fields(filters)
+            if not filters_checker:
+                return filters_checker
             stmt = select(self.model).filter_by(**filters)
             result = await session.execute(stmt)
             return result.scalar_one_or_none()
         except Exception as err:
             logger.error(f"ошиька при чтении строки по параметрам {filters}: {err}")
+            return False
     
     async def get_all(self, session:AsyncSession,skip: int = 0, limit: int = 100):
         try:
@@ -46,7 +50,7 @@ class BaseManager:
         try:
             exist_checker = await self.exists(session, **data)
             if exist_checker:
-                logger.warning("попытка создать уже существующу строку")
+                logger.warning(f"попытка создать уже существующу строку добавляя данные {data}в таблице {self.model.__name__} ")
                 return None
             params_checker = await self._validate_model_fields(data)
             if not params_checker:
@@ -55,34 +59,37 @@ class BaseManager:
             session.add(obj)
             await session.flush()
             await session.refresh(obj)
+            logger.info(f"строк создана успешно в таблице {self.model.__name__} с данными {data}")
             return obj
         except Exception as err:
-            logger.error(f"ошибка при создании строки с данными {data} : {err}")
+            logger.error(f"ошибка при создании строки с данными {data} в таблице {self.model.__name__} : {err}")
             return None
     
-    async def update(self, session:AsyncSession,data:dict):
+    async def update(self, session:AsyncSession,data_to_find_object:dict,data_to_update_object:dict):
+        '''Находи по data_to_find_object строку в модели и обновляет ее данными из data_to_update_object'''
         try:
-            params_checker = await self._validate_model_fields(data)
-            if not await params_checker:
+            data_to_find_object_checker = await self._validate_model_fields(data_to_find_object)
+            data_to_update_object_checker = await self._validate_model_fields(data_to_update_object)
+            if not data_to_find_object_checker or not data_to_update_object_checker :
                 return None
-            exist_checker = await self.exists(session,**data)
-            if not await exist_checker:
-                    return None
-            obj = await self.get(session=session,**data)
-            if obj:
-                for key, value in data.items():
-                    setattr(obj, key, value)
+            current_object = await self.get(session, **data_to_find_object)
+            if not current_object:
+                logger.warning(f"объект не найден по данным параметрами в таблице {self.model.__name__}")
+                return None
+
+            for key, value in data_to_update_object.items():
+                setattr(current_object, key, value)
             await session.flush()
-            await session.refresh(obj)
-            return obj
+            await session.refresh(current_object) # не забыть в хэндлере прописать await session.commit() после вызова метода
+            return current_object
         except Exception as err:
-            logger.error(f"Ошибка при обновлении строки с id : {id} новыми параметрами {data} : {err}")
+            logger.error(f"Ошибка  в таблице {self.model.__name__} при обновлении строки с новыми параметрами {data_to_update_object} : {err}")
     
-    async def delete(self, session:AsyncSession,id: int):
+    async def delete(self, session:AsyncSession,current_id: int):
         try:
-            if not await self.exists(session,id):
+            if not await self.exists(session,id=current_id):
                     return False
-            obj = await self.get(id)
+            obj = await self.get(session,id=current_id)
             if obj:
                 await session.delete(obj)
                 return True
@@ -90,8 +97,32 @@ class BaseManager:
         except Exception as err:
             logger.error(f"Ошибка при удалении строки по id {id} : {err}")
     
-    async def _delete_all(self, session:AsyncSession):
-        ...
+    async def show_detailed_info_for_user(self, session : AsyncSession, current_id:int,skip_fields:list[str]):
+        '''выведет строку с красивым отображением столбцов модели и их значений,
+        кроме длинных занчений, таких как описание  и технической инфы(id, Дата создания и прочее)
+        также передается список столбцов таблицы которые выводить не нужно (skip_fields которые)!!!'''
+        try:
+            logger.info(f"Вывод детальной инфы о строке в таблице {self.model.__name__ } по id : {current_id}")
+            stmt = select(self.model).where(self.model.id==current_id)
+            result = await session.execute(stmt)
+            instance = result.scalar_one_or_none()
+            if not instance:
+                logger.warning(f"❌ Запись с ID {current_id} не найдена")
+                return False
+            detailed_info = []
+            for column in self.model.__table__.columns:
+                column_name = column.name
+                if column_name not in skip_fields:
+                    value = getattr(instance, column_name, None)
+                    if value is not None and value != "":
+                            detailed_info.append(f"{column_name}: {value}")
+            return '\n|'.join(detailed_info)
+        except Exception as err:
+            logger.error(f"Ошибка при выводе детальной инфы в таблице {self.model.__name__ }по id : {current_id} {err}")
+            return False
+                        
+
+
         
     async def exists(self,session:AsyncSession, **params) -> bool:
         """Проверить существование"""
@@ -99,7 +130,9 @@ class BaseManager:
         current_object = await session.execute(current_request)
         result = current_object.scalar_one_or_none()
         if result is None:
+            logger.warning(f"Объект с параметрами {params} не существует в таюлице {self.model.__name__}")
             return False
+        logger.info(f"Объект с параметрами{params} сущесвует в таблице {self.model.__name__}")
         return True
     
         

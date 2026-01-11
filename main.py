@@ -9,9 +9,11 @@ import os
 # системные утилиты
 from app.utils.bot_commands import set_public_commands
 #роутеры
-from app.handlers.user_handlers import user_handler
-from app.handlers.admin_handlers import admin_handler
-from app.handlers.user_group import tg_group_handler
+from app.handlers.user.user_handlers import user_handler
+from app.handlers.tg_group.user_group import tg_group_handler
+
+from app.handlers.admin import admin_main_handler, admin_lm_handler, admin_tour_handler, admin_tour_lm_association_handler
+
 # database
 load_dotenv() # что бы переменне подгрузились на момент подключения файла, должно быть над конфигурацией подключени к БД!!!
 from app.database.db_configurations.db_engine import async_db_main, drop_db, async_session
@@ -64,7 +66,8 @@ async def main():
     bot = Bot(token=os.getenv('BOT_TOKEN'), default=DefaultBotProperties(parse_mode='HTML'))
     dp.startup.register(on_startup) # подключение к БД
     dp.shutdown.register(on_shutdown)
-    dp.include_routers(admin_handler,user_handler, tg_group_handler)
+    dp.include_routers(user_handler, admin_main_handler, admin_lm_handler, admin_tour_handler, tg_group_handler, admin_tour_lm_association_handler)
+    # dp.include_routers(user_handler, tg_group_handler)
     dp.update.middleware(DBSession(session_pool=async_session)) # мидлварь на автоматическое создание сессии при работе с БД
     
     await bot.delete_webhook(drop_pending_updates=True)# сброс предыдущих апдейтов при перезапуске бота

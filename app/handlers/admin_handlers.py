@@ -5,7 +5,7 @@ from decimal import Decimal
 from aiogram.filters import CommandStart, CommandObject, Command, CommandObject, StateFilter,and_f,or_f
 #KB
 from app.keyboards.reply_kb import admin_reply_kb, delete_reply_kb
-from app.keyboards.inline_kb import admin_inline_main_menu,admin_inline_interaction_kb, all_landmarks_kb, current_landmark_db
+from app.keyboards.admin_kb.inline_keyboards import all_landmarks_kb, current_landmark_kb, all_tours_kb, current_tour_kb, admin_inline_main_menu, admin_inline_interaction_kb
 #FSM
 from aiogram.fsm.context import FSMContext
 from app.FSM.admin_states.states import AdminTourMode, ChatMode, AdminLandMarkMode
@@ -39,29 +39,17 @@ async def activate_admin_mode(message : Message):
     await message.delete()
     await message.answer("Режим админа усешно активирован")
     await message.answer("Что хотите выбрать?" , reply_markup=admin_inline_main_menu)
-
-@admin_handler.callback_query(F.data=='show_all_lm')
-async def show_all_landmarks(callback: CallbackQuery, session : AsyncSession):
-    await callback.message.answer("Вот список всех достопримечательностей", reply_markup= await all_landmarks_kb(session)) # выведет список всех достопримечательностей
-
-
-@admin_handler.callback_query(F.data.startswith('show_landmark'))
-async def get_field_for_change(callback: CallbackQuery, session:AsyncSession):
-    current_lm_id =  int(callback.message.text.split('_')[-1])
-    lm_db_manager = db_managers.LandMarkManager()
-    current_landmark = await lm_db_manager.get(id=current_lm_id)
-    if not current_landmark:
-        await callback.message.answer(f"данная lm с id : {current_landmark} не найдена в базе")
-        return
-    current_lm_info = current_landmark.description
-    current_lm_photo = current_landmark.image_url
-    await callback.message.answer_photo(photo=current_landmark.image_url,
-                                            caption=f'''{current_landmark.name}\n
-                                            {current_landmark.description}''',
-                                            reply_markup=await current_landmark_db(session, current_lm_id))
-
+    
+@admin_handler.callback_query(F.data=='admin_main_menu')
+async def admin_main_menu(callback: CallbackQuery):
+    '''покажет главное меню админа'''
+    await callback.message.answer("Что хотите посмотреть?", reply_markup = admin_inline_main_menu) # выведет список всех достопримечательностей
 
     
+@admin_handler.callback_query(F.data=='admin_interactive_menu')
+async def interaction_mode(callback: CallbackQuery):
+    '''покажет кнопки с возможностью посмотреть все туры и достопримечательности (углубление в интерактивынй режим через колбэки)'''
+    await callback.message.answer("Что хотите посмотреть?", reply_markup = admin_inline_interaction_kb) # выведет список всех достопримечательностей
 
 
 @admin_handler.message(Command('cancel'), StateFilter('*'))
@@ -87,6 +75,29 @@ async def show_group_admins_id(message : Message, bot : Bot):
     '''показывает всех юзеров и ботов группы с полночиями creator или administrator'''
     admins_id_lst = await _get_admins_id()
     await message.answer(f"вот список с id всех админов : {'|'.join(admins_id_lst)}")
+    
+    
+#___________________________________________________________
+# Туры
+@admin_handler.callback_query(F.data=='show_all_tours')
+async def show_all_tours(callback: CallbackQuery, session : AsyncSession):
+    await callback.message.answer("Вот список всех туров", reply_markup= await all_tours_kb(session)) # выведет список всех достопримечательностей
+
+
+@admin_handler.callback_query(F.data.startswith('show_tour'))
+async def get_current_tour_info(callback: CallbackQuery, session:AsyncSession):
+    current_tour_id =  int(callback.data.split('_')[-1])
+    tour_db_manager = db_managers.TourManager()
+    current_tour= await tour_db_manager.get(session=session, id=current_tour_id)
+    if not current_tour:
+        await callback.message.answer(f"данная lm с id : {current_tour_id} не найдена в базе")
+        return
+    await callback.message.answer_photo(photo = current_tour.image_url,
+                                            caption = f'''{current_tour.name}\n
+                                            {current_tour.description}''',
+                                            reply_markup = current_tour_kb(current_tour_id))
+
+
     
 
 @admin_handler.message(F.text.lower() == "добавить тур")
@@ -270,6 +281,31 @@ async def get_field_for_change(callback: CallbackQuery, state:FSMContext):
     await callback.message.answer("Товар для изменения выбран, введите поля для изменения") # тут клава будет адаптированная под столбцы текущего тура
     
     
+#_______________________________________________________________________________________
+#LANDMARKS(достопримечательности)
+    
+    
+@admin_handler.callback_query(F.data=='show_all_lm')
+async def show_all_landmarks(callback: CallbackQuery, session : AsyncSession):
+    await callback.message.answer("Вот список всех достопримечательностей", reply_markup= await all_landmarks_kb(session)) # выведет список всех достопримечательностей
+
+
+@admin_handler.callback_query(F.data.startswith('show_landmark'))
+async def show_current_landmark(callback: CallbackQuery, session:AsyncSession):
+    logger.warning(f"принят callback о LM : {callback.data}")
+    current_lm_id =  int(callback.data.split('_')[-1])
+    lm_db_manager = db_managers.LandMarkManager()
+    current_landmark = await lm_db_manager.get(session=session, id=current_lm_id)
+    if not current_landmark:
+        await callback.message.answer(f"данная lm с id : {current_landmark} не найдена в базе")
+        return
+    await callback.message.answer_photo(photo = current_landmark.image_url,
+                                            caption = f'''{current_landmark.name}\n
+                                            {current_landmark.description}''',
+                                            reply_markup = current_landmark_kb(current_lm_id))
+
+
+        
 @admin_handler.message(F.text.lower() == "добавить landmark")
 async def create_landmark_mode(message: Message, state:FSMContext):
     await state.clear()
