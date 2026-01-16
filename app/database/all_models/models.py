@@ -39,8 +39,7 @@ class User(Base):
     last_name: Mapped[Optional[str]] = mapped_column(String(100))
     phone_number: Mapped[Optional[str]] = mapped_column(String(20))
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
-    updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), onupdate=func.now())
+
     
     # Связи
     orders: Mapped[List['Order']] = relationship(back_populates='user', cascade='all, delete-orphan')
@@ -51,6 +50,18 @@ class User(Base):
     
     def __repr__(self):
         return f"<User(id={self.id}, telegram_id={self.telegram_id}, username={self.username})>"
+    
+    
+class Banner(Base):
+    '''модель для инфы о банерах(постеры в основных меню с картинкой и текстом)'''
+    __tablename__ = 'banner'
+    
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(20), unique=True)
+    image: Mapped[str] = mapped_column(String(150), nullable=True)# ссылка на фотку банера
+    description: Mapped[str] = mapped_column(Text, nullable=True)
+    
+    
 
 # Ассоциативный класс для Tour-Landmark
 class TourLandmarkAssociation(Base):
@@ -86,7 +97,6 @@ class Landmark(Base):
     # Связи
     tour_associations: Mapped[List[TourLandmarkAssociation]] = relationship(
         back_populates='landmark',
-        cascade='save-update, merge' 
     )
     
     @property# мб удалить потом
@@ -116,8 +126,7 @@ class Tour(Base):
     
     # Связи
     landmark_associations: Mapped[List[TourLandmarkAssociation]] = relationship(
-        back_populates='tour',
-        cascade='save-update, merge',
+        back_populates='tour', 
     )
     orders: Mapped[List['Order']] = relationship(back_populates='tour', cascade='all, delete-orphan')
     
@@ -186,6 +195,7 @@ class Order(Base):
     tour_id: Mapped[int] = mapped_column(ForeignKey('tours.id', ondelete='CASCADE'), nullable=False, index=True)
     quantity: Mapped[int] = mapped_column(nullable=False, default=1)
     total_price: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
+    payment_type: Mapped[str] = mapped_column(String(25),default='По карте') # добавить тип платежа позже - наличкой или по карте
     status: Mapped[str] = mapped_column(
         Enum(OrderStatus, name='order_status'),
         default=OrderStatus.PENDING.value,

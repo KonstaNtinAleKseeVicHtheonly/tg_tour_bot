@@ -1,4 +1,5 @@
 from aiogram import F, Router
+from aiogram import Bot
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message, CallbackQuery
 from aiogram.enums import ChatAction
@@ -9,9 +10,12 @@ from app.filters.admin_filters import AdminFilter
 #KB
 from app.keyboards.user_kb.inline_keyboards import user_inline_main_menu,  all_tours_kb, current_tour_kb, current_tour_landmarks_kb
 from app.keyboards.base_keyboards import create_inline_kb
+from app.keyboards.user_kb.reply_keboards import request_user_contact
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 #FSM
 from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State
+from app.FSM.user_states.states import UserRegistration
 from aiogram.filters import StateFilter, or_f
 # системыне утилиты
 from project_logger.loger_configuration import setup_logging
@@ -20,9 +24,7 @@ import asyncio
 import uuid
 import os
 from dotenv import load_dotenv
-# FSM
-from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import State
+
 # колбэки
 from aiogram.types import CallbackQuery
 # DB
@@ -36,34 +38,97 @@ load_dotenv() # для подгрузки переменных из .env
 user_handler = Router()
 # user_handler.message.filter(GroupFilter(['private']))
 
-
+# картинки сделать к гланому меню и промежутоынм поинтам(что бы не голые сообщения были)
+#сделать пагинацию туров и достопримечательностей для юзера при просмотре их
+# сделать заказы - вариант заказать (допилить в модели тип оплаты), меню с увеличением мест в турах через кнопки
+# просмотр юзером своих заказов
+# сама оплата, (через тг, по карте)
 
 @user_handler.message(Command('start'))
 async def initial_menu(message : Message, state:FSMContext, session: AsyncSession):
-    '''покажет всю инфу о юзере'''
+    '''запуск стартовой клавы для юзреа + регисрация(или проверка юзера в бд если он уже зарегался
+    по telegram_id)'''
     await state.clear()
+    await message.delete()
     user_db_manager = db_managers.UserManager()
     if not await user_db_manager.exists(session, telegram_id=int(message.from_user.id)):
         logger.warning('Новый юзер, регистрация в базе')
+        await state.set_state(UserRegistration.set_phone_number)
         await message.answer("Я смортю ты тут новенький, сейчас зарегистрируем тебя")
         new_user_info = {'telegram_id' : int(message.from_user.id),
                             'username' : message.from_user.username,
                             'first_name' : message.from_user.first_name,
-                            'last_name' : message.from_user.last_name,
-                            'phone_number' : 'no_info'}
-        await user_db_manager.create(session, new_user_info )
+                            'last_name' : message.from_user.last_name}
+        await state.update_data(**new_user_info)
+        await message.answer("Укажите пожалуйста свой номер телефона или введите вручную", reply_markup= request_user_contact())
+    
     else:
         await message.answer(f"Привет {message.from_user.username}, чего изволите?", reply_markup=user_inline_main_menu)
-    
-    
+        
 @user_handler.callback_query(F.data=='user_main_menu')
 async def back_to_initial_menu(callback: CallbackQuery):
     '''что бы в  можно было возвращаться к изначальному меню'''
+    await callback.message.delete()
     await callback.message.answer("Вот список всех туров", reply_markup= user_inline_main_menu)
+    
+@user_handler.message(F.contact,StateFilter(UserRegistration.set_phone_number))
+async def get_phone_from_contact(message : Message, state:FSMContext):
+    '''юзер выбрал номер телефона из своих контактов'''
+    user_contact = message.contact.phone_number
+    await state.update_data(phone_number=user_contact)
+    await state.set_state(UserRegistration.confirm_registation) # доп состояние что бы данные из state никуда ен делись
+    confirm_kb = create_inline_kb([{'text':'Да, все верно','callback_data':'correct_number'},
+                                   {'text':'Указать другой телефон', 'callback_data':'wrong_number'}])
+    await message.answer(f"Ваш номер телефона :{user_contact}, верно?", reply_markup= confirm_kb)
+    
+@user_handler.message(F.text, StateFilter(UserRegistration.set_phone_number))
+async def get_phone_directlry(message: Message, state:FSMContext):
+    '''юзер ввел вручную номер телефона'''
+    if message.text.startswith('+'):
+        user_phone = message.text[1:]
+    else:
+        user_phone = message.text # если начинается с 8
+    if not user_phone.isdigit():
+        await message.answer("ПОжалуйста введите корректный номер телефона")
+        return
+    await state.update_data(phone_number = user_phone)
+    await state.set_state(UserRegistration.confirm_registation) # доп состояние что бы данные из state никуда ен делись
+    confirm_kb = create_inline_kb([{'text':'Да, все верно','callback_data':'correct_number'},
+                                {'text':'Указать другой телефон', 'callback_data':'wrong_number'}])
+    await message.answer(f"Ваш номер телефона :{user_phone}, верно?", reply_markup= confirm_kb)
+        
+@user_handler.message(StateFilter('reg_phone_number'))
+async def invalid_number(message: Message):
+    '''если юзер вместо номера какую то шляпу вводит'''
+    await message.answer("ПОжалуйста введите валидный номер телефона")
+    
+@user_handler.callback_query(F.data=='correct_number', StateFilter(UserRegistration.confirm_registation))
+async def finish_user_registration(callback: CallbackQuery, state:FSMContext, session:AsyncSession):
+    '''после подвтерждения юзео своего номера через нажатие на кнопку завершаем процесс регистрации'''
+    user_db_manager = db_managers.UserManager()
+    user_info = await state.get_data()
+    result = await user_db_manager.create(session,user_info)
+    if result:
+        await session.commit()
+        await callback.message.answer("Регистрация прошла успешно", reply_markup=user_inline_main_menu)
+    else:
+        await callback.message.answer("Ошибка при регистрации, введите команду /start для повторного запуска")
+    
+@user_handler.callback_query(F.data=='wrong_number', StateFilter(UserRegistration.confirm_registation))
+async def user_number_deny(callback: CallbackQuery, state:FSMContext, session:AsyncSession):
+    '''если юзер решил другой номер ввести'''
+    await callback.message.delete()
+    await state.set_state(UserRegistration.set_phone_number) # по новой попросим ввести юзера номер телефона, но  остальные данные сохраним
+    await callback.message.answer("Укажите пожалуйста свой номер телефона или введите вручную", reply_markup= request_user_contact())
+    
+    
+# взаимодейтсвие с меню
+    
     
 @user_handler.callback_query(F.data=='about_company')
 async def show_about_company(callback: CallbackQuery):
     '''Инфа о компании(мб контакты владельца сделать через отдельную клаву)'''
+    await callback.message.delete()
     company_info = '''
                     Мы создаём маршруты, где история оживает. Не просто экскурсии, а погружение в атмосферу Беларуси — от средневековых замков до современных арт-пространств.
                     Наш подход:
@@ -80,6 +145,7 @@ async def show_about_company(callback: CallbackQuery):
 @user_handler.callback_query(F.data=='boss_contacts')
 async def show_info_about_boss(callback: CallbackQuery):
     '''что бы в  можно было возвращаться к изначальному меню'''
+    await callback.message.delete()
     # мб прокинуть через модель User вместо хардкода
     boss_info = '''Владелец:Константин Алексеевич|\n
                     Номер телефона : 88005553535|\n
@@ -92,19 +158,21 @@ async def show_info_about_boss(callback: CallbackQuery):
     
 @user_handler.callback_query(F.data=='show_all_tours')
 async def show_all_tours(callback: CallbackQuery, session : AsyncSession):
+    await callback.message.delete()
     tour_db_manager = db_managers.TourManager()
     all_tours = await tour_db_manager.get_all(session)
-    await callback.message.answer("Вот список всех туров", reply_markup= await all_tours_kb(all_tours)) # выведет список всех туров
+    await callback.message.answer("Вот список всех туров", reply_markup= await all_tours_kb(all_tours))
     
     
 @user_handler.callback_query(F.data.startswith('show_tour'))
 async def get_current_tour_info(callback: CallbackQuery, session:AsyncSession):
+    await callback.message.delete()
     current_tour_id =  int(callback.data.split('_')[-1])
     tour_db_manager = db_managers.TourManager()
     current_tour= await tour_db_manager.get(session=session, id=current_tour_id)
     if not current_tour:
         back_to_common_info = create_inline_kb([{'text':'Назад', 'callback_data':'show_all_tours'}])
-        await callback.message.answer("по данному туру нет информации к сожалению", reply_markup = back_to_common_info)
+        await callback.message.asnwer("по данному туру нет информации к сожалению", reply_markup = back_to_common_info)
     else:
         await callback.message.answer_photo(photo = current_tour.image_url,
                                                 caption = f'''{current_tour.name}\n
@@ -117,6 +185,7 @@ async def get_current_tour_info(callback: CallbackQuery, session:AsyncSession):
 @user_handler.callback_query(F.data.startswith("detailed_info_tour"))
 async def show_tour_detailed_info(callback: CallbackQuery, session : AsyncSession):
     '''детальная инфа о туре'''
+    await callback.message.delete()
     current_tour_id =  int(callback.data.split('_')[-1])
     back_to_common_info = create_inline_kb([{'text':'Назад', 'callback_data':f"show_tour_{current_tour_id}"}])
     tour_db_manager = db_managers.TourManager()
@@ -125,19 +194,13 @@ async def show_tour_detailed_info(callback: CallbackQuery, session : AsyncSessio
         await callback.message.answer("Детальная информация по данной экскурсии пока что отсутствует",reply_markup=back_to_common_info)
     else:
         detailed_info_2 = await tour_db_manager.show_detailed_info_for_user(session, current_id=current_tour_id, skip_fields=['description', 'id', 'updated_at', 'created_at', 'image_url'])
-        # detailed_info = f"""Подробная информация о туре {current_tour.name}:\n 
-        #                     Длительность : {current_tour.duration}\n
-        #                     Максимальное количество людей : {current_tour.max_people}\n
-        #                     Осталось мест : {current_tour.booked_seats}\n
-        #                     Время отправки : {current_tour.meeting_time}\n
-        #                     Место отправки : {current_tour.meeting_point}\n
-        #                     Цена за человека : {current_tour.price_per_person}
-        #                     """
+
         await callback.message.answer(detailed_info_2, reply_markup=back_to_common_info)
         
 @user_handler.callback_query(F.data.startswith("tour_landmarks"))
 async def show_tour_landmarks(callback: CallbackQuery, session : AsyncSession):
     '''покажет все связанные с Туром достопримечательности'''
+    await callback.message.delete()
     tour_id = int(callback.data.split('_')[-1])
     tour_lm_db_manager = db_managers.TourManager()
     tour_landmarks = await tour_lm_db_manager.get_tour_landmarks(session, tour_id) # берем все landmarks связанные с данным туром по его id
@@ -150,6 +213,7 @@ async def show_tour_landmarks(callback: CallbackQuery, session : AsyncSession):
 @user_handler.callback_query(F.data.startswith("show_landmark"))
 async def show_landmark_info(callback: CallbackQuery, session : AsyncSession):
     #в колбэке у нас id данной landmark и общей для данных landmarks тура, пришлось изъебнуться немного
+    await callback.message.delete()
     landmarks_tour_id = int(callback.data.split('|')[-1].split('_')[-1]) #тур общий для данных достопримечательностей
     current_lm_id =  int(callback.data.split('|')[0].split('_')[-1]) # id выбранной Достопримечательности
     lm_db_manager = db_managers.LandMarkManager()
@@ -160,8 +224,10 @@ async def show_landmark_info(callback: CallbackQuery, session : AsyncSession):
     else:
         await callback.message.answer_photo(photo = current_landmark.image_url,
                                                 caption = f'''{current_landmark.name}\n
-                                                {current_landmark.description}''',
+                                                Описание{current_landmark.description}\n
+                                                Ссылка на достопримечательность в интернете: {current_landmark.url}''',
                                                 reply_markup = back_to_common_info)
+        
         
         
     

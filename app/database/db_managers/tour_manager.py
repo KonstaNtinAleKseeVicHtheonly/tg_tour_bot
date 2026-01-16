@@ -10,7 +10,8 @@ logger = setup_logging()
 
 
 class TourManager(BaseManager):
-
+        '''менеджер для рабоыт с моделью Tour, содержит метод по отображению
+        landmark текущих туров(через смежную таблицу many to many)'''
         
         def __init__(self):
                 super().__init__(Tour)
@@ -40,9 +41,19 @@ class TourManager(BaseManager):
                 # Сразу собираем и возвращаем список landmarks
                 return [assoc.landmark for assoc in tour.landmark_associations if assoc.landmark] # возврааем список landmarks связанных с данным туром
         
-        # async def get_tour_landmark_ids(session: AsyncSession, tour_id: int) -> list[int]:
-        #         """ID достопримечательностей тура одной строкой"""
-        #         return (await session.execute(
-        #                 select(TourLandmarkAssociation.landmark_id)
-        #                 .where(TourLandmarkAssociation.tour_id == tour_id)
-        #         )).scalars().all()
+        async def update_from_state(self,session: AsyncSession, state_data: dict):
+                '''метод для обновления данных таблицы админом через FSM
+                (уарпвление обновлением данных через админ режим в боте)'''
+                try:
+                        tour_id = state_data['id']
+                        param = state_data['param']
+                        new_value = state_data.get('new_value')
+                        
+                        return await self.update(
+                                session,
+                                {'id': tour_id},
+                                {param: new_value}
+                        )
+                except Exception:
+                        logger.error("Ошибка произошла при обновлении данных тура через админ панель в боте !")
+                        return False

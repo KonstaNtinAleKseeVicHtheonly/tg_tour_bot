@@ -1,4 +1,4 @@
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, types
 from aiogram.client.default import DefaultBotProperties
 # from aiogram.types import BotCommandScopeAllPrivateChats
 import asyncio
@@ -13,7 +13,7 @@ from app.handlers.user.user_handlers import user_handler
 from app.handlers.tg_group.user_group import tg_group_handler
 
 from app.handlers.admin import admin_main_handler, admin_lm_handler, admin_tour_handler, admin_tour_lm_association_handler
-
+ 
 # database
 load_dotenv() # что бы переменне подгрузились на момент подключения файла, должно быть над конфигурацией подключени к БД!!!
 from app.database.db_configurations.db_engine import async_db_main, drop_db, async_session
@@ -66,11 +66,13 @@ async def main():
     bot = Bot(token=os.getenv('BOT_TOKEN'), default=DefaultBotProperties(parse_mode='HTML'))
     dp.startup.register(on_startup) # подключение к БД
     dp.shutdown.register(on_shutdown)
-    dp.include_routers(user_handler, admin_main_handler, admin_lm_handler, admin_tour_handler, tg_group_handler, admin_tour_lm_association_handler)
+    dp.include_routers(user_handler, admin_main_handler, admin_lm_handler, admin_tour_handler,admin_tour_lm_association_handler, tg_group_handler)
     # dp.include_routers(user_handler, tg_group_handler)
     dp.update.middleware(DBSession(session_pool=async_session)) # мидлварь на автоматическое создание сессии при работе с БД
+
     
     await bot.delete_webhook(drop_pending_updates=True)# сброс предыдущих апдейтов при перезапуске бота
+    # await bot.delete_my_commands(scope=types.BotCommandScopeAllPrivateChats())  # раскоментировать один раз что бы удалить старые команды юзера(стали не нужные)
     await set_public_commands(bot)# встроенное меню для всех юзеров
     await dp.start_polling(bot)
     

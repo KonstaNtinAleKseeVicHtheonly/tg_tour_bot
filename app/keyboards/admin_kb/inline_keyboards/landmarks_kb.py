@@ -3,6 +3,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from project_logger.loger_configuration import setup_logging
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import db_managers
+from app.database.all_models.models import Landmark
 
 
 

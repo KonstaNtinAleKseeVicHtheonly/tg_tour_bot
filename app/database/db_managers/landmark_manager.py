@@ -12,3 +12,20 @@ class LandMarkManager(BaseManager):
 
         def __init__(self):
                 super().__init__(Landmark)
+                
+        async def update_from_state(self,session: AsyncSession, state_data: dict):
+                '''метод для обновления данных таблицы админом через FSM
+                (уарпвление обновлением данных через админ режим в боте)'''
+                try:
+                        landmark_id = state_data['id']
+                        param = state_data['param']
+                        new_value = state_data.get('new_value')
+                        
+                        return await self.update(
+                                session,
+                                {'id': landmark_id},
+                                {param: new_value}
+                        )
+                except Exception:
+                        logger.error("Ошибка произошла при обновлении данных lanmdark через админ панель в боте !")
+                        return False

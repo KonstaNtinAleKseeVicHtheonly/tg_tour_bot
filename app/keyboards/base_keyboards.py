@@ -1,5 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from sqlalchemy.ext.asyncio import AsyncSession
 from project_logger.loger_configuration import setup_logging
 
 logger = setup_logging()
@@ -15,4 +16,5 @@ def create_inline_kb(buttons_data:list[dict], row_width=1):
             raise ValueError(f"введи валидные ключи а не {buttons_data}")
         adaptive_kb.add(InlineKeyboardButton(text=current_button_text, callback_data=current_button_callback))
         adaptive_kb.adjust(row_width) # натройка по количеству рядов
-        return adaptive_kb.as_markup()
+    return adaptive_kb.as_markup()
+

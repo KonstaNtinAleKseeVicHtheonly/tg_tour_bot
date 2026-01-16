@@ -18,12 +18,8 @@ class AdminTourMode(StatesGroup):
     
     
     # === РЕДАКТИРОВАНИЕ ТОВАРА ===
-    edit_select_product = State()      # Выбор товара для редактирования
-    edit_choose_field = State()        # Выбор поля для редактирования
-    edit_name = State()
-    edit_description = State()
-    edit_price = State()
-    edit_photo = State()
+    set_param_for_change = State()        # Выбор поля для редактирования
+    set_new_value = State()
     
     # === УДАЛЕНИЕ ТОВАРА ===
     delete_select_product = State()
@@ -50,13 +46,8 @@ class AdminLandMarkMode(StatesGroup):
     
     # === РЕДАКТИРОВАНИЕ ТОВАРА ===
     edit_select_lm = State()      # Выбор товара для редактирования
-    edit_choose_field = State()        # Выбор поля для редактирования
-    edit_name = State()
-    edit_description = State()
-    edit_url = State()
-    edit_photo = State()
-    edit_confirm = State
-    
+    set_param_for_change = State()        # Выбор поля для редактирования
+    set_new_value = State()
     # === УДАЛЕНИЕ ТОВАРА ===
     delete_select_lm = State()
     delete_confirm = State()

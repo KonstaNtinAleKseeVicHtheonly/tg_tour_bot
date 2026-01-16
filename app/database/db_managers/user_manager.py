@@ -13,12 +13,20 @@ class UserManager(BaseManager):
     
         def __init__(self):
                 super().__init__(User)
-        # # метод регистрации юзера мю не делать. т.к есть метод create     
-        # async def make_user_registraion(self, session:AsyncSession, user_info:Message):
-        #         '''если юзера нет в БД из инфы в телеграме  о юзере добавляет его'''
-        #         logger.info("Процесс Регистрации юзера в Базу")
-        #         user_existed = await self.exists(session, telegram_id=user_info.from_user.id)
-        #         if not user_existed:
+                
+        # метод регистрации юзера мю не делать. т.к есть метод create     
+        async def make_user_registraion(self, session:AsyncSession, user_info:dict):
+                '''если юзера нет в БД из инфы в телеграме  о юзере добавляет его'''
+                logger.info("Процесс Регистрации юзера в Базу")
+                user_existed = await self.exists(session, telegram_id=user_info.from_user.id)
+                if  user_existed:
+                   return False # значит юзер уже существует
+                new_user_info = {'telegram_id' : int(user_info.from_user.id),
+                            'username' : user_info.from_user.username,
+                            'first_name' : message.from_user.first_name,
+                            'last_name' : message.from_user.last_name,
+                            'phone_number' : 'no_info'}
+                
                         
                         
     

@@ -54,6 +54,7 @@ class BaseManager:
                 return None
             params_checker = await self._validate_model_fields(data)
             if not params_checker:
+                
                 return None
             obj = self.model(**data)
             session.add(obj)
@@ -84,6 +85,7 @@ class BaseManager:
             return current_object
         except Exception as err:
             logger.error(f"Ошибка  в таблице {self.model.__name__} при обновлении строки с новыми параметрами {data_to_update_object} : {err}")
+            return None
     
     async def delete(self, session:AsyncSession,current_id: int):
         try:
@@ -121,7 +123,9 @@ class BaseManager:
             logger.error(f"Ошибка при выводе детальной инфы в таблице {self.model.__name__ }по id : {current_id} {err}")
             return False
                         
-
+    def show_model_columns_lst(self)->list[str]:
+        '''возвращает столбцы таблицы в виде списка строк'''
+        return [col.name for col in self.model.__table__.columns] 
 
         
     async def exists(self,session:AsyncSession, **params) -> bool:

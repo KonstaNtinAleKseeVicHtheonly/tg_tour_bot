@@ -5,6 +5,7 @@ from aiogram.filters import CommandStart, CommandObject, Command, CommandObject,
 #KB
 
 from app.keyboards.admin_kb.inline_keyboards import all_tours_kb, current_tour_kb
+from app.keyboards.base_keyboards import create_inline_kb
 #FSM
 from aiogram.fsm.context import FSMContext
 from app.FSM.admin_states.states import AdminTourMode
@@ -39,6 +40,7 @@ admin_tour_handler.message.filter(AdminFilter()) # только юзеры с id
 async def wait_message(message : Message):
     await message.answer("Пожалуйста, подождите пока обрабтается ваш предыдущий запрос")
     
+# Показ туров(чтение из базы)
 @admin_tour_handler.callback_query(F.data=='show_all_tours')
 async def show_all_tours(callback: CallbackQuery, session : AsyncSession):
     tour_db_manager = db_managers.TourManager()
@@ -61,7 +63,7 @@ async def get_current_tour_info(callback: CallbackQuery, session:AsyncSession):
 
 
     
-
+# создание тура
 @admin_tour_handler.callback_query(F.data=='create_tour')
 async def create_tour_mode(callback: CallbackQuery, state:FSMContext):
     await state.clear()
@@ -181,78 +183,100 @@ async def set_meeting_point(message: Message, state:FSMContext, session: AsyncSe
 async def wrong_meeting_point(message: Message, state:FSMContext):
     await message.answer("Укажите место встречи текстом текстом!!!")
 
-# @admin_tour_handler.message(F.text.lower() == "показать все туры")
-# async def show_all_tours(message: Message, session:AsyncSession):
-#         tour_db_manager = db_managers.TourManager()
-#         all_tours = await tour_db_manager.get_all(session)
-#         if not all_tours:
-#             await message.answer("⭕ В базе нет туров")
-#             return
-#         final_text = "📋 Список всех туров:\n\n"
-#         for tour in all_tours:
-#             tour_info = (
-#                 f"🏷 ID: {tour.id}\n"
-#                 f"🏰 Название: {tour.name}\n"
-#                 f"💰 Цена: {tour.price_per_person}₽\n"
-#                 f"👥 Мест: {tour.max_people}\n"
-#                 f"➖➖➖➖➖➖➖➖➖\n"
-#             )
-#             # Если добавление превысит лимит
-#             if len(final_text) + len(tour_info) > 4000:
-#                 # Отправляем накопленное
-#                 await message.answer(final_text)
-#                 # Начинаем новое сообщение с заголовком
-#                 final_text = "📋 Список всех туров (продолжение):\n\n" + tour_info
-#             else:
-#                 # Добавляем к текущему сообщению
-#                 final_text += tour_info
-#         # Отправляем остаток
-#         if final_text:
-#             await message.answer(final_text)
-
-
+        
+# изменение тура
+@admin_tour_handler.callback_query(F.data.startswith('change_tour'))
+async def change_tour_mode(callback: CallbackQuery, state:FSMContext, session:AsyncSession):
+    '''при нажатии на кнопку изменения определенной landmark'''
+    await state.clear()
+    tour_id = int(callback.data.split('_')[-1])
+    await state.set_state(AdminTourMode.set_param_for_change)
+    await state.update_data(id=tour_id)
+    tour_db_manager = db_managers.TourManager()
+    all_params = tour_db_manager.show_model_columns_lst()
+    msg_text = ',\n'.join(tour_db_manager.show_model_columns_lst())
+    await state.update_data(table_columns=all_params)  # сохраняем столбцы таблицы для проверок в дальнейших хэндлерах
+    await callback.message.answer(f"Активирован режим изменения параметров тура, введите параметр для изменения:\n{msg_text}")
+    
+    
+@admin_tour_handler.message(F.text,  StateFilter(AdminTourMode.set_param_for_change))
+async def set_param_to_change(message: Message, state:FSMContext):
+    '''сообщение с именем параметра для изменения выбранного тура'''
+    data = await state.get_data()
+    table_columns =  data.get('table_columnds')# столбцы таблицы для проверки введеного админом столбца
+    # небольшая проверка что бы параметры от админа соответс столбцам таблицы
+    if message.text.lower().strip() not in table_columns:
+        await message.answer(f"Пожалуйста введите имя параметра из списка {'\n'.join(table_columns)}")
+        return
+    await state.update_data(param=message.text.lower().strip())# имя параметра для изменения
+    await message.answer("Отлично, теперь введите значение")
+    await state.set_state(AdminTourMode.set_new_value)
+    
+@admin_tour_handler.message(F.photo, StateFilter(AdminTourMode.set_new_value))
+@admin_tour_handler.message(F.text,StateFilter(AdminTourMode.set_new_value))
+async def set_value_for_param(message: Message, state:FSMContext, session:AsyncSession):
+    '''если фотку скинули то взять с нее ссылку, в остальных случаях берем текст сообщения'''
+    try:
+        # Определение нового значения
+        new_value = message.photo[-1].file_id if message.photo else message.text # на случай если фото отправят
+        await state.update_data(new_value=new_value)
+        update_info = await state.get_data()
+        # процесс обновления данных в БД
+        tour_db_manager = db_managers.TourManager()
+        result = await tour_db_manager.update_from_state(session, update_info)# берет все нобходимые данные из state и обновляет значеия в БД
+        back_kb = create_inline_kb([{'text':'назад', 'callback_data':f"show_tour_{update_info['id']}"}])
+        await state.clear()
+        if result:
+            await session.commit()
+            await message.answer("обновление параметра прошло успешно",reply_markup=back_kb)
+        else:
+            await message.answer("ОШибка при обновлении параметра, чекай логи", reply_markup=back_kb)
+    except Exception as err:
+        logger.error(f"Ошибка в хэндлере при изменении ппрпметров landmark : {err}")
+        await message.answer(f"Внутренняя лшибка в хэндлере :{err}", reply_markup=back_kb)
+        
+        
+#процесс удаление тура
 @admin_tour_handler.callback_query(F.data.startswith('delete_tour'))
-async def delete_current_landmark(callback: CallbackQuery, session : AsyncSession):
+async def activate_deleting_mode(callback: CallbackQuery):
+    '''админ выбрал удаление тура, нужно подтверждение дейтсвия(защита от дурака)'''
+    tour_id = int(callback.data.split('_')[-1])
+    yes_no_kb = create_inline_kb([{'text':'ДА,удалить','callback_data':f"confirm_deleting_tour_{tour_id}"},
+                                  {'text':'Нет, отмена', 'callback_data':f"show_tour_{tour_id}"}])
+    await callback.message.answer("Вы точно хотите удалить данный тур?", reply_markup=yes_no_kb)        
+        
+
+@admin_tour_handler.callback_query(F.data.startswith('confirm_deleting_tour'))
+async def delete_current_tour(callback: CallbackQuery, session : AsyncSession):
+    '''Действие когда юзер подтвердил удаление тура'''
     current_tour_id = int(callback.data.split('_')[-1])
     tour_db_manager = db_managers.TourManager()
     delete_result = await tour_db_manager.delete(session, current_tour_id)
     if delete_result:
         await session.commit() 
-        await callback.message.answer(f"Тур с id : {current_tour_id} удалена успешно")
+        await callback.answer(f"Тур с id : {current_tour_id} удалена успешно", show_alert=True)
     else:
         await callback.message.answer(f"Ошибка при удалении тура с id : {current_tour_id}, чекай логи")
+        
 
-@admin_tour_handler.message(F.text == "изменить тур")
-async def change_tour_mode(message: Message, state:FSMContext):
-    await message.answer("Активирован режим изменения текущего тура, выберите тур который хотите изменить")
-    await state.update_data(AdminTourMode.edit_select_product)
-    #добавить адаптивную клаву которая идет в бд и вытаскивает все туры их имена в текст inline кнопок а их id в callback кнопок
-
-@admin_tour_handler.callback_query(F.data.startswith('tour_'), StateFilter(AdminTourMode.edit_select_product))
-async def get_tour_for_change(callback: CallbackQuery, state:FSMContext):
-    product_id = int(callback.data.split('_')[-1])
-    await state.update_data(id=product_id)
-    await state.set_state(AdminTourMode.edit_choose_field)
-    await callback.message.answer("Товар для изменения выбран, введите поля для изменения") # тут клава будет адаптированная под столбцы текущего тура
     
-@admin_tour_handler.callback_query(F.data.startswith('edit_photo'), StateFilter(AdminTourMode.edit_choose_field))
-async def get_photo_for_change(callback: CallbackQuery, state:FSMContext):
-    img = callback.message.photo[-1]
-    img_id = img.file_id
-    await state.update_data(product_photo_id = img_id)
-    # процесс изменения полей
-    await callback.message.answer("выбранное поле успешно изменено, желаете изменить что то еще?") # тут клава будет адаптированная под столбцы текущего тура
+# @admin_tour_handler.callback_query(F.data.startswith('tour_'), StateFilter(AdminTourMode.edit_select_product))
+# async def get_tour_for_change(callback: CallbackQuery, state:FSMContext):
+#     product_id = int(callback.data.split('_')[-1])
+#     await state.update_data(id=product_id)
+#     await state.set_state(AdminTourMode.edit_choose_field)
+#     await callback.message.answer("Товар для изменения выбран, введите поля для изменения") # тут клава будет адаптированная под столбцы текущего тура
+    
+# @admin_tour_handler.callback_query(F.data.startswith('edit_photo'), StateFilter(AdminTourMode.edit_choose_field))
+# async def get_photo_for_change(callback: CallbackQuery, state:FSMContext):
+#     img = callback.message.photo[-1]
+#     img_id = img.file_id
+#     await state.update_data(product_photo_id = img_id)
+#     # процесс изменения полей
+#     await callback.message.answer("выбранное поле успешно изменено, желаете изменить что то еще?") # тут клава будет адаптированная под столбцы текущего тура
     
     
 
-@admin_tour_handler.callback_query(F.data.startswith('edit_'), StateFilter(AdminTourMode.edit_choose_field))
-async def get_field_for_change(callback: CallbackQuery, state:FSMContext):
-    await state.update_data()
-    # процесс изменения поля вставить
-    await state.clear()
-    await callback.message.answer("Товар для изменения выбран, введите поля для изменения") # тут клава будет адаптированная под столбцы текущего тура
-    
-    
 
 
 

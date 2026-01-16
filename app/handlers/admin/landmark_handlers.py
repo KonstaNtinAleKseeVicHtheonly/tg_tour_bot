@@ -5,6 +5,7 @@ from decimal import Decimal
 from aiogram.filters import CommandStart, CommandObject, Command, CommandObject, StateFilter,and_f,or_f
 #KB
 from app.keyboards.admin_kb.inline_keyboards import all_landmarks_kb, current_landmark_kb
+from app.keyboards.base_keyboards import create_inline_kb
 #FSM
 from aiogram.fsm.context import FSMContext
 from app.FSM.admin_states.states import  ChatMode, AdminLandMarkMode
@@ -88,7 +89,7 @@ async def set_landmark_description(message: Message, state:FSMContext):
     
 @admin_lm_handler.message(StateFilter(AdminLandMarkMode.create_description))
 async def wrong_description(message: Message, state:FSMContext):
-    await message.answer("Пожалуйста введите валидное текстовое описание товара")
+    await message.answer("Пожалуйста введите валидное текстовое описание тура")
        
     
 @admin_lm_handler.message(F.text,F.text.contains("http"),  StateFilter(AdminLandMarkMode.create_url))
@@ -132,7 +133,60 @@ async def set_landmark_image(message: Message, state:FSMContext, session: AsyncS
 @admin_lm_handler.message(StateFilter(AdminLandMarkMode.create_photo))
 async def wrong_picture(message: Message, state:FSMContext):
     await message.answer("Пожалуйста отправьте фотографию")
+
+
+@admin_lm_handler.callback_query(F.data.startswith('change_lm'))
+async def change_landmark_mode(callback: CallbackQuery, state:FSMContext, session:AsyncSession):
+    '''при нажатии на кнопку изменения определенной landmark'''
+    await state.clear()
+    lm_id = int(callback.data.split('_')[-1])
+    await state.set_state(AdminLandMarkMode.set_param_for_change)
+    lm_db_manager = db_managers.LandMarkManager()
+    all_params = lm_db_manager.show_model_columns_lst() # список всех стоблцов модели
+    await state.update_data(id=lm_id)
+    await state.update_data(table_columns = all_params)
+    msg_text = ',\n'.join(all_params)
+    await callback.message.answer(f"Активирован режим изменения достопримечательности, введите параметр для изменения:\n{msg_text}")
     
+    
+@admin_lm_handler.message(F.text,  StateFilter(AdminLandMarkMode.set_param_for_change))
+async def set_param_to_change(message: Message, state:FSMContext):
+    '''сообщение с именем параметра для изменения landmark'''
+    data = await state.get_data()
+    table_params = data.get('table_columns')
+    # небольшая проверка что бы параметры от админа соответс столбцам таблицы
+    if message.text.lower().strip() not in table_params:
+        await message.answer(f"Пожалуйста введите имя параметра из списка {'\n'.join(table_params)}")
+        return
+    await state.update_data(param=message.text.lower().strip())# имя параметра для изменения
+    await message.answer("Отлично, теперь введите значение")
+    await state.set_state(AdminLandMarkMode.set_new_value)
+    
+    
+@admin_lm_handler.message(F.photo, StateFilter(AdminLandMarkMode.set_new_value))
+@admin_lm_handler.message(F.text,StateFilter(AdminLandMarkMode.set_new_value))
+async def set_value_for_param(message: Message, state:FSMContext, session:AsyncSession):
+    '''если фотку скинули то взять с нее ссылку, в остальных случаях берем текст сообщения'''
+    try:
+        # Определение нового значения
+        new_value = message.photo[-1].file_id if message.photo else message.text # на случай если фото отправят
+        await state.update_data(new_value=new_value)
+        update_info = await state.get_data()
+        # процесс обновления данных в БД
+        lm_db_manager = db_managers.LandMarkManager()
+        result = await lm_db_manager.update_from_state(session, update_info)
+        back_kb = create_inline_kb([{'text':'назад', 'callback_data':f"show_landmark_{update_info['id']}"}])
+        await state.clear()
+        if result:
+            await session.commit()
+            await message.answer("обновление параметра прошло успешно",reply_markup=back_kb)
+        else:
+            await message.answer("ОШибка при обновлении параметра, чекай логи", reply_markup=back_kb)
+    except Exception as err:
+        logger.error(f"Ошибка в хэндлере при изменении ппрпметров landmark : {err}")
+        await message.answer(f"Внутренняя лшибка в хэндлере :{err}", reply_markup=back_kb)
+        
+        
 @admin_lm_handler.callback_query(F.data.startswith('delete_lm'))
 async def delete_current_landmark(callback: CallbackQuery, session : AsyncSession):
     current_lm_id = int(callback.data.split('_')[-1])
@@ -140,46 +194,10 @@ async def delete_current_landmark(callback: CallbackQuery, session : AsyncSessio
     delete_result = await lm_db_manager.delete(session, current_lm_id)
     if delete_result:
         await session.commit() 
-        await callback.message.answer(f"Достопримечательность с id : {current_lm_id} удалена успешно")
+        await callback.answer(f"Достопримечательность с id : {current_lm_id} удалена успешно", show_alert=True)
     else:
-        await callback.message.answer(f"Ошибка при удалении достопримечательности с id : {current_lm_id}, чекаай логи")
+        await callback.answer(f"Ошибка при удалении достопримечательности с id : {current_lm_id}, чекаай логи", show_alert=True)
     
-
-
-
-
-@admin_lm_handler.message(F.text == "изменить landmark")
-async def change_tour_mode(message: Message, state:FSMContext):
-    await message.answer("Активирован режим изменения текущего тура, выберите тур который хотите изменить")
-    await state.update_data(AdminLandMarkMode.edit_select_product)
-    #добавить адаптивную клаву которая идет в бд и вытаскивает все туры их имена в текст inline кнопок а их id в callback кнопок
-
-# @admin_lm_handler.callback_query(F.data.startswith('tour_'), StateFilter(AdminLandMarkMode.edit_select_lm))
-# async def get_tour_for_change(callback: CallbackQuery, state:FSMContext):
-#     product_id = int(callback.data.split('_')[-1])
-#     await state.update_data(id=product_id)
-#     await state.set_state(AdminLandMarkMode.edit_choose_field)
-#     await callback.message.answer("Товар для изменения выбран, введите поля для изменения") # тут клава будет адаптированная под столбцы текущего тура
-    
-# @admin_lm_handler.callback_query(F.data.startswith('edit_photo'), StateFilter(AdminLandMarkMode.edit_choose_field))
-# async def get_photo_for_change(callback: CallbackQuery, state:FSMContext):
-#     img = callback.message.photo[-1]
-#     img_id = img.file_id
-#     await state.update_data(product_photo_id = img_id)
-#     # процесс изменения полей
-#     await callback.message.answer("выбранное поле успешно изменено, желаете изменить что то еще?") # тут клава будет адаптированная под столбцы текущего тура
-    
-    
-
-# @admin_lm_handler.callback_query(F.data.startswith('edit_'), StateFilter(AdminLandMarkMode.edit_choose_field))
-# async def get_field_for_change(callback: CallbackQuery, state:FSMContext):
-#     await state.update_data()
-#     # процесс изменения поля вставить
-#     await state.clear()
-#     await callback.message.answer("Товар для изменения выбран, введите поля для изменения") # тут клава будет адаптированная под столбцы текущего тура
-    
-    
-
 
 
 
