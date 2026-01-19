@@ -12,7 +12,7 @@ from app.utils.bot_commands import set_public_commands
 from app.handlers.user.user_handlers import user_handler
 from app.handlers.tg_group.user_group import tg_group_handler
 
-from app.handlers.admin import admin_main_handler, admin_lm_handler, admin_tour_handler, admin_tour_lm_association_handler
+from app.handlers.admin import admin_main_handler, admin_lm_handler, admin_tour_handler, admin_tour_lm_association_handler, admin_banner_handler
  
 # database
 load_dotenv() # что бы переменне подгрузились на момент подключения файла, должно быть над конфигурацией подключени к БД!!!
@@ -66,8 +66,7 @@ async def main():
     bot = Bot(token=os.getenv('BOT_TOKEN'), default=DefaultBotProperties(parse_mode='HTML'))
     dp.startup.register(on_startup) # подключение к БД
     dp.shutdown.register(on_shutdown)
-    dp.include_routers(user_handler, admin_main_handler, admin_lm_handler, admin_tour_handler,admin_tour_lm_association_handler, tg_group_handler)
-    # dp.include_routers(user_handler, tg_group_handler)
+    dp.include_routers(user_handler, admin_main_handler, admin_lm_handler, admin_tour_handler,admin_tour_lm_association_handler, admin_banner_handler, tg_group_handler)
     dp.update.middleware(DBSession(session_pool=async_session)) # мидлварь на автоматическое создание сессии при работе с БД
 
     

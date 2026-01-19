@@ -19,17 +19,12 @@ from app.FSM.user_states.states import UserRegistration
 from aiogram.filters import StateFilter, or_f
 # системыне утилиты
 from project_logger.loger_configuration import setup_logging
-from datetime import datetime
-import asyncio
-import uuid
-import os
 from dotenv import load_dotenv
 
-# колбэки
-from aiogram.types import CallbackQuery
 # DB
 from app.database import db_managers
 from sqlalchemy.ext.asyncio import AsyncSession
+from app.database.db_queries import get_current_banner_query, get_current_lm_query, get_all_tours_query, get_current_tour_query, get_tour_landmarks_query, get_tour_detailed_info_query, check_user_existance, _create_new_user_query # слой абстракции для менеджера БД(маленькая связанность)
 logger = setup_logging()
 load_dotenv() # для подгрузки переменных из .env
 
@@ -38,7 +33,7 @@ load_dotenv() # для подгрузки переменных из .env
 user_handler = Router()
 # user_handler.message.filter(GroupFilter(['private']))
 
-# картинки сделать к гланому меню и промежутоынм поинтам(что бы не голые сообщения были)
+# картинки сделать к гланому меню и промежутоынм поинтам(что бы не голые сообщения были)  - сделано 
 #сделать пагинацию туров и достопримечательностей для юзера при просмотре их
 # сделать заказы - вариант заказать (допилить в модели тип оплаты), меню с увеличением мест в турах через кнопки
 # просмотр юзером своих заказов
@@ -50,8 +45,7 @@ async def initial_menu(message : Message, state:FSMContext, session: AsyncSessio
     по telegram_id)'''
     await state.clear()
     await message.delete()
-    user_db_manager = db_managers.UserManager()
-    if not await user_db_manager.exists(session, telegram_id=int(message.from_user.id)):
+    if not await check_user_existance(session, user_tg_id=int(message.from_user.id)):
         logger.warning('Новый юзер, регистрация в базе')
         await state.set_state(UserRegistration.set_phone_number)
         await message.answer("Я смортю ты тут новенький, сейчас зарегистрируем тебя")
@@ -61,14 +55,25 @@ async def initial_menu(message : Message, state:FSMContext, session: AsyncSessio
                             'last_name' : message.from_user.last_name}
         await state.update_data(**new_user_info)
         await message.answer("Укажите пожалуйста свой номер телефона или введите вручную", reply_markup= request_user_contact())
-    
-    else:
-        await message.answer(f"Привет {message.from_user.username}, чего изволите?", reply_markup=user_inline_main_menu)
+    else: # юзер уже есть в базе
+        main_theme = await get_current_banner_query(session)
+        if main_theme:# банер подгрузился все ок
+            await message.answer(f"Привет {message.from_user.username}")
+            await message.answer_photo(photo = main_theme.image,
+                                                caption = main_theme.description,
+                                                reply_markup = user_inline_main_menu)
+        else:# если банер не подгрузился 
+            await message.answer(f"Привет {message.from_user.username}, чего изволите?", reply_markup=user_inline_main_menu)
         
 @user_handler.callback_query(F.data=='user_main_menu')
-async def back_to_initial_menu(callback: CallbackQuery):
+async def back_to_initial_menu(callback: CallbackQuery, session:AsyncSession):
     '''что бы в  можно было возвращаться к изначальному меню'''
     await callback.message.delete()
+    main_theme = await get_current_banner_query(session)
+    if main_theme:# банео подгрузился все ок
+        await callback.message.answer_photo(photo = main_theme.image,caption = main_theme.description, reply_markup = user_inline_main_menu)
+    else:# если банер не подгрузился
+            await callback.message.answer(f"Привет {callback.message.from_user.username}, чего изволите?", reply_markup=user_inline_main_menu)
     await callback.message.answer("Вот список всех туров", reply_markup= user_inline_main_menu)
     
 @user_handler.message(F.contact,StateFilter(UserRegistration.set_phone_number))
@@ -105,9 +110,8 @@ async def invalid_number(message: Message):
 @user_handler.callback_query(F.data=='correct_number', StateFilter(UserRegistration.confirm_registation))
 async def finish_user_registration(callback: CallbackQuery, state:FSMContext, session:AsyncSession):
     '''после подвтерждения юзео своего номера через нажатие на кнопку завершаем процесс регистрации'''
-    user_db_manager = db_managers.UserManager()
     user_info = await state.get_data()
-    result = await user_db_manager.create(session,user_info)
+    result = await _create_new_user_query(session,user_info)
     if result:
         await session.commit()
         await callback.message.answer("Регистрация прошла успешно", reply_markup=user_inline_main_menu)
@@ -126,21 +130,27 @@ async def user_number_deny(callback: CallbackQuery, state:FSMContext, session:As
     
     
 @user_handler.callback_query(F.data=='about_company')
-async def show_about_company(callback: CallbackQuery):
+async def show_about_company(callback: CallbackQuery, session:AsyncSession):
     '''Инфа о компании(мб контакты владельца сделать через отдельную клаву)'''
     await callback.message.delete()
-    company_info = '''
-                    Мы создаём маршруты, где история оживает. Не просто экскурсии, а погружение в атмосферу Беларуси — от средневековых замков до современных арт-пространств.
-                    Наш подход:
-                    📍 Локации с характером — выбираем места, где чувствуется дух страны
-                    🕐 Продуманный тайминг — максимум впечатлений без усталости
-                    👥 Небольшие группы — персональное внимание каждому гостю
-                    🎯 Глубина вместо галочек — лучше узнать 5 мест, чем мельком увидеть 15
-                        Каждый тур — это история, которую вы увозите с собой.'''
     additional_kb = create_inline_kb([{'text':'Связаться с нами', 'callback_data':'boss_contacts'},
                                       {'text' : 'Вернуться назад','callback_data':'user_main_menu'}
                                       ])
-    await callback.message.answer(company_info, reply_markup= additional_kb) 
+    about_company_banner = await get_current_banner_query(session,banner_name='about_company')
+    if about_company_banner:
+        await callback.message.answer_photo(photo = about_company_banner.image,caption = about_company_banner.description, 
+                                            reply_markup = additional_kb)
+    else:
+        company_info = '''
+                        Мы создаём маршруты, где история оживает. Не просто экскурсии, а погружение в атмосферу Беларуси — от средневековых замков до современных арт-пространств.
+                        Наш подход:
+                        📍 Локации с характером — выбираем места, где чувствуется дух страны
+                        🕐 Продуманный тайминг — максимум впечатлений без усталости
+                        👥 Небольшие группы — персональное внимание каждому гостю
+                        🎯 Глубина вместо галочек — лучше узнать 5 мест, чем мельком увидеть 15
+                        Каждый тур — это история, которую вы увозите с собой.'''
+
+        await callback.message.answer(company_info, reply_markup= additional_kb) 
     
 @user_handler.callback_query(F.data=='boss_contacts')
 async def show_info_about_boss(callback: CallbackQuery):
@@ -159,17 +169,21 @@ async def show_info_about_boss(callback: CallbackQuery):
 @user_handler.callback_query(F.data=='show_all_tours')
 async def show_all_tours(callback: CallbackQuery, session : AsyncSession):
     await callback.message.delete()
-    tour_db_manager = db_managers.TourManager()
-    all_tours = await tour_db_manager.get_all(session)
-    await callback.message.answer("Вот список всех туров", reply_markup= await all_tours_kb(all_tours))
+    all_tours = await get_all_tours_query(session)
+    all_tours_banner = await get_current_banner_query(session, banner_name='tours_banner')
+    tours_kb = await all_tours_kb(all_tours)
+    if all_tours_banner:
+        await callback.message.answer_photo(photo = all_tours_banner.image,caption = all_tours_banner.description, 
+                                            reply_markup = tours_kb)
+    else:
+        await callback.message.answer("Вот список всех туров", reply_markup= tours_kb)
     
     
 @user_handler.callback_query(F.data.startswith('show_tour'))
 async def get_current_tour_info(callback: CallbackQuery, session:AsyncSession):
     await callback.message.delete()
     current_tour_id =  int(callback.data.split('_')[-1])
-    tour_db_manager = db_managers.TourManager()
-    current_tour= await tour_db_manager.get(session=session, id=current_tour_id)
+    current_tour= await get_current_tour_query(session, current_tour_id) 
     if not current_tour:
         back_to_common_info = create_inline_kb([{'text':'Назад', 'callback_data':'show_all_tours'}])
         await callback.message.asnwer("по данному туру нет информации к сожалению", reply_markup = back_to_common_info)
@@ -188,36 +202,39 @@ async def show_tour_detailed_info(callback: CallbackQuery, session : AsyncSessio
     await callback.message.delete()
     current_tour_id =  int(callback.data.split('_')[-1])
     back_to_common_info = create_inline_kb([{'text':'Назад', 'callback_data':f"show_tour_{current_tour_id}"}])
-    tour_db_manager = db_managers.TourManager()
-    current_tour= await tour_db_manager.get(session=session, id=current_tour_id)
+    current_tour= await get_current_tour_query(session=session, tour_id=current_tour_id) 
     if not current_tour:
         await callback.message.answer("Детальная информация по данной экскурсии пока что отсутствует",reply_markup=back_to_common_info)
     else:
-        detailed_info_2 = await tour_db_manager.show_detailed_info_for_user(session, current_id=current_tour_id, skip_fields=['description', 'id', 'updated_at', 'created_at', 'image_url'])
-
-        await callback.message.answer(detailed_info_2, reply_markup=back_to_common_info)
+        detailed_info = await get_tour_detailed_info_query(session, tour_id=current_tour_id, current_skip_fields=['description', 'id', 'updated_at', 'created_at', 'image_url'])
+        await callback.message.answer(detailed_info, reply_markup=back_to_common_info)
         
 @user_handler.callback_query(F.data.startswith("tour_landmarks"))
 async def show_tour_landmarks(callback: CallbackQuery, session : AsyncSession):
     '''покажет все связанные с Туром достопримечательности'''
     await callback.message.delete()
     tour_id = int(callback.data.split('_')[-1])
-    tour_lm_db_manager = db_managers.TourManager()
-    tour_landmarks = await tour_lm_db_manager.get_tour_landmarks(session, tour_id) # берем все landmarks связанные с данным туром по его id
 
-    await callback.message.answer("Список достопримечательностей по текущему туру:", reply_markup= await current_tour_landmarks_kb(tour_id, tour_landmarks)) # тут же передаем lanmarks для создания адаптивной клавиатуры
+    landmarks_banner = await get_current_banner_query(session, banner_name='all_lm_banner')
+    tour_landmarks = await get_tour_landmarks_query(session, tour_id) # берем все landmarks связанные с данным туром по его id
+    current_lms_kb = await current_tour_landmarks_kb(tour_id, tour_landmarks)
+    if landmarks_banner:
+        await callback.message.answer_photo(photo = landmarks_banner.image,caption = landmarks_banner.description, 
+                                            reply_markup = current_lms_kb)
+    else:
+        await callback.message.answer("Список достопримечательностей по текущему туру:", reply_markup= current_lms_kb) # тут же передаем lanmarks для создания адаптивной клавиатуры
         
         
         
         
 @user_handler.callback_query(F.data.startswith("show_landmark"))
 async def show_landmark_info(callback: CallbackQuery, session : AsyncSession):
+    '''по выбранному туру покажет все связанные с ним достопримечательнстти'''
     #в колбэке у нас id данной landmark и общей для данных landmarks тура, пришлось изъебнуться немного
     await callback.message.delete()
     landmarks_tour_id = int(callback.data.split('|')[-1].split('_')[-1]) #тур общий для данных достопримечательностей
     current_lm_id =  int(callback.data.split('|')[0].split('_')[-1]) # id выбранной Достопримечательности
-    lm_db_manager = db_managers.LandMarkManager()
-    current_landmark = await lm_db_manager.get(session=session, id=current_lm_id)
+    current_landmark = await get_current_lm_query(session=session, lm_id=current_lm_id)
     back_to_common_info = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Назад', callback_data=f"show_tour_{landmarks_tour_id}")]])
     if not current_landmark:
         await callback.message.answer(f"данная lm с id : {current_landmark} не найдена в базе", reply_markup=back_to_common_info)

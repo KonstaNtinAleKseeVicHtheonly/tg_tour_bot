@@ -29,7 +29,7 @@ async def all_landmarks_kb(all_lm):
     
     
 def current_landmark_kb(lm_id:int):
-    '''из базы берет по Id нужную достопримеательность и формирует клаву на изменение, обновление LM'''
+    '''берет по Id нужную достопримеательность и формирует клаву на изменение, обновление LM'''
     current_lm_kb = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text = 'изменить', callback_data=f"change_lm_{lm_id}"),InlineKeyboardButton(text = 'удалить', callback_data=f"delete_lm_{lm_id}")],
                                           [InlineKeyboardButton(text = 'назад', callback_data="show_all_lm")]])
     return current_lm_kb

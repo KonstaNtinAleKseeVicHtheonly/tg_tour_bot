@@ -29,13 +29,15 @@ admin_inline_interaction_kb = InlineKeyboardMarkup(
         [
             InlineKeyboardButton(text='показать туры', callback_data='show_all_tours'),
             InlineKeyboardButton(text='показать достопримечательности', callback_data='show_all_lm'),
-            InlineKeyboardButton(text='показать связи туров и landmarks', callback_data='show_all_associations')  
+            InlineKeyboardButton(text='показать связи туров и landmarks', callback_data='show_all_associations'),
+            InlineKeyboardButton(text='показать все банеры', callback_data='show_all_banners')   
             
         ],
         [
             InlineKeyboardButton(text='добавить тур', callback_data='create_tour'),
             InlineKeyboardButton(text='добавить достопримечательности', callback_data='create_lm'),
-            InlineKeyboardButton(text='создать связь тура и landmark', callback_data='create_association')
+            InlineKeyboardButton(text='создать связь тура и landmark', callback_data='create_association'),
+            InlineKeyboardButton(text='создать новый  банер', callback_data='create_banner')
             ],
         
         [

@@ -3,7 +3,7 @@ from .user_manager import UserManager
 from .tour_manager import TourManager
 from .order_manager import OrderManager
 from .tour_landmak_association_manager import TourLMAssociationManager
-
+from .banner_manager import BannerManager
 # Можно использовать __all__ для явного указания что экспортируется
 __all__ = [
     'BaseManager',
@@ -12,5 +12,6 @@ __all__ = [
     'OrderManager',
     'AdminManager',
     'LandMarkManager',
-    'TourLMAssociationManager'
+    'TourLMAssociationManager',
+    'BannerManager'
 ]

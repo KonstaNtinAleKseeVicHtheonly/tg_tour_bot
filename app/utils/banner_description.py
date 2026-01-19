@@ -17,6 +17,6 @@ description_for_info_pages = {
     "shipping": as_list(
         sep="\n----------------------\n",
     ).as_html(),
-    'catalog': 'Категории:',
+    'catalog': 'Туры:',
     'cart': 'В корзине ничего нет!'
 }

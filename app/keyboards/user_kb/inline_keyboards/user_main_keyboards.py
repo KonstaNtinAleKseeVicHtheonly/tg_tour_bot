@@ -1,9 +1,8 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from project_logger.loger_configuration import setup_logging
-from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import db_managers
-from keyboards.base_keyboards import create_inline_kb
+from app.keyboards.base_keyboards import create_inline_kb
 
 
 
@@ -22,12 +21,8 @@ user_inline_main_menu = InlineKeyboardMarkup(
     ]
 )
 
-async def main_menu_post():
-    '''возвращает фотку текст и клавиатуру для главного меню, видное юзеру'''
+    
 
 
-async def create_menu_content(session:AsyncSession, level:int, menu_name:str):
-    '''метод для генерации меню с фоткой текстом и клавой по заданным характеристикам'''
-    if level == 1:
         
     

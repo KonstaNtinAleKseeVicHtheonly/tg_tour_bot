@@ -96,3 +96,12 @@ class Admin_LM_Tour_Bound_Mode(StatesGroup):
     }
 class ChatMode(StatesGroup):
     waiting = State()
+    
+class AdminBannerMode(StatesGroup):
+    '''FSM класс для CRUD операций с банерами'''
+    # === СОЗДАНИЕ ТОВАРА ===
+    create_name = State()
+    create_img = State() # ссылка на url баннера
+    create_description = State()
+    #
+    waiting = State()
