@@ -35,7 +35,7 @@ async def get_all_tours_query(session:AsyncSession):
         logger.error(f"Ошибка при запросе по выводу ВСЕХ туров : {err}")
         return None
     
-async def get_tour_landmarks_query(session, tour_id:int):
+async def get_tour_landmarks_query(session:AsyncSession, tour_id:int):
     '''обращается к специальному методу менеджера который вывовдит все связанный с указанным туром(id)
      достопримечательности'''
     try: 
@@ -46,7 +46,7 @@ async def get_tour_landmarks_query(session, tour_id:int):
         logger.error(f"Ошибка при запросе по выводу ВСЕХ туров : {err}")
         return None
      
-async def get_tour_detailed_info_query(session, tour_id:int, current_skip_fields:list[str]):
+async def get_tour_detailed_info_query(session:AsyncSession, tour_id:int, current_skip_fields:list[str]):
     '''обращается к специальному методу менеджера который вывовдит все связанный с указанным туром(id)
      достопримечательности'''
     try: 
@@ -57,8 +57,24 @@ async def get_tour_detailed_info_query(session, tour_id:int, current_skip_fields
         logger.error(f"Ошибка при запросе по выводу ВСЕХ туров : {err}")
         return None
      
-
+async def can_book_query(session:AsyncSession, tour_id:int, place_quantity:int):
+    '''по указанному числу мест определяет можно ли заброинровать указаное количество'''
+    try: 
+        tour_db_manager = get_tour_manager()
+        booking_probability = await tour_db_manager.can_book(session, tour_id, place_quantity)
+        return booking_probability
+    except Exception as err:
+        logger.error(f"Ошибка при расчете возможности заброинровать {place_quantity} мест в туре : {err}")
+        return None
     
     
-    
-    
+async def calculate_total_price_query(session: AsyncSession, tour_id: int,place_number:int) -> int:
+        """Рассчитать общую стоимость исходя из заданного количества мест"""
+        try: 
+            tour_db_manager = get_tour_manager()
+            booking_probability = await tour_db_manager.calculate_total_price(session, tour_id, place_number)
+            return booking_probability
+        except Exception as err:
+            logger.error(f"Ошибка при расчете общей стоимости забронированных мест для тура : {err}")
+            return None
+        

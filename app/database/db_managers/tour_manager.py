@@ -57,3 +57,36 @@ class TourManager(BaseManager):
                 except Exception:
                         logger.error("Ошибка произошла при обновлении данных тура через админ панель в боте !")
                         return False
+
+        async def can_book(self,session: AsyncSession, tour_id: int, quantity: int) -> bool|tuple:
+                """Проверка возможности бронирования по переданному количесту мест"""
+                try:
+                        logger.info(f"начало проверки возможности заброинрвоать {quantity} мест")
+                        if quantity <= 0:
+                                return False, "Количество мест должно быть положительным"
+                        current_tour = await self.get(session, id=tour_id)
+                        if not current_tour:
+                                return current_tour # не найден тур с таким id
+                        if quantity > current_tour.max_people:
+                                logger.warning(f"Максимальное количество мест: {current_tour.max_people}")
+                                return False, f"В данном туре всего: {current_tour.max_people} мест, введите меньше"
+                        if quantity > (current_tour.max_people -current_tour.booked_seats):# количество доступных мест
+                                logger.warning("указанное количество мест превышает доступные места")
+                                return False, f"Осталось только {current_tour.max_people -current_tour.booked_seats} мест, введите меньшее количество"
+                        return True
+                except Exception as err:
+                        logger.error(f"Ошибка при расчете мест для броинрования юезра:{err}")
+                        return False, "Ошибка на стороне сервера, повторите бронирование позже"
+        
+        async def calculate_total_price(self,session: AsyncSession, tour_id: int,place_number:int) -> int:
+                """Рассчитать общую стоимость исходя из заданного количества мест"""
+                #!!! tour.price_per_persion - строковый вариант формата 200 byn !!!
+                current_tour = await self.get(session, id=tour_id)
+                if not current_tour:
+                        return current_tour # не найден тур с таким id
+                price_str = current_tour.price_per_person.split()[0]
+                if price_str.isdigit():
+                        price_value = int(price_str)
+                else:
+                        price_value = float(price_str)
+                return price_value * place_number

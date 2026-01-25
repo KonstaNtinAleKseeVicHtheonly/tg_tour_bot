@@ -39,28 +39,6 @@ tg_group_handler.message.filter(GroupFilter(['group','supergroup']))# прове
 
 
 
-# @tg_group_handler.message(Command('odmen'))
-# async def activate_admin_mode(message : Message, bot : Bot):
-#     '''активирует режим дмин панели даваю юзеру доп полномочия, если id юзера состоит в admin_id конечно'''
-#     is_admin = await check_admin(message)
-#     if not is_admin:
-#         await message.answer("Вы не обладаете полномочиями для данной команды")
-#         return
-#     logger.warning(f"Юзер : {message.from_user.username} с id {message.from_user.id} активировал режим админ панели")
-#     await message.delete()
-#     await message.answer("Режим админа усешно активирован")
-#     await message.answer("Что хотите выбрать?" , reply_markup=admin_reply_kb)
-
-# @tg_group_handler.message(Command('show_admins'))
-# async def show_group_admins(message : Message, bot : Bot):
-#     '''показывает всех юзеров и ботов группы с полночиями creator или administrator'''
-#     is_admin = await check_admin(message)
-#     if is_admin:
-#         admins_id_lst = await _get_admins_id()
-#         await message.answer(f"вот список с id всех админов : {'\n |'.join(admins_id_lst)}")
-#     else:
-#         await message.answer("Вы не обладаете полномочиями для данной команды")
-
 
 @tg_group_handler.edited_message()# на случай если отредактируют старые сообщения и запишут плохие слова
 @tg_group_handler.message(F.text)

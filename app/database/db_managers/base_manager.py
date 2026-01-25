@@ -99,11 +99,13 @@ class BaseManager:
         except Exception as err:
             logger.error(f"Ошибка при удалении строки по id {id} : {err}")
     
-    async def show_detailed_info_for_user(self, session : AsyncSession, current_id:int,skip_fields:list[str]):
+    async def show_detailed_info_for_user(self, session : AsyncSession, current_id:int,skip_fields:list[str]=None)->str:
         '''выведет строку с красивым отображением столбцов модели и их значений,
         кроме длинных занчений, таких как описание  и технической инфы(id, Дата создания и прочее)
         также передается список столбцов таблицы которые выводить не нужно (skip_fields которые)!!!'''
         try:
+            if skip_fields is None:
+                skip_fields = []
             logger.info(f"Вывод детальной инфы о строке в таблице {self.model.__name__ } по id : {current_id}")
             stmt = select(self.model).where(self.model.id==current_id)
             result = await session.execute(stmt)

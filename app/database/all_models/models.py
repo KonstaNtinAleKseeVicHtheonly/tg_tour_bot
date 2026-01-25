@@ -165,23 +165,6 @@ class Tour(Base):
         return self.max_people - self.booked_seats
 
     
-    def can_book(self, quantity: int) -> bool:
-        """Проверка возможности бронирования"""
-        if quantity <= 0:
-            return False, "Количество мест должно быть положительным"
-        
-        if quantity > self.max_people:
-            print(f"Максимальное количество мест: {self.max_people}")
-            return False
-        if quantity > self.booked_seats:
-            return False, f"Доступно только {self.booked_seats} мест"
-        
-        return True
-    
-    # def calculate_total_price(self, quantity: int) -> Decimal:
-    #     """Рассчитать общую стоимость"""
-    #     return self.price_per_person * Decimal(quantity)
-    
     def __repr__(self):
         return f"<Tour(id={self.id}, name='{self.name}', price={self.price_per_person})>"
 

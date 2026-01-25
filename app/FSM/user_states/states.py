@@ -9,11 +9,13 @@ class NewsLetter(StatesGroup):
 class NewOrder(StatesGroup):
     '''FSM для создания заказа(покупки тура)'''
     
-    select_tour = State()
-    select_place_number = State()
+    select_place_quantity = State() # количество мест
+    payment_type = State()
+    waiting = State()
     
 class UserRegistration(StatesGroup):
     '''FSM для регистрации юзера'''
     set_phone_number = State()
     confirm_registation = State()
+    waiting = State()
     # пока что всю инфу о юзере беру из message, потом мб доделать полноценный процесс регистрации

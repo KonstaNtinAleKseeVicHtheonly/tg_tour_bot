@@ -21,6 +21,7 @@ async def _create_new_user_query(session:AsyncSession, user_info:dict[str:str]):
     нового юзера с переданными в хэндлере параметрами'''
     '''обращается  к менеджеру БД банера и возвращает lm по id'''
     try: 
+        logger.info(f"Начало регистрации юзера с данными:{user_info}")
         user_db_manager = get_user_manager()
         creating_result = await user_db_manager.create(session, user_info)
         return creating_result
@@ -28,10 +29,11 @@ async def _create_new_user_query(session:AsyncSession, user_info:dict[str:str]):
         logger.error(f"Ошибка при создании нового юзера с инфой из FSM : {user_info} : {err}")
         return None
         
-async def get_current_user_query(session:AsyncSession, user_id:int):
+async def get_current_user_query(session:AsyncSession, **params):
     try: 
+        logger.warning(f"quey запрос на вывод юзера с параметрами {params}")
         user_db_manager = get_user_manager()
-        current_user = await user_db_manager.get(session, id=user_id)
+        current_user = await user_db_manager.get(session, **params)
         return current_user
     except Exception as err:
         logger.error(f"Ошибка при запросе по выводу ВСЕХ туров : {err}")
@@ -46,3 +48,16 @@ async def check_user_existance(session : AsyncSession, user_tg_id:int)->bool:
     except Exception as err:
         logger.error(f"Ошибка при запросе по выводу ВСЕХ туров : {err}")
         return None
+    
+async def get_user_orders_query(session:AsyncSession, **user_params):
+    '''по указанным параметрам показывает все заказа юзра'''
+    try: 
+        user_db_manager = get_user_manager()
+        all_orders = await user_db_manager.show_user_orders(session, **user_params)
+        return all_orders
+    except Exception as err:
+        logger.error(f"Ошибка при запросе по выводу ВСЕХ заказов юзера : {err}")
+        return None
+    
+    
+    
