@@ -3,7 +3,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from project_logger.loger_configuration import setup_logging
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import db_managers
-from app.database.all_models.models import Order
+from app.database.all_models.models import Order, OrderStatus
 
 
 
@@ -37,14 +37,19 @@ def all_user_orders_kb(all_orders:list[Order]=None):
         return InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text = 'Назад', callback_data="user_main_menu")]])
     all_orders_kb = InlineKeyboardBuilder()
     for order in all_orders:
-        all_orders_kb.add(InlineKeyboardButton(text = f"Заказ {order.tour.name}", callback_data=f"current_order_info_{order.id}"))
+        if order.status == OrderStatus.CANCELLED:
+            all_orders_kb.add(InlineKeyboardButton(text = f"Отмененный {order.tour.name}", callback_data=f"current_order_info_{order.id}"))
+        else:
+            all_orders_kb.add(InlineKeyboardButton(text = f"Актуальный {order.tour.name}", callback_data=f"current_order_info_{order.id}"))
     all_orders_kb.row(InlineKeyboardButton(text='назад',callback_data="user_main_menu"))
     return all_orders_kb.adjust(2).as_markup()
 
 def current_order_kb(current_order:Order):
     if current_order.status == 'pending':# пока заказ не оплчаен его ещ можно отменить
         return InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text = 'Назад', callback_data="user_main_menu")],
-                                                     [InlineKeyboardButton(text = 'Отменить', callback_data=f"cancel_order_{current_order.id}")]])
+                                                     [InlineKeyboardButton(text = 'Отменить', callback_data=f"cancel_order_{current_order.id}")],
+                                                     [InlineKeyboardButton(text = 'Изменить количество мест', callback_data=f"change_order_places_{current_order.id}")],
+                                                     ])
     return InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text = 'Назад', callback_data="user_main_menu")]])
 
 

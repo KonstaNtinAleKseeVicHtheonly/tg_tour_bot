@@ -20,7 +20,7 @@ from dotenv import load_dotenv
 # DB
 from app.database import db_managers
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database.db_queries import  get_current_tour_query, get_current_user_query, can_book_query, calculate_total_price_query, get_user_orders_query, get_current_order_query, show_order_detailed_info_query, cancel_order_query# слой абстракции для менеджера БД(маленькая связанность)
+from app.database.db_queries import get_current_banner_query, get_current_tour_query, get_current_user_query, can_book_query, calculate_total_price_query, get_user_orders_query, get_current_order_query, show_order_detailed_info_query, cancel_order_query, update_order_query# слой абстракции для менеджера БД(маленькая связанность)
 from app.database.all_models.models import OrderStatus
 logger = setup_logging()
 load_dotenv() # для подгрузки переменных из .env
@@ -28,18 +28,19 @@ load_dotenv() # для подгрузки переменных из .env
 
 
 user_order_handler = Router()
-# user_main_handler.message.filter(GroupFilter(['private']))
+user_order_handler.message.filter(GroupFilter(['private']))
 
 @user_order_handler.callback_query(F.data.startswith("buy_tour"))
 async def buy_current_tour(callback: CallbackQuery, state:FSMContext, session:AsyncSession):
     '''при нажатии кнопку купить  тур активируется fsm режим покупки тура с указанием мест, типом платежа и прочее'''
     await callback.message.delete()
     current_tour_id = int(callback.data.split('_')[-1])
+    
     await state.update_data(tour_id=current_tour_id)
     await state.set_state(NewOrder.select_place_quantity)
     await callback.message.answer("Укажите пожалуйста, сколько мест вы желаете приобрести")
     
-@user_order_handler.message(lambda msg:msg.text.isdigit() and int(msg.text)>0 , StateFilter(NewOrder.select_place_quantity))
+@user_order_handler.message(lambda msg:msg.text and msg.text.isdigit() and int(msg.text)>0 , StateFilter(NewOrder.select_place_quantity))
 async def get_places_quantity(message: Message, state:FSMContext, session:AsyncSession):
     order_data = await state.get_data()
     current_tour_id = order_data.get('tour_id')
@@ -74,19 +75,20 @@ async def set_order_with_cash(callback: CallbackQuery, state:FSMContext, session
     if not current_user:
         await callback.message.answer("Вас еще нет в базе, пожалуйста зарегестрируйтесь перед тем как делать заказ!")
         return
-        # Нужно!!! сделать клавиатуру, возвращающую к этапу регистрации(заменить команду start, на высплывающую пи заходе в чат  инлайн кнопку start, и перенести юзера туда)
     await state.update_data(user_id=current_user.id)
     await state.update_data(payment_id = order_db_manager.set_order_payment_id()) # уникальный id заказа
     # берем уже обновленные данные
     order_data = await state.get_data()
-    order_result = await order_db_manager.create(session, order_data) # создание заказа
+    order_result = await order_db_manager.create(session, order_data) # создание заказа, если все норм то вернет созданный заказ
     if order_result:
         current_tour = await get_current_tour_query(session, tour_id)
-        current_tour.booked_seats = order_data['quantity']# изменение забронированных мест в туре
+        current_tour.booked_seats += order_data['quantity']# изменение забронированных мест в туре
+        order_result.status = OrderStatus.PENDING # статус заказа меняем на рассмотрении
         await session.commit()
         final_kb = successful_order_kb(tour_id=tour_id, order_id=order_result.id)
-        await callback.message.answer("Ваши места упешно забронированы в туре", 
-                                      reply_markup= final_kb)# сделать потом подробную инфу о времени и месте встречи
+        purchase_banner = await get_current_banner_query(session, banner_name="purchase_banner")
+        await callback.message.answer_photo(photo = purchase_banner.image,caption = "Ваш заказ забронирован", 
+                                            reply_markup = final_kb)
         await state.clear()# не забывает очищать state
     else:
         await state.clear()# не забывает очищать state
@@ -95,6 +97,7 @@ async def set_order_with_cash(callback: CallbackQuery, state:FSMContext, session
         
 @user_order_handler.callback_query(F.data == "show_user_orders")
 async def show_user_orders(callback: CallbackQuery, session:AsyncSession):
+    '''покажет юзеру все его теущее заказаы'''
     await callback.message.delete()
     user_telegram_id = callback.from_user.id
     user_orders_result = await get_user_orders_query(session,telegram_id=user_telegram_id)
@@ -119,7 +122,7 @@ async def show_current_order(callback: CallbackQuery, session:AsyncSession):
             logger.warning("Не выыводим юзеру инфу об уже отмененном заказе")
             await callback.message.answer("Данный заказ был отменен, перезакажите его еще раз", show_alert=True, reply_markup=back_to_orders_kb)
             return
-        current_order_info = await show_order_detailed_info_query(session,current_id=current_order_id, skip_fields=['id','user_id','tour_id','payment_id'])
+        current_order_info = await show_order_detailed_info_query(session,current_order_id=current_order_id, skip_fields=['id','user_id','tour_id','payment_id'])
         await callback.message.answer(current_order_info , reply_markup=current_order_kb(user_order))
         
     
@@ -137,4 +140,59 @@ async def cancel_current_order(callback: CallbackQuery, session:AsyncSession):
         await callback.message.answer("Произошла ошибка при отмене заказа, повторите позже", reply_markup=back_to_orders_kb) 
     
     
+@user_order_handler.callback_query(F.data.startswith("change_order_places"))
+async def change_current_order_places(callback: CallbackQuery, state:FSMContext, session:AsyncSession):
+    current_order_id = int(callback.data.split('_')[-1])
+    current_order = await get_current_order_query(session,current_order_id)
+    # обработка случаем когда заказ выолнен или отменен
+    if current_order:
+        if current_order.status != OrderStatus.PENDING:# только количестов мест в неоплаченном заказе можно изменить!!!
+            await callback.message.answer("К сожалению можно изменить только неоплаченный заказ")
+        else:
+            await state.set_state(NewOrder.change_places)
+            # изменение мест в текущем заказе и его туре
+            current_tour = await get_current_tour_query(session, current_order.tour_id)#ищем тур по заказу
+            current_tour.booked_seats -= current_order.quantity # меняем количество занятых мест в туре
+            current_order.quantity = 1 # по умолчанию не может быть < 1
+            await session.commit()
+            # await session.refresh(current_order)
+            # await session.refresh(current_tour)
+            await state.update_data(order_id=current_order_id)# сохраним id тура и заказа в state для последующего изменения
+            await state.update_data(tour_id=current_tour.id)
+            await callback.message.answer("Введите новое количество мест для тура")
+    else:
+        await callback.message.answer("По данному заказу отсутсвует информация")
+        
+        
+@user_order_handler.message(lambda msg:msg.text and msg.text.isdigit() and int(msg.text)>0, StateFilter(NewOrder.change_places))
+async def complete_places_changing(message: Message, state:FSMContext, session:AsyncSession):
+    '''если юзер указал числовое значение'''
+    order_data = await state.get_data()
+    current_order_id = order_data.get('order_id')
+    current_tour_id = order_data.get('tour_id')
+    current_order = await get_current_order_query(session,order_id=current_order_id)
+    current_tour = await get_current_tour_query(session, tour_id=current_tour_id)
+    new_place_quantity = int(message.text)  # новое количество мест от юзера 
+    # проверка сможет ли юзер столько мест занять
+    #(-1 т.к по умолчанию уже одно стояло при обнулении старых мест заказа)
+    booking_probability = await can_book_query(session,current_order.tour_id,new_place_quantity-1)# если tuple вернет, значит False и сообщение об оошибке иначе True
+    if isinstance(booking_probability,tuple):# не получилось по указанной в tuple причине заказть user_booked_seats мест
+        await message.answer(booking_probability[-1])
+    else:
+        # расчет новой цены в зависимости от указанных мест
+        new_total_price_for_user = await calculate_total_price_query(session, current_order.tour_id, new_place_quantity) # стоимость одного места в туер на указанное количество мест
+        updated_result = await update_order_query(session, {'id':current_order.id}, {'quantity':new_place_quantity,'total_price':new_total_price_for_user})# обновление имеющихся даных
+        await state.clear()
+        if updated_result:
+            current_tour.booked_seats += new_place_quantity # в туре поменяю общее количество мест
+            await session.commit()
+            await message.answer(f'Количество мест успешно изменено на {new_place_quantity}', reply_markup=successful_order_kb(current_tour_id, current_order_id))
+        else:
+            await session.rollback()
+            await message.answer('Ошибка при изменении мест в заказе повторите позже')
+
+@user_order_handler.message(StateFilter(NewOrder.change_places))
+async def wrong_places_changing(message: Message):
+    '''если вместо количества мест ввел ишляпу какую то'''
+    await message.answer("Введите числовое значение мест, которые хотите забронировать")
         

@@ -1,290 +1,206 @@
-[2026-01-25 20:08:56,852] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
-[2026-01-25 20:08:56,852] #INFO     main.py:53 - project_logger.loger_configuration - Окончание работы бота
-[2026-01-25 20:08:56,853] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
-[2026-01-25 20:08:56,853] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
-[2026-01-25 20:08:57,105] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:08:57,107] #WARNING  main.py:86 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
-[2026-01-25 20:09:01,512] #INFO     main.py:84 - project_logger.loger_configuration - запуск основного цикла main
-[2026-01-25 20:09:01,912] #INFO     main.py:38 - project_logger.loger_configuration - Подключение к СУБД Postgres
-[2026-01-25 20:09:01,912] #INFO     db_engine.py:28 - project_logger.loger_configuration - ЗАпуск асинхронного движка для Postgres
-[2026-01-25 20:09:02,054] #WARNING  db_engine.py:33 - project_logger.loger_configuration - Текущая схема БД: public
-[2026-01-25 20:09:02,071] #INFO     main.py:45 - project_logger.loger_configuration - ПОдключение выполнено успешно
-[2026-01-25 20:09:02,071] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
-[2026-01-25 20:09:02,111] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:09:08,676] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
-[2026-01-25 20:09:08,676] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
-[2026-01-25 20:09:08,677] #WARNING  main_handlers.py:35 - project_logger.loger_configuration - Юзер : SPB_Kichin_Konstantin с id 778151623 активировал режим админ панели
-[2026-01-25 20:09:08,955] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128215 is handled. Duration 2327 ms by bot id=8494507714
-[2026-01-25 20:09:11,679] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128216 is handled. Duration 61 ms by bot id=8494507714
-[2026-01-25 20:09:16,281] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128217 is handled. Duration 140 ms by bot id=8494507714
-[2026-01-25 20:09:20,497] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 4} сущесвует в таблице Banner
-[2026-01-25 20:09:20,497] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:09:20,584] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128218 is handled. Duration 92 ms by bot id=8494507714
-[2026-01-25 20:09:22,493] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128219 is handled. Duration 78 ms by bot id=8494507714
-[2026-01-25 20:09:25,724] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
-[2026-01-25 20:09:25,724] #INFO     main.py:53 - project_logger.loger_configuration - Окончание работы бота
-[2026-01-25 20:09:25,724] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
-[2026-01-25 20:09:25,724] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
-[2026-01-25 20:09:25,989] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:09:25,990] #WARNING  main.py:87 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
-[2026-01-25 20:42:58,183] #INFO     main.py:84 - project_logger.loger_configuration - запуск основного цикла main
-[2026-01-25 20:42:58,754] #INFO     main.py:38 - project_logger.loger_configuration - Подключение к СУБД Postgres
-[2026-01-25 20:42:58,754] #INFO     db_engine.py:28 - project_logger.loger_configuration - ЗАпуск асинхронного движка для Postgres
-[2026-01-25 20:42:58,835] #WARNING  db_engine.py:33 - project_logger.loger_configuration - Текущая схема БД: public
-[2026-01-25 20:42:58,861] #INFO     main.py:45 - project_logger.loger_configuration - ПОдключение выполнено успешно
-[2026-01-25 20:42:58,861] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
-[2026-01-25 20:42:58,918] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:43:18,217] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
-[2026-01-25 20:43:18,218] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
-[2026-01-25 20:43:18,219] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
-[2026-01-25 20:43:18,219] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
-[2026-01-25 20:43:18,221] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
-[2026-01-25 20:43:18,221] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
-[2026-01-25 20:43:18,225] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
-[2026-01-25 20:43:18,226] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
-[2026-01-25 20:43:18,226] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
-[2026-01-25 20:43:18,226] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
-[2026-01-25 20:43:18,433] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:43:18,439] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
-[2026-01-25 20:43:18,439] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:43:18,633] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128220 is handled. Duration 2453 ms by bot id=8494507714
-[2026-01-25 20:43:34,183] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128221 is handled. Duration 110 ms by bot id=8494507714
-[2026-01-25 20:43:35,258] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
-[2026-01-25 20:43:35,258] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:43:35,345] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128222 is handled. Duration 94 ms by bot id=8494507714
-[2026-01-25 20:43:44,875] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128223 is handled. Duration 94 ms by bot id=8494507714
-[2026-01-25 20:43:46,119] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128224 is handled. Duration 78 ms by bot id=8494507714
-[2026-01-25 20:43:47,338] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128225 is handled. Duration 250 ms by bot id=8494507714
-[2026-01-25 20:43:50,534] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
-[2026-01-25 20:43:50,535] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
-[2026-01-25 20:43:50,535] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
-[2026-01-25 20:43:50,535] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
-[2026-01-25 20:43:50,539] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
-[2026-01-25 20:43:50,539] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
-[2026-01-25 20:43:50,542] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
-[2026-01-25 20:43:50,542] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
-[2026-01-25 20:43:50,544] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
-[2026-01-25 20:43:50,544] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
-[2026-01-25 20:43:50,607] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:43:50,609] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
-[2026-01-25 20:43:50,609] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:43:50,777] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128226 is handled. Duration 250 ms by bot id=8494507714
-[2026-01-25 20:43:53,662] #INFO     user_manager.py:23 - project_logger.loger_configuration - Поиск заказов юзера по его данным {'telegram_id': 778151623}
-[2026-01-25 20:43:53,664] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:43:53,665] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:43:53,707] #INFO     user_manager.py:37 - project_logger.loger_configuration - Успешно найдены заказы юзера, всего 2 шт.
-[2026-01-25 20:43:53,824] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128227 is handled. Duration 327 ms by bot id=8494507714
-[2026-01-25 20:44:00,661] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 4} сущесвует в таблице Order
-[2026-01-25 20:44:00,661] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:44:00,663] #WARNING  user_orders_handler.py:118 - project_logger.loger_configuration - Не выыводим юзеру инфу об уже отмененном заказе
-[2026-01-25 20:44:00,794] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128228 is handled. Duration 280 ms by bot id=8494507714
-[2026-01-25 20:44:39,974] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
-[2026-01-25 20:44:39,974] #INFO     main.py:53 - project_logger.loger_configuration - Окончание работы бота
-[2026-01-25 20:44:39,977] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
-[2026-01-25 20:44:39,977] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
-[2026-01-25 20:44:40,232] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:44:40,234] #WARNING  main.py:87 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
-[2026-01-25 20:44:58,262] #INFO     main.py:84 - project_logger.loger_configuration - запуск основного цикла main
-[2026-01-25 20:44:58,658] #INFO     main.py:38 - project_logger.loger_configuration - Подключение к СУБД Postgres
-[2026-01-25 20:44:58,659] #INFO     db_engine.py:28 - project_logger.loger_configuration - ЗАпуск асинхронного движка для Postgres
-[2026-01-25 20:44:58,700] #WARNING  db_engine.py:33 - project_logger.loger_configuration - Текущая схема БД: public
-[2026-01-25 20:44:58,718] #INFO     main.py:45 - project_logger.loger_configuration - ПОдключение выполнено успешно
-[2026-01-25 20:44:58,718] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
-[2026-01-25 20:44:58,763] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:45:04,064] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:45:04,069] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
-[2026-01-25 20:45:04,069] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:45:04,390] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128229 is handled. Duration 2688 ms by bot id=8494507714
-[2026-01-25 20:45:08,074] #INFO     user_manager.py:23 - project_logger.loger_configuration - Поиск заказов юзера по его данным {'telegram_id': 778151623}
-[2026-01-25 20:45:08,075] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:45:08,075] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:45:08,104] #INFO     user_manager.py:37 - project_logger.loger_configuration - Успешно найдены заказы юзера, всего 2 шт.
-[2026-01-25 20:45:08,203] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128230 is handled. Duration 202 ms by bot id=8494507714
-[2026-01-25 20:45:09,204] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 5} сущесвует в таблице Order
-[2026-01-25 20:45:09,204] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:45:09,205] #WARNING  user_orders_handler.py:118 - project_logger.loger_configuration - Не выыводим юзеру инфу об уже отмененном заказе
-[2026-01-25 20:45:09,331] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128231 is handled. Duration 264 ms by bot id=8494507714
-[2026-01-25 20:45:45,497] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
-[2026-01-25 20:45:45,498] #INFO     main.py:53 - project_logger.loger_configuration - Окончание работы бота
-[2026-01-25 20:45:45,499] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
-[2026-01-25 20:45:45,499] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
-[2026-01-25 20:45:45,757] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:45:45,759] #WARNING  main.py:87 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
-[2026-01-25 20:45:50,348] #INFO     main.py:84 - project_logger.loger_configuration - запуск основного цикла main
-[2026-01-25 20:45:50,768] #INFO     main.py:38 - project_logger.loger_configuration - Подключение к СУБД Postgres
-[2026-01-25 20:45:50,768] #INFO     db_engine.py:28 - project_logger.loger_configuration - ЗАпуск асинхронного движка для Postgres
-[2026-01-25 20:45:50,813] #WARNING  db_engine.py:33 - project_logger.loger_configuration - Текущая схема БД: public
-[2026-01-25 20:45:50,830] #INFO     main.py:45 - project_logger.loger_configuration - ПОдключение выполнено успешно
-[2026-01-25 20:45:50,830] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
-[2026-01-25 20:45:50,884] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:45:57,176] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:45:57,180] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
-[2026-01-25 20:45:57,180] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:45:57,352] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128232 is handled. Duration 2422 ms by bot id=8494507714
-[2026-01-25 20:46:00,709] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'tours_banner'} сущесвует в таблице Banner
-[2026-01-25 20:46:00,709] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:00,831] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128233 is handled. Duration 280 ms by bot id=8494507714
-[2026-01-25 20:46:02,598] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
-[2026-01-25 20:46:02,598] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:02,726] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128234 is handled. Duration 266 ms by bot id=8494507714
-[2026-01-25 20:46:06,780] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128235 is handled. Duration 265 ms by bot id=8494507714
-[2026-01-25 20:46:09,198] #INFO     tour_manager.py:64 - project_logger.loger_configuration - начало проверки возможности заброинрвоать 4 мест
-[2026-01-25 20:46:09,199] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
-[2026-01-25 20:46:09,200] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:09,202] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
-[2026-01-25 20:46:09,202] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:09,429] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128236 is handled. Duration 233 ms by bot id=8494507714
-[2026-01-25 20:46:11,273] #WARNING  user_orders_handler.py:66 - project_logger.loger_configuration - tg_id юзера 778151623!!!
-[2026-01-25 20:46:11,274] #WARNING  user_queries.py:34 - project_logger.loger_configuration - quey запрос на вывод юзера с параметрами {'telegram_id': 778151623}
-[2026-01-25 20:46:11,276] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:46:11,277] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:11,302] #WARNING  base_manager.py:139 - project_logger.loger_configuration - Объект с параметрами {'tour_id': 3, 'total_price': 600, 'quantity': 4, 'payment_type': 'cash', 'user_id': 8, 'payment_id': 'acea79da-7b98-481c-a1f6-779e3e04346c'} не существует в таюлице Order
-[2026-01-25 20:46:11,302] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:11,317] #INFO     base_manager.py:63 - project_logger.loger_configuration - строк создана успешно в таблице Order с данными {'tour_id': 3, 'total_price': 600, 'quantity': 4, 'payment_type': 'cash', 'user_id': 8, 'payment_id': 'acea79da-7b98-481c-a1f6-779e3e04346c'}
-[2026-01-25 20:46:11,319] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
-[2026-01-25 20:46:11,319] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:11,400] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128237 is handled. Duration 125 ms by bot id=8494507714
-[2026-01-25 20:46:14,641] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
-[2026-01-25 20:46:14,641] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:14,643] #INFO     base_manager.py:109 - project_logger.loger_configuration - Вывод детальной инфы о строке в таблице Tour по id : 3
-[2026-01-25 20:46:14,739] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128238 is handled. Duration 203 ms by bot id=8494507714
-[2026-01-25 20:46:18,963] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
-[2026-01-25 20:46:18,963] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:19,043] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128239 is handled. Duration 155 ms by bot id=8494507714
-[2026-01-25 20:46:21,941] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
-[2026-01-25 20:46:21,942] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:21,943] #INFO     base_manager.py:109 - project_logger.loger_configuration - Вывод детальной инфы о строке в таблице Tour по id : 3
-[2026-01-25 20:46:22,074] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128240 is handled. Duration 264 ms by bot id=8494507714
-[2026-01-25 20:46:24,083] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
-[2026-01-25 20:46:24,083] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:24,194] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128241 is handled. Duration 188 ms by bot id=8494507714
-[2026-01-25 20:46:25,584] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'all_lm_banner'} сущесвует в таблице Banner
-[2026-01-25 20:46:25,584] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:25,584] #INFO     tour_manager.py:23 - project_logger.loger_configuration - ПОлучение landmarks, связанных с туром по его id : 3
-[2026-01-25 20:46:25,599] #INFO     tour_manager.py:40 - project_logger.loger_configuration - для тура с id : 3 найдены lanmdarks
-[2026-01-25 20:46:25,697] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128242 is handled. Duration 172 ms by bot id=8494507714
-[2026-01-25 20:46:27,488] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 2} сущесвует в таблице Landmark
-[2026-01-25 20:46:27,489] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:27,574] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128243 is handled. Duration 155 ms by bot id=8494507714
-[2026-01-25 20:46:32,761] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
-[2026-01-25 20:46:32,761] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:46:32,888] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128244 is handled. Duration 250 ms by bot id=8494507714
-[2026-01-25 20:46:44,095] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
-[2026-01-25 20:46:44,095] #INFO     main.py:53 - project_logger.loger_configuration - Окончание работы бота
-[2026-01-25 20:46:44,096] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
-[2026-01-25 20:46:44,096] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
-[2026-01-25 20:46:44,348] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:46:44,351] #WARNING  main.py:87 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
-[2026-01-25 20:48:24,202] #INFO     main.py:84 - project_logger.loger_configuration - запуск основного цикла main
-[2026-01-25 20:48:24,685] #INFO     main.py:38 - project_logger.loger_configuration - Подключение к СУБД Postgres
-[2026-01-25 20:48:24,685] #INFO     db_engine.py:28 - project_logger.loger_configuration - ЗАпуск асинхронного движка для Postgres
-[2026-01-25 20:48:24,828] #WARNING  db_engine.py:33 - project_logger.loger_configuration - Текущая схема БД: public
-[2026-01-25 20:48:24,844] #INFO     main.py:45 - project_logger.loger_configuration - ПОдключение выполнено успешно
-[2026-01-25 20:48:24,844] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
-[2026-01-25 20:48:24,902] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:48:32,367] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:48:32,372] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
-[2026-01-25 20:48:32,372] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:48:32,669] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128245 is handled. Duration 2546 ms by bot id=8494507714
-[2026-01-25 20:48:34,493] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128246 is not handled. Duration 0 ms by bot id=8494507714
-[2026-01-25 20:48:36,608] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'tours_banner'} сущесвует в таблице Banner
-[2026-01-25 20:48:36,609] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:48:36,725] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128247 is handled. Duration 188 ms by bot id=8494507714
-[2026-01-25 20:48:38,100] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
-[2026-01-25 20:48:38,100] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:48:38,284] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128248 is handled. Duration 250 ms by bot id=8494507714
-[2026-01-25 20:48:48,734] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'about_company'} сущесвует в таблице Banner
-[2026-01-25 20:48:48,734] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:48:48,994] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128249 is handled. Duration 344 ms by bot id=8494507714
-[2026-01-25 20:48:56,180] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128250 is handled. Duration 280 ms by bot id=8494507714
-[2026-01-25 20:48:57,892] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
-[2026-01-25 20:48:57,892] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:48:58,138] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128251 is handled. Duration 327 ms by bot id=8494507714
-[2026-01-25 20:48:59,851] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'tours_banner'} сущесвует в таблице Banner
-[2026-01-25 20:48:59,851] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:49:00,044] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128252 is handled. Duration 358 ms by bot id=8494507714
-[2026-01-25 20:49:01,576] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
-[2026-01-25 20:49:01,576] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:49:01,780] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128253 is handled. Duration 280 ms by bot id=8494507714
-[2026-01-25 20:49:02,951] #INFO     user_manager.py:23 - project_logger.loger_configuration - Поиск заказов юзера по его данным {'telegram_id': 778151623}
-[2026-01-25 20:49:02,953] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:49:02,953] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:49:02,980] #INFO     user_manager.py:37 - project_logger.loger_configuration - Успешно найдены заказы юзера, всего 3 шт.
-[2026-01-25 20:49:03,072] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128254 is handled. Duration 188 ms by bot id=8494507714
-[2026-01-25 20:49:04,300] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 5} сущесвует в таблице Order
-[2026-01-25 20:49:04,300] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:49:04,302] #WARNING  user_orders_handler.py:119 - project_logger.loger_configuration - Не выыводим юзеру инфу об уже отмененном заказе
-[2026-01-25 20:49:04,413] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128255 is handled. Duration 203 ms by bot id=8494507714
-[2026-01-25 20:49:49,515] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
-[2026-01-25 20:49:49,516] #INFO     main.py:53 - project_logger.loger_configuration - Окончание работы бота
-[2026-01-25 20:49:49,516] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
-[2026-01-25 20:49:49,516] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
-[2026-01-25 20:49:49,774] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:49:49,777] #WARNING  main.py:87 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
-[2026-01-25 20:49:54,847] #INFO     main.py:84 - project_logger.loger_configuration - запуск основного цикла main
-[2026-01-25 20:49:55,494] #INFO     main.py:38 - project_logger.loger_configuration - Подключение к СУБД Postgres
-[2026-01-25 20:49:55,494] #INFO     db_engine.py:28 - project_logger.loger_configuration - ЗАпуск асинхронного движка для Postgres
-[2026-01-25 20:49:55,535] #WARNING  db_engine.py:33 - project_logger.loger_configuration - Текущая схема БД: public
-[2026-01-25 20:49:55,551] #INFO     main.py:45 - project_logger.loger_configuration - ПОдключение выполнено успешно
-[2026-01-25 20:49:55,551] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
-[2026-01-25 20:49:55,607] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:50:00,127] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:50:00,132] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
-[2026-01-25 20:50:00,132] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:50:00,337] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128256 is handled. Duration 2389 ms by bot id=8494507714
-[2026-01-25 20:50:02,235] #INFO     user_manager.py:23 - project_logger.loger_configuration - Поиск заказов юзера по его данным {'telegram_id': 778151623}
-[2026-01-25 20:50:02,237] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:50:02,237] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:50:02,269] #INFO     user_manager.py:37 - project_logger.loger_configuration - Успешно найдены заказы юзера, всего 3 шт.
-[2026-01-25 20:50:02,358] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128257 is handled. Duration 219 ms by bot id=8494507714
-[2026-01-25 20:50:03,239] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 5} сущесвует в таблице Order
-[2026-01-25 20:50:03,239] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:50:03,242] #WARNING  user_orders_handler.py:119 - project_logger.loger_configuration - Не выыводим юзеру инфу об уже отмененном заказе
-[2026-01-25 20:50:03,309] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128258 is handled. Duration 141 ms by bot id=8494507714
-[2026-01-25 20:50:42,026] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
-[2026-01-25 20:50:42,026] #INFO     main.py:53 - project_logger.loger_configuration - Окончание работы бота
-[2026-01-25 20:50:42,026] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
-[2026-01-25 20:50:42,026] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
-[2026-01-25 20:50:42,287] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:50:42,288] #WARNING  main.py:87 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
-[2026-01-25 20:50:48,818] #INFO     main.py:84 - project_logger.loger_configuration - запуск основного цикла main
-[2026-01-25 20:50:49,325] #INFO     main.py:38 - project_logger.loger_configuration - Подключение к СУБД Postgres
-[2026-01-25 20:50:49,325] #INFO     db_engine.py:28 - project_logger.loger_configuration - ЗАпуск асинхронного движка для Postgres
-[2026-01-25 20:50:49,471] #WARNING  db_engine.py:33 - project_logger.loger_configuration - Текущая схема БД: public
-[2026-01-25 20:50:49,491] #INFO     main.py:45 - project_logger.loger_configuration - ПОдключение выполнено успешно
-[2026-01-25 20:50:49,491] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
-[2026-01-25 20:50:49,554] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:50:51,830] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:50:51,834] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
-[2026-01-25 20:50:51,834] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:50:51,981] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128259 is handled. Duration 2359 ms by bot id=8494507714
-[2026-01-25 20:50:53,614] #INFO     user_manager.py:23 - project_logger.loger_configuration - Поиск заказов юзера по его данным {'telegram_id': 778151623}
-[2026-01-25 20:50:53,615] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:50:53,616] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:50:53,645] #INFO     user_manager.py:37 - project_logger.loger_configuration - Успешно найдены заказы юзера, всего 3 шт.
-[2026-01-25 20:50:53,738] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128260 is handled. Duration 203 ms by bot id=8494507714
-[2026-01-25 20:50:54,937] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 4} сущесвует в таблице Order
-[2026-01-25 20:50:54,937] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:50:54,940] #WARNING  user_orders_handler.py:119 - project_logger.loger_configuration - Не выыводим юзеру инфу об уже отмененном заказе
-[2026-01-25 20:50:55,016] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128261 is handled. Duration 171 ms by bot id=8494507714
-[2026-01-25 20:50:58,487] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
-[2026-01-25 20:50:58,488] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:50:58,663] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128262 is handled. Duration 234 ms by bot id=8494507714
-[2026-01-25 20:50:59,714] #INFO     user_manager.py:23 - project_logger.loger_configuration - Поиск заказов юзера по его данным {'telegram_id': 778151623}
-[2026-01-25 20:50:59,716] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
-[2026-01-25 20:50:59,716] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:50:59,723] #INFO     user_manager.py:37 - project_logger.loger_configuration - Успешно найдены заказы юзера, всего 3 шт.
-[2026-01-25 20:50:59,794] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128263 is handled. Duration 140 ms by bot id=8494507714
-[2026-01-25 20:51:00,617] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 5} сущесвует в таблице Order
-[2026-01-25 20:51:00,618] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:51:00,619] #WARNING  user_orders_handler.py:119 - project_logger.loger_configuration - Не выыводим юзеру инфу об уже отмененном заказе
-[2026-01-25 20:51:00,704] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128264 is handled. Duration 171 ms by bot id=8494507714
-[2026-01-25 20:51:02,889] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
-[2026-01-25 20:51:02,889] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
-[2026-01-25 20:51:03,159] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128265 is handled. Duration 390 ms by bot id=8494507714
-[2026-01-25 20:51:49,030] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
-[2026-01-25 20:51:49,030] #INFO     main.py:53 - project_logger.loger_configuration - Окончание работы бота
-[2026-01-25 20:51:49,031] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
-[2026-01-25 20:51:49,031] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
-[2026-01-25 20:51:49,283] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
-[2026-01-25 20:51:49,285] #WARNING  main.py:87 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
+[2026-01-26 22:06:40,932] #INFO     main.py:84 - project_logger.loger_configuration - запуск основного цикла main
+[2026-01-26 22:06:42,462] #INFO     main.py:38 - project_logger.loger_configuration - Подключение к СУБД Postgres
+[2026-01-26 22:06:42,463] #INFO     db_engine.py:28 - project_logger.loger_configuration - ЗАпуск асинхронного движка для Postgres
+[2026-01-26 22:06:42,560] #WARNING  db_engine.py:33 - project_logger.loger_configuration - Текущая схема БД: public
+[2026-01-26 22:06:42,606] #INFO     main.py:45 - project_logger.loger_configuration - ПОдключение выполнено успешно
+[2026-01-26 22:06:42,606] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
+[2026-01-26 22:06:42,770] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2026-01-26 22:06:56,819] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
+[2026-01-26 22:06:56,828] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
+[2026-01-26 22:06:56,828] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:06:57,329] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128351 is handled. Duration 3297 ms by bot id=8494507714
+[2026-01-26 22:07:06,629] #INFO     user_manager.py:23 - project_logger.loger_configuration - Поиск заказов юзера по его данным {'telegram_id': 778151623}
+[2026-01-26 22:07:06,632] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
+[2026-01-26 22:07:06,632] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:06,674] #INFO     user_manager.py:37 - project_logger.loger_configuration - Успешно найдены заказы юзера, всего 1 шт.
+[2026-01-26 22:07:07,045] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128352 is handled. Duration 625 ms by bot id=8494507714
+[2026-01-26 22:07:09,910] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 9} сущесвует в таблице Order
+[2026-01-26 22:07:09,910] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:09,913] #INFO     base_manager.py:109 - project_logger.loger_configuration - Вывод детальной инфы о строке в таблице Order по id : 9
+[2026-01-26 22:07:10,118] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128353 is handled. Duration 515 ms by bot id=8494507714
+[2026-01-26 22:07:18,009] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 9} сущесвует в таблице Order
+[2026-01-26 22:07:18,009] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:18,014] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
+[2026-01-26 22:07:18,015] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:18,226] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128354 is handled. Duration 234 ms by bot id=8494507714
+[2026-01-26 22:07:21,081] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 9} сущесвует в таблице Order
+[2026-01-26 22:07:21,081] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:21,085] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
+[2026-01-26 22:07:21,085] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:21,086] #INFO     tour_manager.py:64 - project_logger.loger_configuration - начало проверки возможности заброинрвоать 298 мест
+[2026-01-26 22:07:21,088] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
+[2026-01-26 22:07:21,088] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:21,090] #WARNING  tour_manager.py:71 - project_logger.loger_configuration - Максимальное количество мест: 20
+[2026-01-26 22:07:21,892] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128355 is handled. Duration 811 ms by bot id=8494507714
+[2026-01-26 22:07:28,753] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 9} сущесвует в таблице Order
+[2026-01-26 22:07:28,753] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:28,756] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
+[2026-01-26 22:07:28,756] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:28,757] #INFO     tour_manager.py:64 - project_logger.loger_configuration - начало проверки возможности заброинрвоать 11 мест
+[2026-01-26 22:07:28,758] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
+[2026-01-26 22:07:28,758] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:28,761] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
+[2026-01-26 22:07:28,761] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:28,762] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:28,763] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:28,764] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 9} сущесвует в таблице Order
+[2026-01-26 22:07:28,764] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:07:29,156] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128356 is handled. Duration 405 ms by bot id=8494507714
+[2026-01-26 22:10:18,592] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
+[2026-01-26 22:10:18,592] #INFO     main.py:53 - project_logger.loger_configuration - Окончание работы бота
+[2026-01-26 22:10:18,593] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+[2026-01-26 22:10:18,593] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
+[2026-01-26 22:10:18,858] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2026-01-26 22:10:18,861] #WARNING  main.py:87 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
+[2026-01-26 22:11:13,144] #INFO     main.py:84 - project_logger.loger_configuration - запуск основного цикла main
+[2026-01-26 22:11:14,440] #INFO     main.py:38 - project_logger.loger_configuration - Подключение к СУБД Postgres
+[2026-01-26 22:11:14,440] #INFO     db_engine.py:28 - project_logger.loger_configuration - ЗАпуск асинхронного движка для Postgres
+[2026-01-26 22:11:14,498] #WARNING  db_engine.py:33 - project_logger.loger_configuration - Текущая схема БД: public
+[2026-01-26 22:11:14,523] #INFO     main.py:45 - project_logger.loger_configuration - ПОдключение выполнено успешно
+[2026-01-26 22:11:14,523] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
+[2026-01-26 22:11:14,748] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2026-01-26 22:11:20,405] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
+[2026-01-26 22:11:20,405] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:11:20,792] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128357 is handled. Duration 2875 ms by bot id=8494507714
+[2026-01-26 22:11:40,255] #INFO     user_manager.py:23 - project_logger.loger_configuration - Поиск заказов юзера по его данным {'telegram_id': 778151623}
+[2026-01-26 22:11:40,262] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
+[2026-01-26 22:11:40,262] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:11:40,302] #INFO     user_manager.py:37 - project_logger.loger_configuration - Успешно найдены заказы юзера, всего 1 шт.
+[2026-01-26 22:11:40,454] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128358 is handled. Duration 313 ms by bot id=8494507714
+[2026-01-26 22:11:41,785] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 9} сущесвует в таблице Order
+[2026-01-26 22:11:41,785] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:11:41,788] #INFO     base_manager.py:109 - project_logger.loger_configuration - Вывод детальной инфы о строке в таблице Order по id : 9
+[2026-01-26 22:11:41,989] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128359 is handled. Duration 405 ms by bot id=8494507714
+[2026-01-26 22:11:43,734] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 9} сущесвует в таблице Order
+[2026-01-26 22:11:43,735] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:11:43,741] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
+[2026-01-26 22:11:43,741] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:11:43,958] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128360 is handled. Duration 219 ms by bot id=8494507714
+[2026-01-26 22:11:57,456] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 9} сущесвует в таблице Order
+[2026-01-26 22:11:57,456] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:11:57,457] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
+[2026-01-26 22:11:57,459] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:11:57,460] #INFO     tour_manager.py:64 - project_logger.loger_configuration - начало проверки возможности заброинрвоать 9 мест
+[2026-01-26 22:11:57,461] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
+[2026-01-26 22:11:57,462] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:11:57,464] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 3} сущесвует в таблице Tour
+[2026-01-26 22:11:57,464] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:11:57,465] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:11:57,466] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:11:57,467] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 9} сущесвует в таблице Order
+[2026-01-26 22:11:57,467] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:11:57,755] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128361 is handled. Duration 296 ms by bot id=8494507714
+[2026-01-26 22:15:43,550] #INFO     user_manager.py:23 - project_logger.loger_configuration - Поиск заказов юзера по его данным {'telegram_id': 778151623}
+[2026-01-26 22:15:43,553] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
+[2026-01-26 22:15:43,553] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:15:43,558] #INFO     user_manager.py:37 - project_logger.loger_configuration - Успешно найдены заказы юзера, всего 1 шт.
+[2026-01-26 22:15:43,826] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128362 is handled. Duration 578 ms by bot id=8494507714
+[2026-01-26 22:22:58,191] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
+[2026-01-26 22:22:58,191] #INFO     main.py:53 - project_logger.loger_configuration - Окончание работы бота
+[2026-01-26 22:22:58,193] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+[2026-01-26 22:22:58,194] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
+[2026-01-26 22:22:58,450] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2026-01-26 22:22:58,452] #WARNING  main.py:87 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
+[2026-01-26 22:23:19,450] #INFO     main.py:84 - project_logger.loger_configuration - запуск основного цикла main
+[2026-01-26 22:23:21,079] #INFO     main.py:38 - project_logger.loger_configuration - Подключение к СУБД Postgres
+[2026-01-26 22:23:21,079] #INFO     db_engine.py:28 - project_logger.loger_configuration - ЗАпуск асинхронного движка для Postgres
+[2026-01-26 22:23:21,133] #WARNING  db_engine.py:33 - project_logger.loger_configuration - Текущая схема БД: public
+[2026-01-26 22:23:21,156] #INFO     main.py:45 - project_logger.loger_configuration - ПОдключение выполнено успешно
+[2026-01-26 22:23:21,157] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
+[2026-01-26 22:23:21,283] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2026-01-26 22:23:28,683] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
+[2026-01-26 22:23:28,689] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
+[2026-01-26 22:23:28,689] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:23:29,067] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128363 is handled. Duration 2952 ms by bot id=8494507714
+[2026-01-26 22:23:31,422] #INFO     user_manager.py:23 - project_logger.loger_configuration - Поиск заказов юзера по его данным {'telegram_id': 778151623}
+[2026-01-26 22:23:31,425] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
+[2026-01-26 22:23:31,425] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:23:31,463] #INFO     user_manager.py:37 - project_logger.loger_configuration - Успешно найдены заказы юзера, всего 1 шт.
+[2026-01-26 22:23:31,946] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128364 is handled. Duration 719 ms by bot id=8494507714
+[2026-01-26 22:23:34,293] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 9} сущесвует в таблице Order
+[2026-01-26 22:23:34,294] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:23:34,296] #INFO     base_manager.py:109 - project_logger.loger_configuration - Вывод детальной инфы о строке в таблице Order по id : 9
+[2026-01-26 22:23:34,603] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128365 is handled. Duration 516 ms by bot id=8494507714
+[2026-01-26 22:23:36,030] #INFO     order_manager.py:48 - project_logger.loger_configuration - Начало процесса отмены заказа order9
+[2026-01-26 22:23:36,030] #WARNING  order_manager.py:52 - project_logger.loger_configuration - Указан id заказа
+[2026-01-26 22:23:36,032] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 9} сущесвует в таблице Order
+[2026-01-26 22:23:36,033] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:23:36,035] #WARNING  order_manager.py:64 - project_logger.loger_configuration - Статус заказа 9 переведен на cancelled
+[2026-01-26 22:23:36,268] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128366 is handled. Duration 436 ms by bot id=8494507714
+[2026-01-26 22:23:37,976] #INFO     user_manager.py:23 - project_logger.loger_configuration - Поиск заказов юзера по его данным {'telegram_id': 778151623}
+[2026-01-26 22:23:37,978] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
+[2026-01-26 22:23:37,979] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:23:37,984] #INFO     user_manager.py:37 - project_logger.loger_configuration - Успешно найдены заказы юзера, всего 1 шт.
+[2026-01-26 22:23:38,287] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128367 is handled. Duration 594 ms by bot id=8494507714
+[2026-01-26 22:23:41,459] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'id': 9} сущесвует в таблице Order
+[2026-01-26 22:23:41,459] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:23:41,461] #WARNING  user_orders_handler.py:122 - project_logger.loger_configuration - Не выыводим юзеру инфу об уже отмененном заказе
+[2026-01-26 22:23:41,663] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128368 is handled. Duration 484 ms by bot id=8494507714
+[2026-01-26 22:23:45,143] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
+[2026-01-26 22:23:45,144] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:23:45,759] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128369 is handled. Duration 828 ms by bot id=8494507714
+[2026-01-26 22:32:05,952] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
+[2026-01-26 22:32:05,953] #INFO     main.py:53 - project_logger.loger_configuration - Окончание работы бота
+[2026-01-26 22:32:05,953] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+[2026-01-26 22:32:05,953] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
+[2026-01-26 22:32:06,213] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2026-01-26 22:32:06,215] #WARNING  main.py:87 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
+[2026-01-26 22:32:45,582] #INFO     main.py:84 - project_logger.loger_configuration - запуск основного цикла main
+[2026-01-26 22:32:46,845] #INFO     main.py:38 - project_logger.loger_configuration - Подключение к СУБД Postgres
+[2026-01-26 22:32:46,846] #INFO     db_engine.py:28 - project_logger.loger_configuration - ЗАпуск асинхронного движка для Postgres
+[2026-01-26 22:32:46,903] #WARNING  db_engine.py:33 - project_logger.loger_configuration - Текущая схема БД: public
+[2026-01-26 22:32:46,926] #INFO     main.py:45 - project_logger.loger_configuration - ПОдключение выполнено успешно
+[2026-01-26 22:32:46,926] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
+[2026-01-26 22:32:47,051] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2026-01-26 22:32:49,296] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
+[2026-01-26 22:32:49,296] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
+[2026-01-26 22:32:49,296] #WARNING  main_handlers.py:35 - project_logger.loger_configuration - Юзер : SPB_Kichin_Konstantin с id 778151623 активировал режим админ панели
+[2026-01-26 22:32:50,634] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128370 is handled. Duration 3375 ms by bot id=8494507714
+[2026-01-26 22:32:54,839] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128371 is handled. Duration 202 ms by bot id=8494507714
+[2026-01-26 22:33:03,465] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128372 is handled. Duration 233 ms by bot id=8494507714
+[2026-01-26 22:33:05,482] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128373 is handled. Duration 188 ms by bot id=8494507714
+[2026-01-26 22:33:06,828] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128374 is handled. Duration 203 ms by bot id=8494507714
+[2026-01-26 22:33:08,555] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128375 is handled. Duration 202 ms by bot id=8494507714
+[2026-01-26 22:33:11,226] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'tours_banner'} сущесвует в таблице Banner
+[2026-01-26 22:33:11,226] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:33:11,422] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128376 is handled. Duration 375 ms by bot id=8494507714
+[2026-01-26 22:33:34,203] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
+[2026-01-26 22:33:34,203] #INFO     main.py:53 - project_logger.loger_configuration - Окончание работы бота
+[2026-01-26 22:33:34,209] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+[2026-01-26 22:33:34,210] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
+[2026-01-26 22:33:34,462] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2026-01-26 22:33:34,465] #WARNING  main.py:87 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C
+[2026-01-26 22:33:45,966] #INFO     main.py:84 - project_logger.loger_configuration - запуск основного цикла main
+[2026-01-26 22:33:47,261] #INFO     main.py:38 - project_logger.loger_configuration - Подключение к СУБД Postgres
+[2026-01-26 22:33:47,261] #INFO     db_engine.py:28 - project_logger.loger_configuration - ЗАпуск асинхронного движка для Postgres
+[2026-01-26 22:33:47,319] #WARNING  db_engine.py:33 - project_logger.loger_configuration - Текущая схема БД: public
+[2026-01-26 22:33:47,343] #INFO     main.py:45 - project_logger.loger_configuration - ПОдключение выполнено успешно
+[2026-01-26 22:33:47,343] #INFO     dispatcher.py:596 - aiogram.dispatcher - Start polling
+[2026-01-26 22:33:47,469] #INFO     dispatcher.py:378 - aiogram.dispatcher - Run polling for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2026-01-26 22:33:54,741] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
+[2026-01-26 22:33:54,741] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
+[2026-01-26 22:33:54,742] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
+[2026-01-26 22:33:54,742] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
+[2026-01-26 22:33:54,745] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
+[2026-01-26 22:33:54,746] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
+[2026-01-26 22:33:54,752] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
+[2026-01-26 22:33:54,752] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
+[2026-01-26 22:33:54,753] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
+[2026-01-26 22:33:54,753] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
+[2026-01-26 22:33:55,479] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'telegram_id': 778151623} сущесвует в таблице User
+[2026-01-26 22:33:55,485] #INFO     base_manager.py:141 - project_logger.loger_configuration - Объект с параметрами{'name': 'main_theme'} сущесвует в таблице Banner
+[2026-01-26 22:33:55,486] #INFO     base_manager.py:156 - project_logger.loger_configuration - параметры соотвествуют столбцам таблицы
+[2026-01-26 22:33:55,864] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128377 is handled. Duration 3155 ms by bot id=8494507714
+[2026-01-26 22:34:01,751] #INFO     env_utils.py:21 - project_logger.loger_configuration - Запуск проверки id юзера 778151623 на полномочия админа
+[2026-01-26 22:34:01,751] #INFO     env_utils.py:16 - project_logger.loger_configuration - инфа об id админов успешно взята из env
+[2026-01-26 22:34:01,751] #WARNING  main_handlers.py:35 - project_logger.loger_configuration - Юзер : SPB_Kichin_Konstantin с id 778151623 активировал режим админ панели
+[2026-01-26 22:34:02,256] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128378 is handled. Duration 500 ms by bot id=8494507714
+[2026-01-26 22:34:03,560] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128379 is not handled. Duration 15 ms by bot id=8494507714
+[2026-01-26 22:34:05,804] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128380 is handled. Duration 405 ms by bot id=8494507714
+[2026-01-26 22:34:10,514] #INFO     dispatcher.py:178 - aiogram.event - Update id=115128381 is handled. Duration 140 ms by bot id=8494507714
+[2026-01-26 22:34:26,904] #INFO     dispatcher.py:624 - aiogram.dispatcher - Polling stopped
+[2026-01-26 22:34:26,904] #INFO     main.py:53 - project_logger.loger_configuration - Окончание работы бота
+[2026-01-26 22:34:26,906] #ERROR    dispatcher.py:225 - aiogram.dispatcher - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ServerDisconnectedError: Server disconnected
+[2026-01-26 22:34:26,906] #WARNING  dispatcher.py:227 - aiogram.dispatcher - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8494507714)
+[2026-01-26 22:34:27,163] #INFO     dispatcher.py:413 - aiogram.dispatcher - Polling stopped for bot @tour_guider_bot id=8494507714 - 'Экскурсии Беларусь'
+[2026-01-26 22:34:27,176] #WARNING  main.py:87 - project_logger.loger_configuration - Работа бота была остановлена через скрипт и ctrl + C

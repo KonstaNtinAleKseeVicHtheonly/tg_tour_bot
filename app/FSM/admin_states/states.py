@@ -105,3 +105,9 @@ class AdminBannerMode(StatesGroup):
     create_description = State()
     #
     waiting = State()
+
+class AdminUsersMode(StatesGroup):
+    '''FSM класс для CRUD операций с юзерами бота(зарегестрированными)'''
+    # === СОЗДАНИЕ ТОВАРА ===
+    #
+    waiting = State()

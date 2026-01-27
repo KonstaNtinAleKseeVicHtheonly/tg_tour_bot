@@ -29,7 +29,7 @@ load_dotenv() # для подгрузки переменных из .env
 
 
 user_main_handler = Router()
-# user_main_handler.message.filter(GroupFilter(['private']))
+user_main_handler.message.filter(GroupFilter(['private']))
 
 # картинки сделать к гланому меню и промежутоынм поинтам(что бы не голые сообщения были)  - сделано 
 #сделать пагинацию туров и достопримечательностей для юзера при просмотре их

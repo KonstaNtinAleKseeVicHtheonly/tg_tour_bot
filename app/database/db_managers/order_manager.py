@@ -68,6 +68,7 @@ class OrderManager(BaseManager):
                         logger.error(f"Ошибка при отмене текущего заказа: {err}")
                         return None
                 
+                
         async def check_order_expiration(self,order:Order, expiration_limit:int=5)->bool|None:
                 '''ПРоверяет срок заказа(если он больше указанного , то вернет True, иначе False)'''
                 try:
@@ -87,28 +88,16 @@ class OrderManager(BaseManager):
                         logger.error(f"ошибка при проверки заказа {order.id} на экспирацию {err}")
                         return None
                         
-        async def _delete_expired_orders(self, session: AsyncSession, current_user_id:int):
-                '''Проходится по всем заказам юзера по указанному id и 
+        async def _delete_expired_orders(self, session: AsyncSession, current_expired_orders:list[Order]):
+                '''Проходится по всем переданным и 
                 удаляет отмененные просроченные заказы, не забыть после вызова 
                 данного метода session.commit()!!!'''
                 try:
-                        logger.info(f"Запущен процесс удаления просроченных отмененных заказов юзера с id {current_user_id}")
-                        stmt = select(Order).where(and_(
-                                        Order.user_id == current_user_id,
-                                        Order.status == OrderStatus.CANCELLED))
-                        result = await session.execute(stmt)
-                        cancelled_orders = result.scalars().all()
-                        for order in cancelled_orders:
+                        logger.info("Запущен процесс удаления просроченных отмененных заказов")
+                        for order in current_expired_orders:
                                 await self.cancel_order(session, order)# 
-                        logger.info(f"ЗАвершен процесс удаления просроченных заказов Юзера с id{current_user_id}")
+                        logger.info("ЗАвершен процесс удаления просроченных заказов ")
                         return True
                 except Exception as err:
-                        logger.error(f"ошибка при удалении просроченнхы заказов юзера {current_user_id} : {err}")
+                        logger.error(f"ошибка при удалении просроченнхы заказов : {err}")
                         return False
-                # expiration_date = datetime.now(timezone.utc) - timedelta(days=expiration_limit)
-                # if order.booked_at < expiration_date:
-                #         logger.warning(f"Заказ {order.id} просрочен")
-                #         return True
-                # remaining_days = (order.booked_at - expiration_date).days
-                # logger.warning(f"заказ акутален еще {remaining_days} дней")
-                # return False

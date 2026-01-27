@@ -12,6 +12,8 @@ class NewOrder(StatesGroup):
     select_place_quantity = State() # количество мест
     payment_type = State()
     waiting = State()
+    # изменение уже сущетсвущего заказа
+    change_places = State()# есльи юзер захотел изменить заданное количество мест
     
 class UserRegistration(StatesGroup):
     '''FSM для регистрации юзера'''

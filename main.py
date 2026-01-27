@@ -66,10 +66,10 @@ async def main():
     bot = Bot(token=os.getenv('BOT_TOKEN'), default=DefaultBotProperties(parse_mode='HTML'))
     dp.startup.register(on_startup) # действия при началае работы бота (подключение к БД и прочее)
     dp.shutdown.register(on_shutdown) # действия при прекращении работы бота
-    # хэндлеры юзера 
-    dp.include_routers(user_main_handler, user_lm_handler, user_tour_handler, user_order_handler)
     # хэндлеры админа
     dp.include_routers(admin_main_handler, admin_lm_handler, admin_tour_handler,admin_tour_lm_association_handler, admin_banner_handler, tg_group_handler)
+    # хэндлеры юзера 
+    dp.include_routers(user_main_handler, user_lm_handler, user_tour_handler, user_order_handler)
 
     dp.update.middleware(DBSession(session_pool=async_session)) # мидлварь на автоматическое создание сессии при работе с БД
 

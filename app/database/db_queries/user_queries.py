@@ -60,4 +60,15 @@ async def get_user_orders_query(session:AsyncSession, **user_params):
         return None
     
     
+async def _show_all_users_query(session:AsyncSession):
+    '''query для админа. по указанным параметрам показывает все заказа юзра'''
+    try: 
+        user_db_manager = get_user_manager()
+        all_users = await user_db_manager.get_all(session)
+        return all_users
+    except Exception as err:
+        logger.error(f"Ошибка при запросе по выводу ВСЕХ юзеров : {err}")
+        return None
+    
+    
     

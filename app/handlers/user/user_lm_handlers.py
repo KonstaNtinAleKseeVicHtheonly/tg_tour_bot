@@ -27,7 +27,7 @@ load_dotenv() # для подгрузки переменных из .env
 
 
 user_lm_handler = Router()
-# user_main_handler.message.filter(GroupFilter(['private']))
+user_lm_handler.message.filter(GroupFilter(['private']))
 
 @user_lm_handler.callback_query(F.data.startswith("tour_landmarks"))
 async def show_tour_landmarks(callback: CallbackQuery, session : AsyncSession):

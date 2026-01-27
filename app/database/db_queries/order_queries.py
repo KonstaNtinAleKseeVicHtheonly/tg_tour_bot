@@ -46,3 +46,24 @@ async def cancel_order_query(session:AsyncSession, order_criterion:int|Order):
     except Exception as err:
         logger.error(f"Ошибка при запросе по order с критерием {order_criterion} : {err}")
         return None
+    
+async def update_order_query(session:AsyncSession,data_to_find_object:dict, data_to_update_object:dict):
+    '''вызвает в менеджере метод для обнволения текщего заказа'''
+
+    try: 
+        order_db_manager = get_order_manager()
+        current_order_update_result = await order_db_manager.update(session,data_to_find_object, data_to_update_object)
+        return current_order_update_result
+    except Exception as err:
+        logger.error(f"Ошибка при обновлени по order с критерием {data_to_find_object:} : {err}")
+        return None
+
+async def _delete_expired_orders_query(session:AsyncSession, expired_orders:list[Order]):
+    '''ручка для удаления просроченных заказов чеез методы менеджера БД'''
+    try: 
+        order_db_manager = get_order_manager()
+        process_result = await order_db_manager._delete_expired_orders(session,expired_orders)
+        return process_result
+    except Exception as err:
+        logger.error(f"Ошибка при удалении просроченнхы платежей, в query : {err}")
+        return None

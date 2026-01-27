@@ -29,7 +29,7 @@ class UserManager(BaseManager):
                         select(Order)
                         .options(selectinload(Order.tour))  # ← ВАЖНО: загружаем связь с туром
                         .where(Order.user_id == current_user.id)
-                        .order_by(Order.created_at.desc())  # ← Добавил сортировку по дате
+                        .order_by(Order.status, Order.created_at.desc())  # ← Добавил сортировку по дате
                         )
                 result = await session.execute(stmt)
                 all_orders = result.scalars().all()

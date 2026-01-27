@@ -1,5 +1,5 @@
 from .banner_queries import get_current_banner_query
 from .lm_queries import get_all_lm_query, get_current_lm_query
 from .tour_queries import get_all_tours_query, get_current_tour_query, get_tour_landmarks_query, get_tour_detailed_info_query, can_book_query, calculate_total_price_query
-from .user_queries import get_current_user_query, _create_new_user_query, check_user_existance, get_user_orders_query
-from .order_queries import get_current_order_query, show_order_detailed_info_query, cancel_order_query
+from .user_queries import get_current_user_query, _create_new_user_query, check_user_existance, get_user_orders_query, _show_all_users_query
+from .order_queries import get_current_order_query, show_order_detailed_info_query, cancel_order_query, update_order_query

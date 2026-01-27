@@ -34,7 +34,7 @@ load_dotenv() # для подгрузки переменных из .env
 
 
 user_tour_handler = Router()
-# user_main_handler.message.filter(GroupFilter(['private']))
+user_tour_handler.message.filter(GroupFilter(['private']))
 
 
 @user_tour_handler.callback_query(F.data=='show_all_tours')
