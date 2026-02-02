@@ -16,7 +16,6 @@ from dotenv import load_dotenv
 from app.filters.admin_filters import AdminFilter
 # DB
 from app.database import db_managers
-from app.database.all_models.models import User
 from app.database.db_queries import _show_all_users_query, get_current_user_query
 from sqlalchemy.ext.asyncio import AsyncSession
 #утилиты

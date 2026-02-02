@@ -5,7 +5,6 @@ from sqlalchemy import (
 )
 from sqlalchemy import Index
 from sqlalchemy.orm import relationship, Mapped, mapped_column, validates, DeclarativeBase
-from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.ext.asyncio import AsyncAttrs
 
 from datetime import datetime, timezone

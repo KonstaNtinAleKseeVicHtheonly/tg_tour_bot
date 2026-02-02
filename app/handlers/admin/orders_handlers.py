@@ -1,4 +1,4 @@
-from aiogram import F, Router
+from aiogram import F, Router, Bot
 from aiogram.types import Message, CallbackQuery
 # фитры 
 from aiogram.filters import CommandStart, CommandObject, Command, CommandObject, StateFilter
@@ -9,16 +9,13 @@ from app.keyboards.base_keyboards import create_inline_kb
 #FSM
 from aiogram.fsm.context import FSMContext
 from app.FSM.admin_states.states import AdminOrderMode
-# системыне утилиты
-import asyncio
-import os
 from dotenv import load_dotenv
 #фильтры
 from app.filters.admin_filters import AdminFilter
 # DB
 from app.database import db_managers
-from app.database.all_models.models import User, OrderStatus
-from app.database.db_queries import show_all_orders_query, get_current_order_query, update_order_query
+from app.database.all_models.models import  OrderStatus
+from app.database.db_queries import show_all_orders_query, get_current_order_query, update_order_query, get_current_user_query
 from sqlalchemy.ext.asyncio import AsyncSession
 #утилиты
 
@@ -92,11 +89,35 @@ async def show_curent_users(callback: CallbackQuery, session : AsyncSession):
         await callback.message.answer(f"Заказ с id {current_order_id} не найден в базе")
     else:
         user_info_text = await order_db_manager.show_detailed_info_for_user(session, current_order_id) # развернутая текстовая инфа о заказе
-        await callback.message.answer(user_info_text, reply_markup=user_current_order_kb(current_order_id))
+        await callback.message.answer(user_info_text, reply_markup=user_current_order_kb(current_order))
     
+@admin_orders_handler.callback_query(F.data.startswith("confirm_user_order"))
+async def ask_to_confirm_curent_order(callback: CallbackQuery,  session : AsyncSession):
+    '''Запрос подтверждение неоплаченного заказа с отправкой владельцу по его tg_ig id оплаты'''
+    order_id = int(callback.data.split('_')[-1])
+    confirm_kb = create_inline_kb([{'text':'ДА,подтвердить', 'callback_data':f"yes_confirm_order_{order_id}"},
+                                   {'text':'Отмена', 'callback_data' : f'user_current_order_{order_id}'}])
+    await callback.message.answer(f"Вы действительно хотите подвтердить неополаченный заказ с id {order_id}?", reply_markup=confirm_kb)
 
-
-
+@admin_orders_handler.callback_query(F.data.startswith("yes_confirm_order"))
+async def confirm_curent_order(callback: CallbackQuery, bot:Bot,  session : AsyncSession):
+    '''в Случае согласия на подвтерждение неоплаченного заказа'''
+    order_id = int(callback.data.split('_')[-1])
+    current_order = await get_current_order_query(session, order_id)
+    order_user_id = current_order.user_id
+    current_user = await get_current_user_query(session, id=order_user_id)
+    if not current_user:
+        await callback.message.answer(f"Не смогли найти id владельца заказа {order_id}, проверьте базу данных")
+        return
+    logger.info(f"Нашли владельца заказа {order_id} в базе - user_id {current_user.id}, подтверждаем заказ и отправляем владельцу id транзакции")
+    current_user_tg_id = current_user.telegram_id
+    payment_id = current_order.payment_id
+    current_order.status = OrderStatus.CONFIRMED
+    await session.commit() # подвтерждаем сохранение
+    back_to_orders_kb = create_inline_kb([{'text':'назад к заказам', 'callback_data':'show_all_orders_admin'}])
+    await bot.send_message(chat_id=current_user_tg_id, text=f'''Ваш заказ был подвтержден.Вот ваш уникальный id оплаты : {payment_id}\n
+                           Сохраните себе и покажите Гиду при отправке в путешествие в качестве подтвержения оплаты.Удачной поездки''')
+    await callback.message.answer(f"Юзеру {current_user.username} был отправлен его id оплаты а статус заказа изменен на CONFIRMED", reply_markup=back_to_orders_kb)
 
 @admin_orders_handler.callback_query(F.data.startswith("user_order_delete"))
 async def delete_curent_order(callback: CallbackQuery, session : AsyncSession):
@@ -109,7 +130,8 @@ async def delete_curent_order(callback: CallbackQuery, session : AsyncSession):
         await session.commit()
         await callback.message.answer(f"Заказ с id {current_order_id} умпешно удален их базы данных",reply_markup=back_to_menu)
     else:
-        await callback.message.answer(f"Ошибка при удалении заказа с id {current_order_id}, чекая логи", reply_markup=user_current_order_kb(current_order_id))
+        current_order = await get_current_order_query(session,current_order_id )
+        await callback.message.answer(f"Ошибка при удалении заказа с id {current_order_id}, чекая логи", reply_markup=user_current_order_kb(current_order))
         
 @admin_orders_handler.callback_query(F.data.startswith("change_user_order_"))
 async def change_curent_order(callback: CallbackQuery, state:FSMContext, session : AsyncSession):
@@ -145,8 +167,11 @@ async def choose_new_value(message:Message, state:FSMContext, session:AsyncSessi
     order_id = data_for_update.get('order_id')
     update_result = await update_order_query(session,data_to_find_object={'id':order_id},
                                              data_to_update_object={changing_field:new_value})
+    current_order = await get_current_order_query(session, order_id)
     if update_result:
         await session.commit()
-        await message.answer(f"поле {changing_field} успешно изменено на {new_value}",reply_markup=user_current_order_kb(order_id))
+        await message.answer(f"поле {changing_field} успешно изменено на {new_value}",reply_markup=user_current_order_kb(current_order))
     else:
-        await message.answer("ПРоизошла ошибка при изменении параметров, чекйа логи", reply_markup=user_current_order_kb(order_id)) 
+        await message.answer("ПРоизошла ошибка при изменении параметров, чекйа логи", reply_markup=user_current_order_kb(current_order)) 
+        
+        

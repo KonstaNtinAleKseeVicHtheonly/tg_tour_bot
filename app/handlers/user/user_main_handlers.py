@@ -1,11 +1,8 @@
 from aiogram import F, Router
-from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message, CallbackQuery
-from aiogram.enums import ChatAction
 # фитры 
 from aiogram.filters import CommandStart, Command
 from app.filters.chat_group_filters import GroupFilter
-from app.filters.admin_filters import AdminFilter
 #KB
 from app.keyboards.user_kb.inline_keyboards import user_inline_main_menu
 from app.keyboards.base_keyboards import create_inline_kb
@@ -31,11 +28,6 @@ load_dotenv() # для подгрузки переменных из .env
 user_main_handler = Router()
 user_main_handler.message.filter(GroupFilter(['private']))
 
-# картинки сделать к гланому меню и промежутоынм поинтам(что бы не голые сообщения были)  - сделано 
-#сделать пагинацию туров и достопримечательностей для юзера при просмотре их
-# сделать заказы - вариант заказать (допилить в модели тип оплаты), меню с увеличением мест в турах через кнопки
-# просмотр юзером своих заказов
-# сама оплата, (через тг, по карте)
 
 @user_main_handler.message(Command('start'))
 async def initial_menu(message : Message, state:FSMContext, session: AsyncSession):

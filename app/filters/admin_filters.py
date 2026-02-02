@@ -17,6 +17,3 @@ class AdminFilter(Filter):
         result = await check_admin(message) # если админ то True иначе False
         return result
     
-# async def check_admin(message:Message)->bool:
-#     '''проверка юзера на админа по его id'''
-#     return message.from_user.id == int(os.getenv('ADMIN_ID'))

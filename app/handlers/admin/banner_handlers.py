@@ -1,4 +1,4 @@
-from aiogram import F, Router, Bot
+from aiogram import F, Router
 from aiogram.types import Message, CallbackQuery
 # фитры 
 from aiogram.filters import CommandStart, CommandObject, Command, CommandObject, StateFilter,and_f,or_f
@@ -7,18 +7,14 @@ from app.keyboards.admin_kb.inline_keyboards import all_banners_kb, current_bann
 #FSM
 from aiogram.fsm.context import FSMContext
 from app.FSM.admin_states.states import  AdminBannerMode
-# системыне утилиты
-import asyncio
-import os
+
 from dotenv import load_dotenv
 #фильтры
 from app.filters.admin_filters import AdminFilter
 # DB
 from app.database import db_managers
-from app.database.all_models.models import User,Landmark,Tour,TourLandmarkAssociation
 from sqlalchemy.ext.asyncio import AsyncSession
-#утилиты
-from app.utils.env_utils import _get_admins_id
+
 #логгер
 from project_logger.loger_configuration import setup_logging
 
@@ -136,58 +132,4 @@ async def delete_current_landmark(callback: CallbackQuery, session : AsyncSessio
     
 
 
-
-
-
-# @admin_lm_handler.callback_query(F.data.startswith('change_lm'))
-# async def change_landmark_mode(callback: CallbackQuery, state:FSMContext, session:AsyncSession):
-#     '''при нажатии на кнопку изменения определенной landmark'''
-#     await state.clear()
-#     lm_id = int(callback.data.split('_')[-1])
-#     await state.set_state(AdminLandMarkMode.set_param_for_change)
-#     lm_db_manager = db_managers.LandMarkManager()
-#     all_params = lm_db_manager.show_model_columns_lst() # список всех стоблцов модели
-#     await state.update_data(id=lm_id)
-#     await state.update_data(table_columns = all_params)
-#     msg_text = ',\n'.join(all_params)
-#     await callback.message.answer(f"Активирован режим изменения достопримечательности, введите параметр для изменения:\n{msg_text}")
-    
-    
-# @admin_lm_handler.message(F.text,  StateFilter(AdminLandMarkMode.set_param_for_change))
-# async def set_param_to_change(message: Message, state:FSMContext):
-#     '''сообщение с именем параметра для изменения landmark'''
-#     data = await state.get_data()
-#     table_params = data.get('table_columns')
-#     # небольшая проверка что бы параметры от админа соответс столбцам таблицы
-#     if message.text.lower().strip() not in table_params:
-#         await message.answer(f"Пожалуйста введите имя параметра из списка {'\n'.join(table_params)}")
-#         return
-#     await state.update_data(param=message.text.lower().strip())# имя параметра для изменения
-#     await message.answer("Отлично, теперь введите значение")
-#     await state.set_state(AdminLandMarkMode.set_new_value)
-    
-    
-# @admin_lm_handler.message(F.photo, StateFilter(AdminLandMarkMode.set_new_value))
-# @admin_lm_handler.message(F.text,StateFilter(AdminLandMarkMode.set_new_value))
-# async def set_value_for_param(message: Message, state:FSMContext, session:AsyncSession):
-#     '''если фотку скинули то взять с нее ссылку, в остальных случаях берем текст сообщения'''
-#     try:
-#         # Определение нового значения
-#         new_value = message.photo[-1].file_id if message.photo else message.text # на случай если фото отправят
-#         await state.update_data(new_value=new_value)
-#         update_info = await state.get_data()
-#         # процесс обновления данных в БД
-#         lm_db_manager = db_managers.LandMarkManager()
-#         result = await lm_db_manager.update_from_state(session, update_info)
-#         back_kb = create_inline_kb([{'text':'назад', 'callback_data':f"show_landmark_{update_info['id']}"}])
-#         await state.clear()
-#         if result:
-#             await session.commit()
-#             await message.answer("обновление параметра прошло успешно",reply_markup=back_kb)
-#         else:
-#             await message.answer("ОШибка при обновлении параметра, чекай логи", reply_markup=back_kb)
-#     except Exception as err:
-#         logger.error(f"Ошибка в хэндлере при изменении ппрпметров landmark : {err}")
-#         await message.answer(f"Внутренняя лшибка в хэндлере :{err}", reply_markup=back_kb)
-        
 

@@ -1,6 +1,6 @@
 from app.database.db_managers.base_manager import BaseManager
 from app.database.all_models.models import TourLandmarkAssociation
-from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import Select,Update, select
 from project_logger.loger_configuration import setup_logging
 from sqlalchemy.orm import selectinload
@@ -36,19 +36,3 @@ class TourLMAssociationManager(BaseManager):
             logger.error(f"ошибка в {self.model.__name__} при поптыке вывести соритрованные объекты tour и lanmark : {err}")
             return []
 
-        # возможно нужна сортировка для каждого тура отдельно
-        # Группируем вручную
-        # grouped = {}
-        # for assoc in all_associations:
-        #     if assoc.tour_id not in grouped:
-        #         grouped[assoc.tour_id] = []
-        #     grouped[assoc.tour_id].append(assoc.landmark_id)
-            
-    
-    # async def get_current_tour_lm(self, session: AsyncSession, current_tour_id:int):
-    #     '''по id тура выводит  исам тур и все связанные с ним к достопримечательности для просмотра'''
-    #     stm = select(TourLandmarkAssociation).where(TourLandmarkAssociation.tour_id==current_tour_id)
-    #     association = await session.execute(stm)
-    #     result = association.scalars().all()
-    #     return result
-    

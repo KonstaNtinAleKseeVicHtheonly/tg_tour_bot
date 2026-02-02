@@ -118,4 +118,3 @@ class AdminOrderMode(StatesGroup):
     # изменение текущего заказа
     edit_choose_field = State()# Для выбора поля под изменение
     edit_new_value = State()# новое значение в указанное поле
-    

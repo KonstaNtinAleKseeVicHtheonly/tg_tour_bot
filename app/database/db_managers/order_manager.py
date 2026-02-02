@@ -1,6 +1,6 @@
 from app.database.db_managers.base_manager import BaseManager
 from app.database.all_models.models import Order, OrderStatus
-from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import Select,Update, select, and_, delete
 from project_logger.loger_configuration import setup_logging
 from sqlalchemy.orm import selectinload

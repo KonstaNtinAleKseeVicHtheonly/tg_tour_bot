@@ -1,14 +1,9 @@
 from aiogram import F, Router
 from aiogram.types import Message, CallbackQuery
-from aiogram.enums import ChatAction
 # фитры 
-from aiogram.filters import CommandStart, Command
 from app.filters.chat_group_filters import GroupFilter
-from app.filters.admin_filters import AdminFilter
 #KB
-from app.keyboards.user_kb.inline_keyboards import user_inline_main_menu,  all_tours_kb, current_tour_kb, current_tour_landmarks_kb, set_payment_type_kb, successful_order_kb, all_user_orders_kb, current_order_kb
-from app.keyboards.base_keyboards import create_inline_kb
-from app.keyboards.user_kb.reply_keboards import request_user_contact
+from app.keyboards.user_kb.inline_keyboards import  current_tour_landmarks_kb
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 #FSM
 from aiogram.fsm.context import FSMContext
@@ -21,7 +16,6 @@ from dotenv import load_dotenv
 # DB
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.db_queries import get_current_banner_query, get_current_lm_query, get_tour_landmarks_query# слой абстракции для менеджера БД(маленькая связанность)
-from app.database.all_models.models import OrderStatus
 logger = setup_logging()
 load_dotenv() # для подгрузки переменных из .env
 

@@ -1,7 +1,6 @@
 from typing import Callable, Dict, Awaitable, Any
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
-from app.database.db_configurations.db_engine import async_session
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker
 
 

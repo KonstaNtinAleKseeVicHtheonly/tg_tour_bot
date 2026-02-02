@@ -20,4 +20,3 @@ class UserRegistration(StatesGroup):
     set_phone_number = State()
     confirm_registation = State()
     waiting = State()
-    # пока что всю инфу о юзере беру из message, потом мб доделать полноценный процесс регистрации

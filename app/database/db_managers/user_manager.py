@@ -1,9 +1,8 @@
 from app.database.db_managers.base_manager import BaseManager
 from app.database.all_models.models import User, Order
-from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import Select,Update, select
 from project_logger.loger_configuration import setup_logging
-from aiogram.types import Message
 from sqlalchemy.orm import selectinload
 
 

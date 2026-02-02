@@ -1,8 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from project_logger.loger_configuration import setup_logging
-from app.database import db_managers
-from app.keyboards.base_keyboards import create_inline_kb
+
 
 
 

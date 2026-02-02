@@ -1,5 +1,4 @@
 from aiogram import F, Router, Bot
-from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message, CallbackQuery
 from aiogram.enums import ChatAction
 # фитры 
@@ -9,19 +8,12 @@ from aiogram.fsm.context import FSMContext
 from aiogram.filters import StateFilter
 # системыне утилиты
 from project_logger.loger_configuration import setup_logging
-from datetime import datetime
-import asyncio
-import uuid
-import os
 from dotenv import load_dotenv
 #KB
 from app.keyboards.reply_kb import admin_reply_kb
-# from app.keyboards.base_keyboards import reply_main_menu, inline_main_menu, request_user_contact, get_categories_kb, get_cards_kb, product_kb, client_location
+
 # FSM
-from aiogram.fsm.context import FSMContext
 from app.FSM.admin_states.states import AdminTourMode
-# колбэки
-from aiogram.types import CallbackQuery
 # DB
 #фильтры
 from app.filters.chat_group_filters import GroupFilter

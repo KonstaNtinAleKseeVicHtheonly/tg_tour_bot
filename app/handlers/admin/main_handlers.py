@@ -1,5 +1,5 @@
 from aiogram import F, Router, Bot
-from aiogram.types import Message, CallbackQuery, Message,ContentType
+from aiogram.types import Message, CallbackQuery
 # фитры 
 from aiogram.filters import CommandObject, Command, CommandObject, StateFilter,and_f,or_f
 #KB
@@ -7,15 +7,10 @@ from app.keyboards.admin_kb.inline_keyboards import admin_inline_main_menu, admi
 #FSM
 from aiogram.fsm.context import FSMContext
 # системыне утилиты
-import asyncio
-import os
 from dotenv import load_dotenv
 #фильтры
 from app.filters.admin_filters import AdminFilter
-# DB
-from app.database import db_managers
-from app.database.all_models.models import User,Landmark,Tour,TourLandmarkAssociation
-from sqlalchemy.ext.asyncio import AsyncSession
+
 #утилиты
 from app.utils.env_utils import _get_admins_id
 #логгер
