@@ -3,3 +3,5 @@ from .main_handlers import admin_main_handler
 from .tour_handlers import admin_tour_handler
 from .lm_tour_associtation_handler import admin_tour_lm_association_handler, show_current_association
 from .banner_handlers import admin_banner_handler
+from .users_administration_handlers import admin_user_handler
+from .orders_handlers import admin_orders_handler

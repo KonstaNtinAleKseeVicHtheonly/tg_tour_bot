@@ -84,7 +84,8 @@ class TourManager(BaseManager):
                 current_tour = await self.get(session, id=tour_id)
                 if not current_tour:
                         return current_tour # не найден тур с таким id
-                price_str = current_tour.price_per_person.split()[0]
+                price_str = current_tour.price_per_person.split()[0] # цена в цифре без BYN
+                logger.warning(f"Расчет цены при {place_number} купленных мест и {price_str} цены за место") 
                 if price_str.isdigit():
                         price_value = int(price_str)
                 else:

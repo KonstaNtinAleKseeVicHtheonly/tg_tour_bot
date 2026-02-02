@@ -41,14 +41,14 @@ async def wait_message(message : Message):
     await message.answer("Пожалуйста, подождите пока обрабтается ваш предыдущий запрос")
 
     
-@admin_lm_handler.callback_query(F.data=='show_all_lm')
+@admin_lm_handler.callback_query(F.data=='show_all_lm_admin')
 async def show_all_landmarks(callback: CallbackQuery, session : AsyncSession):
     lm_db_manager = db_managers.LandMarkManager()
     all_lm = await lm_db_manager.get_all(session)   
     await callback.message.answer("Вот список всех достопримечательностей", reply_markup= await all_landmarks_kb(all_lm)) # выведет список всех достопримечательностей
 
 
-@admin_lm_handler.callback_query(F.data.startswith('show_landmark'))
+@admin_lm_handler.callback_query(F.data.startswith('show_landmark_admin'))
 async def show_current_landmark(callback: CallbackQuery, session:AsyncSession):
     current_lm_id =  int(callback.data.split('_')[-1])
     lm_db_manager = db_managers.LandMarkManager()
@@ -175,7 +175,7 @@ async def set_value_for_param(message: Message, state:FSMContext, session:AsyncS
         # процесс обновления данных в БД
         lm_db_manager = db_managers.LandMarkManager()
         result = await lm_db_manager.update_from_state(session, update_info)
-        back_kb = create_inline_kb([{'text':'назад', 'callback_data':f"show_landmark_{update_info['id']}"}])
+        back_kb = create_inline_kb([{'text':'назад', 'callback_data':f"show_landmark_admin_{update_info['id']}"}])
         await state.clear()
         if result:
             await session.commit()

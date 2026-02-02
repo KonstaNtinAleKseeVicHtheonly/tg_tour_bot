@@ -56,19 +56,6 @@ class UserManager(BaseManager):
                         return current_order
                 logger.info(f"Не найден заказ с id {order_id}")
                 return None
-        
-                    
-    # async def get_by_telegram_id(self, session: AsyncSession):
-    #     user_check = await self.exists(session)
-    #     if user_check:
-    #         return user_check
-    #     raise ValueError("Не найден данный юзер в Базе")
 
-    # async def exists(self, session:AsyncSession, telegram_id:int)->bool|User:
-    #     current_user = await session.scalars(select(self.model).where(self.model.telegram_id==telegram_id))
-    #     result = current_user.first()
-    #     if result is None:
-    #         logger.warning(f"Данного юзера с tg_id : {telegram_id} не существует")
-    #         return False
-    #     logger.info(f"Юзер с tg_id {telegram_id} есть в БД")
-    #     return result
+                
+        

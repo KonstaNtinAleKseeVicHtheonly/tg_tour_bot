@@ -79,7 +79,7 @@ class Admin_LM_Tour_Bound_Mode(StatesGroup):
     edit_description = State()
     edit_url = State()
     edit_photo = State()
-    edit_confirm = State
+    edit_confirm = State()
     
     # === УДАЛЕНИЕ ТОВАРА ===
     delete_select_lm = State()
@@ -111,3 +111,11 @@ class AdminUsersMode(StatesGroup):
     # === СОЗДАНИЕ ТОВАРА ===
     #
     waiting = State()
+
+class AdminOrderMode(StatesGroup):
+    '''FSM класс для CRUD операций с заказами юзера'''
+    waiting = State()
+    # изменение текущего заказа
+    edit_choose_field = State()# Для выбора поля под изменение
+    edit_new_value = State()# новое значение в указанное поле
+    

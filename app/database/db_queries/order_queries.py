@@ -67,3 +67,24 @@ async def _delete_expired_orders_query(session:AsyncSession, expired_orders:list
     except Exception as err:
         logger.error(f"Ошибка при удалении просроченнхы платежей, в query : {err}")
         return None
+    
+async def show_all_orders_query(session:AsyncSession):
+    '''Покажет вообще все заказы'''
+    try: 
+        order_db_manager = get_order_manager()
+        all_orders = await order_db_manager.get_all(session)
+        return all_orders
+    except Exception as err:
+        logger.error(f"Ошибка при показе все заказов из базы : {err}")
+        return None
+    
+async def create_new_order_query(session:AsyncSession, order_data:dict):
+    ''' query для сохдания нового заказа'''
+    try: 
+        order_db_manager = get_order_manager()
+        new_order = await order_db_manager.create(session, order_data)
+        return new_order
+    except Exception as err:
+        logger.error(f"Ошибка при создании нового заказа : {err}")
+        return None
+    

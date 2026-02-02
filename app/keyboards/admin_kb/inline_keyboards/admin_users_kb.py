@@ -18,7 +18,7 @@ async def all_users_kb(all_users:list[User]):
             return InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="пока что нет юзеров", callback_data="admin_interactive_menu")]])
         all_users_kb = InlineKeyboardBuilder()
         for user in all_users:
-            all_users_kb.add(InlineKeyboardButton(text = f"{user.username}", callback_data=f"show_user_{user.id}"))
+            all_users_kb.add(InlineKeyboardButton(text = f"{user.username}", callback_data=f"show_current_user_{user.id}"))
         all_users_kb.row(InlineKeyboardButton(text='назад',callback_data="admin_interactive_menu"))
         return all_users_kb.adjust(2).as_markup()
     except Exception as err:
@@ -29,11 +29,11 @@ async def all_users_kb(all_users:list[User]):
 
     
 def current_user_kb(user_id:int):
-    '''из базы берет по Id нужную достопримеательность и формирует клаву на изменение, обновление тура'''
-    current_user_kb = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text = 'Подробнее', callback_data=f"user_detailed_info_{user_id}")],
-                                                             [InlineKeyboardButton(text = 'Заказы пользователя', callback_data=f"delete_user_{user_id}")],
+    '''по id текущего юзера и формирует клаву на удаление юзера, показ его заказов'''
+    current_user_kb = InlineKeyboardMarkup(inline_keyboard=[
+                                                             [InlineKeyboardButton(text = 'Заказы пользователя', callback_data=f"admin_user_orders_{user_id}")],
                                                              [InlineKeyboardButton(text = 'удалить', callback_data=f"delete_user_{user_id}")],
-                                                            [InlineKeyboardButton(text = 'назад', callback_data="show_all_tours")]
+                                                            [InlineKeyboardButton(text = 'назад', callback_data="show_all_users")]
                                                             ])
     return current_user_kb
     

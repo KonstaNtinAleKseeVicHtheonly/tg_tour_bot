@@ -22,7 +22,7 @@ from dotenv import load_dotenv
 # DB
 from app.database import db_managers
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database.db_queries import get_current_banner_query, check_user_existance, _create_new_user_query# слой абстракции для менеджера БД(маленькая связанность)
+from app.database.db_queries import get_current_banner_query, check_user_existance, _create_new_user_query, get_current_user_query# слой абстракции для менеджера БД(маленькая связанность)
 logger = setup_logging()
 load_dotenv() # для подгрузки переменных из .env
 
@@ -151,6 +151,19 @@ async def show_about_company(callback: CallbackQuery, session:AsyncSession):
                         Каждый тур — это история, которую вы увозите с собой.'''
 
         await callback.message.answer(company_info, reply_markup= additional_kb) 
+    
+    
+@user_main_handler.callback_query(F.data=='show_me')
+async def show_accout_info(callback: CallbackQuery, session:AsyncSession):
+    '''покажет инфо о юзере'''
+    current_user = await get_current_user_query(session, telegram_id=callback.from_user.id) # по tg_id юзера находим его в базе
+    if not current_user:
+        await callback.message.answer("Вы еще не зарегестрировались в базе!")
+    else:
+        text_info = f'''Имя : {current_user.username}\n
+                Телефон : {current_user.phone_number} \n'''
+        await callback.message.answer(text_info)
+
     
 @user_main_handler.callback_query(F.data=='boss_contacts')
 async def show_info_about_boss(callback: CallbackQuery):

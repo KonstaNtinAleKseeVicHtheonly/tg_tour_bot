@@ -10,8 +10,9 @@ import os
 from app.utils.bot_commands import set_public_commands
 #роутеры
 from app.handlers.tg_group.user_group import tg_group_handler
-
-from app.handlers.admin import admin_main_handler, admin_lm_handler, admin_tour_handler, admin_tour_lm_association_handler, admin_banner_handler
+# админа
+from app.handlers.admin import admin_main_handler, admin_lm_handler, admin_tour_handler, admin_tour_lm_association_handler, admin_banner_handler, admin_user_handler, admin_orders_handler
+# юзерские
 from app.handlers.user import user_main_handler, user_lm_handler, user_tour_handler, user_order_handler
  
 # database
@@ -67,7 +68,7 @@ async def main():
     dp.startup.register(on_startup) # действия при началае работы бота (подключение к БД и прочее)
     dp.shutdown.register(on_shutdown) # действия при прекращении работы бота
     # хэндлеры админа
-    dp.include_routers(admin_main_handler, admin_lm_handler, admin_tour_handler,admin_tour_lm_association_handler, admin_banner_handler, tg_group_handler)
+    dp.include_routers(admin_main_handler, admin_lm_handler, admin_tour_handler,admin_tour_lm_association_handler, admin_banner_handler, admin_user_handler, admin_orders_handler)
     # хэндлеры юзера 
     dp.include_routers(user_main_handler, user_lm_handler, user_tour_handler, user_order_handler)
 

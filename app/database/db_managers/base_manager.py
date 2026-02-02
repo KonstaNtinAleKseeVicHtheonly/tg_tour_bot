@@ -1,5 +1,6 @@
 # database/core/base_manager.py
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import and_
 from sqlalchemy.future import select
 from project_logger.loger_configuration import setup_logging
 from typing import Dict, Any, List
@@ -98,6 +99,7 @@ class BaseManager:
             return False
         except Exception as err:
             logger.error(f"Ошибка при удалении строки по id {id} : {err}")
+            return None
     
     async def show_detailed_info_for_user(self, session : AsyncSession, current_id:int,skip_fields:list[str]=None)->str:
         '''выведет строку с красивым отображением столбцов модели и их значений,
@@ -143,7 +145,7 @@ class BaseManager:
     
         
     async def _validate_model_fields(self, data: Dict[str, Any]) -> None:
-        """Проверяет что все переданные поля есть в модели"""
+        """Проверяет что все переданные поля есть в модели(валидация ключей)"""
         # Получаем все колонки модели
         model_columns = {column.name for column in self.model.__table__.columns}
         
@@ -155,3 +157,35 @@ class BaseManager:
                 return False
         logger.info("параметры соотвествуют столбцам таблицы")
         return True
+    
+    async def _find_info_by_params(
+        self, 
+        session: AsyncSession, 
+        **searching_params
+    ) -> List[Any]:
+        '''По указанным параметрам ищет строки таблицы'''
+        
+        try:
+            # 1. Проверка полей
+            fields_validation = await self._validate_model_fields(searching_params)
+            if not fields_validation:
+                logger.warning(f"Невалидные параметры: {searching_params}")
+                return []  # Возвращаем пустой список, а не False
+            # 2. Строим условия
+            conditions = []
+            for field, value in searching_params.items():
+                current_column = getattr(self.model, field)
+                conditions.append(current_column == value)
+
+            # 3. Создаем запрос
+            stmt = select(self.model)
+            if conditions:
+                stmt = stmt.where(and_(*conditions))
+            
+            # 4. Выполняем
+            result = await session.execute(stmt)
+            return result.scalars().all()
+            
+        except Exception as e:
+            logger.error(f"Ошибка поиска по параметрам {searching_params}: {e}")
+            return []

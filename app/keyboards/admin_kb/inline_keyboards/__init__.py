@@ -3,3 +3,5 @@ from .tours_kb import all_tours_kb, current_tour_kb
 from .main_admin_keyboards import admin_inline_main_menu, admin_inline_interaction_kb
 from .tour_lm_bounds_kb import all_associations_kb_with_names, show_current_association, show_all_lm_for_association, show_all_tours_for_association, bound_tour_kb, bound_lm_kb
 from .banners_kb import all_banners_kb, current_banner_kb
+from .admin_users_kb import all_users_kb, current_user_kb
+from .orders_kb import all_orders_kb, user_current_order_kb

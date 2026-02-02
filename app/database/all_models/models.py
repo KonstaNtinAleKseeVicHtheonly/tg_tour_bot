@@ -117,7 +117,7 @@ class Tour(Base):
     price_per_person: Mapped[Optional[str]] = mapped_column(String(20), nullable=False, comment='Цена за человека в рублях')
     image_url : Mapped[Optional[str]] = mapped_column(String(500))
     max_people: Mapped[int] = mapped_column(nullable=False, default=10)
-    booked_seats: Mapped[int] = mapped_column(nullable=False, default=0)
+    booked_seats: Mapped[int] = mapped_column(nullable=False, default=0) # сколько мест уже купили или забронировали
     duration: Mapped[Optional[str]] = mapped_column(String(25),nullable=False, comment='Продолжительность тура')
     category: Mapped[Optional[str]] = mapped_column(String(100), index=True) # мб отдельную модель сделать
     meeting_point: Mapped[Optional[str]] = mapped_column(String(500), comment='Место встречи', nullable=True)
